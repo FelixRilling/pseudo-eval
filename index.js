@@ -2,6 +2,10 @@
 
 const parseComparison = require("./lib/parseComparison");
 
-module.exports = function (expression, ctx = {}) {
-    return parseComparison(expression, ctx);
-};
+/**
+ * Redirects input to parseComparison
+ * @param {String} expression
+ * @param {Object} [ctx={}]
+ * @returns {Mixed}
+ */
+module.exports = (expression, ctx = {}) => parseComparison(expression, ctx);

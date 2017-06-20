@@ -1,0 +1,31 @@
+{
+    "name": "pseudo-eval",
+    "version": "1.0.0",
+    "description": "A library to evaluate simple expression strings without actually calling eval()",
+    "main": "index.js",
+    "scripts": {
+        "start": "npm-run-all lint test",
+        "lint": "eslint index.js lib/",
+        "test": "jasmine"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/FelixRilling/pseudo-eval.git"
+    },
+    "keywords": [
+        "eval",
+        "safety",
+        "expression"
+    ],
+    "author": "Felix Rilling",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/FelixRilling/pseudo-eval/issues"
+    },
+    "homepage": "https://github.com/FelixRilling/pseudo-eval#readme",
+    "devDependencies": {
+        "eslint": "^4.0.0",
+        "jasmine": "^2.6.0",
+        "npm-run-all": "^4.0.2"
+    }
+}

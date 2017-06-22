@@ -73,23 +73,30 @@ const parseLiteral = function parseLiterals(expression, ctx = {}) {
  * Parses Variable String
  * @param {String} expression
  * @param {Object} [ctx={}]
+ * @param {Boolean} [raw=false]
  * @returns {Mixed}
  */
-const parseVariable = function (expression, ctx = {}) {
+const parseVariable = function (expression, ctx = {}, raw = false) {
     if (REGEX_IS_FUNCTION.test(expression)) {
         const matched = expression.match(REGEX_EXPRESSION_METHOD);
-        const method = findPath(ctx, matched[1]);
+        const method = findPath(ctx, matched[1], raw);
 
         if (method) {
-            const args = (isDefined(matched[2]) ? matched[2].split(",") : []).map(arg => parseLiteral(arg, ctx));
+            const argsExpressions = isDefined(matched[2]) ? matched[2].split(",") : [];
+            const args = argsExpressions.map(arg => parseComparison(arg, ctx));
 
-            return method(...args);
+            if (raw) {
+                method.args = args;
+
+                return method;
+            } else {
+                return method(...args);
+            }
         } else {
             return null;
         }
-
     } else {
-        return findPath(ctx, expression);
+        return findPath(ctx, expression, raw);
     }
 };
 

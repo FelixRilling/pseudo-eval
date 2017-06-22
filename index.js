@@ -1,6 +1,9 @@
 "use strict";
 
 const parseComparison = require("./lib/parseComparison");
+const parseMath = require("./lib/parseMath");
+const parseLiteral = require("./lib/parseLiteral");
+const parseVariable = require("./lib/parseVariable");
 
 /**
  * Redirects input to parseComparison
@@ -8,4 +11,11 @@ const parseComparison = require("./lib/parseComparison");
  * @param {Object} [ctx={}]
  * @returns {Mixed}
  */
-module.exports = (expression, ctx = {}) => parseComparison(expression, ctx);
+const pseudoEval = (expression, ctx = {}) => parseComparison(expression, ctx);
+
+pseudoEval.comparison = parseComparison;
+pseudoEval.math = parseMath;
+pseudoEval.literal = parseLiteral;
+pseudoEval.variable = parseVariable;
+
+module.exports = pseudoEval;

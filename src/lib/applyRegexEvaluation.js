@@ -9,7 +9,7 @@
  * @param {Function} fn
  * @returns {Mixed}
  */
-module.exports = function (expression, ctx, regex, map, fn) {
+const applyRegexEvaluation = function (expression, ctx, regex, map, fn) {
     if (regex.test(expression)) {
         const match = expression.match(regex)[1];
 
@@ -25,3 +25,5 @@ module.exports = function (expression, ctx, regex, map, fn) {
         return fn(expression, ctx);
     }
 };
+
+export default applyRegexEvaluation;

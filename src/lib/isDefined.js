@@ -3,4 +3,6 @@
  * @param {Mixed} val
  * @returns {Boolean}
  */
-module.exports = val => typeof val !== "undefined";
+const isDefined = val => typeof val !== "undefined";
+
+export default isDefined;

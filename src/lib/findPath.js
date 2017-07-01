@@ -1,6 +1,6 @@
 "use strict";
 
-const isDefined = require("./isDefined");
+import isDefined from "./isDefined";
 
 /**
  * Finds a string-path as object property
@@ -9,7 +9,7 @@ const isDefined = require("./isDefined");
  * @param {Boolean} raw
  * @returns {Object|null}
  */
-module.exports = function (obj, path, raw) {
+const findPath = function (obj, path, raw) {
     const arr = path.split(".");
     let last = obj;
     let current;
@@ -37,3 +37,5 @@ module.exports = function (obj, path, raw) {
 
     return null;
 };
+
+export default findPath;

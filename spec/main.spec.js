@@ -1,6 +1,6 @@
 "use strict";
 
-const pseudoEval = require("../index");
+const pseudoEval = require("../dist/pseudoEval.common");
 
 describe("Literals", function () {
     it("Simple test 1", () => {

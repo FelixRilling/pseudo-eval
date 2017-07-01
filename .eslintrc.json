@@ -1,17 +1,17 @@
 {
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "script",
-        "ecmaVersion": 7
+        "sourceType": "module",
+        "ecmaVersion": 8
     },
     "env": {
-        "es6": true,
+		"browser":true,
         "node": true,
         "jasmine": true
     },
     "rules": {
         "no-console": [
-            "off"
+            "warn"
         ],
         "indent": [
             "warn",

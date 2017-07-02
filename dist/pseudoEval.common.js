@@ -1,6 +1,24 @@
 'use strict';
 
 /**
+ * Multi Regex matcher
+ * Modified version of https://github.com/sindresorhus/execall
+ * @param {RegExp} regex
+ * @param {String} str
+ * @returns {Array}
+ */
+const execall = function (regex, str) {
+    const matches = [];
+    let match;
+
+    while (match = regex.exec(str)) {
+        matches.push([match[0], match.slice(1), match.index]);
+    }
+
+    return matches;
+};
+
+/**
  * Runs regex over string and evaluates matches from map
  * @param {String} expression
  * @param {Object} ctx
@@ -10,14 +28,17 @@
  * @returns {Mixed}
  */
 const applyRegexEvaluation = function (expression, ctx, regex, map, fn) {
-    if (regex.test(expression)) {
-        const match = expression.match(regex)[1];
+    const matches = execall(regex, expression);
 
-        if (map.has(match)) {
-            const matchFn = map.get(match);
-            const splitted = expression.split(match).map(part => fn(part.trim(), ctx));
+    if (matches.length) {
+        //@TODO make use of ALL matches
+        const firstMatch = matches[0];
 
-            return matchFn(splitted[0], splitted[1]);
+        if (map.has(firstMatch[0])) {
+            const mapFn = map.get(firstMatch[0]);
+            const splitted = expression.split(firstMatch[0]).map(part => fn(part.trim(), ctx));
+
+            return mapFn(splitted[0], splitted[1]);
         } else {
             return null;
         }
@@ -60,10 +81,10 @@ const findPath = function (obj, path, raw) {
 const mapFromObject = obj => new Map(Object.entries(obj));
 
 const REGEX_IS_NUMBER = /^[\d.-]+$/;
-const REGEX_IS_STRING = /^["']\w+["']$/;
-const REGEX_IS_FUNCTION = /\(.*\)/;
-const REGEX_EXPRESSION_COMPARISON = /(===|!==|>=|<=|>|<|&&|\|\|)/;
-const REGEX_EXPRESSION_MATH = /(\+|-|\*|\*\*|\/|%)/;
+const REGEX_IS_STRING = /^["'`].*["'`]$/;
+const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
+const REGEX_EXPRESSION_COMPARISON = /(===|!==|>=|<=|>|<|&&|\|\|)/g;
+const REGEX_EXPRESSION_MATH = /(\+|-|\*|\*\*|\/|%)/g;
 const REGEX_EXPRESSION_METHOD = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
 
 const mapComparison = mapFromObject({
@@ -113,8 +134,10 @@ const parseMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx
  */
 const parseLiteral = function parseLiterals(expression, ctx = {}) {
     if (REGEX_IS_NUMBER.test(expression)) {
+        //Cast to number
         return Number(expression);
     } else if (REGEX_IS_STRING.test(expression)) {
+        //Cut of quotes
         return expression.substr(1, expression.length - 2);
     } else if (mapLiterals.has(expression)) {
         return mapLiterals.get(expression);

@@ -5,10 +5,10 @@ import findPath from "./lib/findPath";
 import mapFromObject from "./lib/mapFromObject";
 
 const REGEX_IS_NUMBER = /^[\d.-]+$/;
-const REGEX_IS_STRING = /^["']\w+["']$/;
-const REGEX_IS_FUNCTION = /\(.*\)/;
-const REGEX_EXPRESSION_COMPARISON = /(===|!==|>=|<=|>|<|&&|\|\|)/;
-const REGEX_EXPRESSION_MATH = /(\+|-|\*|\*\*|\/|%)/;
+const REGEX_IS_STRING = /^["'`].*["'`]$/;
+const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
+const REGEX_EXPRESSION_COMPARISON = /(===|!==|>=|<=|>|<|&&|\|\|)/g;
+const REGEX_EXPRESSION_MATH = /(\+|-|\*|\*\*|\/|%)/g;
 const REGEX_EXPRESSION_METHOD = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
 
 const mapComparison = mapFromObject({
@@ -58,8 +58,10 @@ const parseMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx
  */
 const parseLiteral = function parseLiterals(expression, ctx = {}) {
     if (REGEX_IS_NUMBER.test(expression)) {
+        //Cast to number
         return Number(expression);
     } else if (REGEX_IS_STRING.test(expression)) {
+        //Cut of quotes
         return expression.substr(1, expression.length - 2);
     } else if (mapLiterals.has(expression)) {
         return mapLiterals.get(expression);

@@ -1,5 +1,7 @@
 "use strict";
 
+import execall from "./execall";
+
 /**
  * Runs regex over string and evaluates matches from map
  * @param {String} expression
@@ -10,14 +12,17 @@
  * @returns {Mixed}
  */
 const applyRegexEvaluation = function (expression, ctx, regex, map, fn) {
-    if (regex.test(expression)) {
-        const match = expression.match(regex)[1];
+    const matches = execall(regex, expression);
 
-        if (map.has(match)) {
-            const matchFn = map.get(match);
-            const splitted = expression.split(match).map(part => fn(part.trim(), ctx));
+    if (matches.length) {
+        //@TODO make use of ALL matches
+        const firstMatch = matches[0];
 
-            return matchFn(splitted[0], splitted[1]);
+        if (map.has(firstMatch[0])) {
+            const mapFn = map.get(firstMatch[0]);
+            const splitted = expression.split(firstMatch[0]).map(part => fn(part.trim(), ctx));
+
+            return mapFn(splitted[0], splitted[1]);
         } else {
             return null;
         }

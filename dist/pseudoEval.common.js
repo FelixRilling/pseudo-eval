@@ -27,13 +27,6 @@ const applyRegexEvaluation = function (expression, ctx, regex, map, fn) {
 };
 
 /**
- * Checks if a value is not undefined
- * @param {Mixed} val
- * @returns {Boolean}
- */
-const isDefined = val => typeof val !== "undefined";
-
-/**
  * Finds a string-path as object property
  * @param {Object} obj
  * @param {String} path
@@ -41,32 +34,22 @@ const isDefined = val => typeof val !== "undefined";
  * @returns {Object|null}
  */
 const findPath = function (obj, path, raw) {
-    const arr = path.split(".");
+    const keys = path.split(".");
+    let current = obj;
     let last = obj;
-    let current;
     let index = 0;
 
-    while (index < arr.length) {
-        const currentPath = arr[index];
-
-        current = last[currentPath];
-
-        if (isDefined(current)) {
-            if (index < arr.length - 1) {
-                last = current;
-            } else {
-                return !raw ? current : {
-                    val: current,
-                    container: last,
-                    key: currentPath
-                };
-            }
-        }
-
+    while (obj && index < keys.length) {
+        last = current;
+        current = current[keys[index]];
         index++;
     }
 
-    return null;
+    return !raw ? current : {
+        _val: current,
+        _container: last,
+        _key: keys[index - 1]
+    };
 };
 
 /**
@@ -153,11 +136,11 @@ const parseVariable = function (expression, ctx = {}, raw = false) {
         const method = findPath(ctx, matched[1], raw);
 
         if (method) {
-            const argsExpressions = isDefined(matched[2]) ? matched[2].split(",") : [];
+            const argsExpressions = typeof matched[2] !== "undefined" ? matched[2].split(",") : [];
             const args = argsExpressions.map(arg => parseComparison(arg, ctx));
 
             if (raw) {
-                method.args = args;
+                method._args = args;
 
                 return method;
             } else {

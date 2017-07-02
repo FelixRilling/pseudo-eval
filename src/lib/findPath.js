@@ -1,7 +1,5 @@
 "use strict";
 
-import isDefined from "./isDefined";
-
 /**
  * Finds a string-path as object property
  * @param {Object} obj
@@ -10,32 +8,22 @@ import isDefined from "./isDefined";
  * @returns {Object|null}
  */
 const findPath = function (obj, path, raw) {
-    const arr = path.split(".");
+    const keys = path.split(".");
+    let current = obj;
     let last = obj;
-    let current;
     let index = 0;
 
-    while (index < arr.length) {
-        const currentPath = arr[index];
-
-        current = last[currentPath];
-
-        if (isDefined(current)) {
-            if (index < arr.length - 1) {
-                last = current;
-            } else {
-                return !raw ? current : {
-                    val: current,
-                    container: last,
-                    key: currentPath
-                };
-            }
-        }
-
+    while (obj && index < keys.length) {
+        last = current;
+        current = current[keys[index]];
         index++;
     }
 
-    return null;
+    return !raw ? current : {
+        _val: current,
+        _container: last,
+        _key: keys[index - 1]
+    };
 };
 
 export default findPath;

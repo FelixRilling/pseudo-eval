@@ -1,7 +1,6 @@
 "use strict";
 
 import applyRegexEvaluation from "./lib/applyRegexEvaluation";
-import isDefined from "./lib/isDefined";
 import findPath from "./lib/findPath";
 import mapFromObject from "./lib/mapFromObject";
 
@@ -82,11 +81,11 @@ const parseVariable = function (expression, ctx = {}, raw = false) {
         const method = findPath(ctx, matched[1], raw);
 
         if (method) {
-            const argsExpressions = isDefined(matched[2]) ? matched[2].split(",") : [];
+            const argsExpressions = typeof matched[2] !== "undefined" ? matched[2].split(",") : [];
             const args = argsExpressions.map(arg => parseComparison(arg, ctx));
 
             if (raw) {
-                method.args = args;
+                method._args = args;
 
                 return method;
             } else {

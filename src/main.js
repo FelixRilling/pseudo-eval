@@ -2,6 +2,7 @@
 
 import applyRegexEvaluation from "./lib/applyRegexEvaluation";
 import {
+    isDefined,
     getPath,
     mapFromObject
 } from "lightdash";
@@ -81,10 +82,10 @@ const evalLiteral = function evalLiterals(expression, ctx = {}) {
 const evalVariable = function (expression, ctx = {}) {
     if (REGEX_IS_FUNCTION.test(expression)) {
         const matched = expression.match(REGEX_EXPRESSION_METHOD);
-        const method = getPath(ctx, matched[1].split(""));
+        const method = getPath(ctx, matched[1].split("."));
 
         if (method) {
-            const argsExpressions = typeof matched[2] !== "undefined" ? matched[2].split(",") : [];
+            const argsExpressions = isDefined(matched[2]) ? matched[2].split(",") : [];
             const args = argsExpressions.map(arg => evalComparison(arg, ctx));
 
             return method(...args);
@@ -92,7 +93,7 @@ const evalVariable = function (expression, ctx = {}) {
             return null;
         }
     } else {
-        return getPath(ctx, expression.split(""));
+        return getPath(ctx, expression.split("."));
     }
 };
 

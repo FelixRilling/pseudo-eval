@@ -2,7 +2,9 @@
 
 import applyRegexEvaluation from "./lib/applyRegexEvaluation";
 import findPath from "./lib/findPath";
-import mapFromObject from "./lib/mapFromObject";
+import {
+    mapFromObject
+} from "lightdash";
 
 const REGEX_IS_NUMBER = /^[\d.-]+$/;
 const REGEX_IS_STRING = /^["'`].*["'`]$/;

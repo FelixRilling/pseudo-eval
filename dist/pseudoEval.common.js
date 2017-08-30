@@ -74,11 +74,25 @@ const findPath = function (obj, path, raw) {
 };
 
 /**
+ * Checks if two values are the same
+ *
+ * @param {*} a
+ * @param {*} b
+ * @returns {boolean}
+ */
+/**
+ * Returns an array of the objects entries
+ *
+ * @param {Object} obj
+ * @returns {Array<[string, any]>}
+ */
+const objEntries = (obj) => Object.entries(obj);
+/**
  * Creates a Map from an Object
  * @param {Object} obj
  * @returns {Map}
  */
-const mapFromObject = obj => new Map(Object.entries(obj));
+const mapFromObject = (obj) => new Map(objEntries(obj));
 
 const REGEX_IS_NUMBER = /^[\d.-]+$/;
 const REGEX_IS_STRING = /^["'`].*["'`]$/;

@@ -4,14 +4,23 @@
     "description": "A library to evaluate simple expression strings without actually calling eval()",
     "main": "dist/pseudoEval.common.js",
     "module": "dist/pseudoEval.esm.js",
-    "namespace": {
-        "module": "pseudoEval",
-        "file": "pseudoEval"
+    "constants": {
+        "dirBase": {
+            "input": "./src",
+            "output": "./dist"
+        },
+        "js": {
+            "input": "main",
+            "namespace": {
+                "module": "pseudoEval",
+                "file": "pseudoEval"
+            }
+        }
     },
     "scripts": {
         "start": "npm-run-all lint build test",
-        "build": "node tasks/build.js",
-        "dist": "node tasks/dist.js",
+        "build": "node tasks/jsDev.js",
+        "dist": "node tasks/jsDist.js",
         "lint": "eslint src/",
         "test": "jasmine"
     },
@@ -31,13 +40,17 @@
     },
     "homepage": "https://github.com/FelixRilling/pseudo-eval#readme",
     "devDependencies": {
-        "babel-core": "^7.0.0-alpha.12",
-        "babel-preset-es2016": "^7.0.0-alpha.12",
-        "eslint": "^4.1.1",
-        "jasmine": "^2.6.0",
-        "npm-run-all": "^4.0.2",
-        "rollup": "^0.43.0",
-        "uglify-es": "^3.0.22"
+        "babel-core": "^7.0.0-alpha.19",
+        "babel-preset-env": "^1.6.0",
+        "eslint": "^4.5.0",
+        "eslint-plugin-unicorn": "^2.1.2",
+        "jasmine": "^2.8.0",
+        "npm-run-all": "^4.1.0",
+        "rollup": "^0.48.2",
+        "rollup-plugin-node-resolve": "^3.0.0",
+        "uglify-es": "^3.0.28"
     },
-    "dependencies": {}
+    "dependencies": {
+        "lightdash": "^2.0.1"
+    }
 }

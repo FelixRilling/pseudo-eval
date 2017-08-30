@@ -1,5 +1,7 @@
 # pseudo-eval
 
+**This is highly experimental and WIP!**
+
 A library to evaluate simple expression strings without actually calling `eval()`
 
 Supports evaluating:
@@ -11,16 +13,11 @@ Supports evaluating:
 
 ## Introduction
 
-pseudo-eval uses RegExp to staticaly evaluate restricted JS code strings. This makes it safe to use, as no harmful code can be executed by end-users (as long as the optional context doesnt have access to it).
+pseudo-eval uses RegExp to staticaly evaluate restricted JS code string expressions. This makes it safer to use, as harmful code is harder to be executed by end-users (as long as the optional context doesnt have access to it).
 Only very simple expressions are allowed.
 
-Pro:
-- Safe
-- Faster
-- Optimizable by Engine
-
-Con:
-- Very limited expressions
+Current problems:
+- Only very limited expressions allowed
 - Many edge-cases are not covered
 
 ## Examples

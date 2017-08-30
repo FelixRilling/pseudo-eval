@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /**
  * Multi Regex matcher
  * Modified version of https://github.com/sindresorhus/execall
@@ -48,38 +50,64 @@ const applyRegexEvaluation = function (expression, ctx, regex, map, fn) {
 };
 
 /**
- * Finds a string-path as object property
- * @param {Object} obj
- * @param {String} path
- * @param {Boolean} raw
- * @returns {Object|null}
- */
-const findPath = function (obj, path, raw) {
-    const keys = path.split(".");
-    let current = obj;
-    let last = obj;
-    let index = 0;
-
-    while (obj && index < keys.length) {
-        last = current;
-        current = current[keys[index]];
-        index++;
-    }
-
-    return !raw ? current : {
-        _val: current,
-        _container: last,
-        _key: keys[index - 1]
-    };
-};
-
-/**
  * Checks if two values are the same
  *
  * @param {*} a
  * @param {*} b
  * @returns {boolean}
  */
+/**
+ * Checks if the value is typeof the typestring
+ *
+ * @param {*} val
+ * @param {string} type
+ * @returns {boolean}
+ */
+const isTypeOf = (val, type) => typeof val === type;
+/**
+ * Checks if a value is undefined
+ *
+ * @param {*} val
+ * @returns {boolean}
+ */
+const isUndefined = (val) => isTypeOf(val, "undefined");
+/**
+ * Checks if a value is not undefined
+ *
+ * @param {*} val
+ * @returns {boolean}
+ */
+const isDefined = (val) => !isUndefined(val);
+/**
+ * Checks if a target has a certain key
+ *
+ * @param {any} target
+ * @param {string} key
+ * @returns {boolean}
+ */
+const hasKey = (target, key) => isDefined(target[key]);
+/**
+ * Accesses a target by a path of keys. If the path doesn't exist, null is returned
+ *
+ * @param {any} target
+ * @param {Array<string>} path
+ * @returns {boolean}
+ */
+const getPath = (target, path) => {
+    let targetCurrent = target;
+    let index = 0;
+    while (isDefined(targetCurrent) && index < path.length) {
+        const keyCurrent = path[index];
+        if (hasKey(targetCurrent, keyCurrent)) {
+            targetCurrent = targetCurrent[keyCurrent];
+            index++;
+        }
+        else {
+            return null;
+        }
+    }
+    return targetCurrent;
+};
 /**
  * Returns an array of the objects entries
  *
@@ -125,28 +153,28 @@ const mapLiterals = mapFromObject({
 });
 
 /**
- * Parses Comparison String
+ * Evalutates Comparison String
  * @param {String} expression
  * @param {Object} [ctx={}]
  * @returns {Mixed}
  */
-const parseComparison = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison, parseMath);
+const evalComparison = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison, evalMath);
 
 /**
- * Parses Math String
+ * Evalutates Math String
  * @param {String} expression
  * @param {Object} [ctx={}]
  * @returns {Mixed}
  */
-const parseMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_MATH, mapMath, parseLiteral);
+const evalMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_MATH, mapMath, evalLiteral);
 
 /**
- * Parses Literal String
+ * Evalutates Literal String
  * @param {String} expression
  * @param {Object} [ctx={}]
  * @returns {Mixed}
  */
-const parseLiteral = function parseLiterals(expression, ctx = {}) {
+const evalLiteral = function evalLiterals(expression, ctx = {}) {
     if (REGEX_IS_NUMBER.test(expression)) {
         //Cast to number
         return Number(expression);
@@ -156,52 +184,39 @@ const parseLiteral = function parseLiterals(expression, ctx = {}) {
     } else if (mapLiterals.has(expression)) {
         return mapLiterals.get(expression);
     } else {
-        return parseVariable(expression, ctx);
+        return evalVariable(expression, ctx);
     }
 };
 
 /**
- * Parses Variable String
+ * Evalutates Variable String
  * @param {String} expression
  * @param {Object} [ctx={}]
- * @param {Boolean} [raw=false]
  * @returns {Mixed}
  */
-const parseVariable = function (expression, ctx = {}, raw = false) {
+const evalVariable = function (expression, ctx = {}) {
     if (REGEX_IS_FUNCTION.test(expression)) {
         const matched = expression.match(REGEX_EXPRESSION_METHOD);
-        const method = findPath(ctx, matched[1], raw);
+        const method = getPath(ctx, matched[1].split(""));
 
         if (method) {
             const argsExpressions = typeof matched[2] !== "undefined" ? matched[2].split(",") : [];
-            const args = argsExpressions.map(arg => parseComparison(arg, ctx));
+            const args = argsExpressions.map(arg => evalComparison(arg, ctx));
 
-            if (raw) {
-                method._args = args;
-
-                return method;
-            } else {
-                return method(...args);
-            }
+            return method(...args);
         } else {
             return null;
         }
     } else {
-        return findPath(ctx, expression, raw);
+        return getPath(ctx, expression.split(""));
     }
 };
 
-/**
- * Redirects input to parseComparison
- * @param {String} expression
- * @param {Object} [ctx={}]
- * @returns {Mixed}
- */
-const pseudoEval = (expression, ctx = {}) => parseComparison(expression, ctx);
 
-pseudoEval.comparison = parseComparison;
-pseudoEval.math = parseMath;
-pseudoEval.literal = parseLiteral;
-pseudoEval.variable = parseVariable;
+const evalExpression = evalComparison;
 
-module.exports = pseudoEval;
+exports.evalExpression = evalExpression;
+exports.evalComparison = evalComparison;
+exports.evalMath = evalMath;
+exports.evalLiteral = evalLiteral;
+exports.evalVariable = evalVariable;

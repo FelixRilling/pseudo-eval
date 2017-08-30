@@ -1,8 +1,9 @@
 "use strict";
+const {
+    evalExpression
+} = require("./dist/pseudoEval.common");
 
-const pseudoEval = require("./dist/pseudoEval.common");
-
-const a = pseudoEval("1===1===true", {
+const a = evalExpression("1===1===true", {
     a: {
         c: (a, b) => a + b + 12
     }

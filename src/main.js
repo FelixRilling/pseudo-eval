@@ -1,8 +1,8 @@
 "use strict";
 
 import applyRegexEvaluation from "./lib/applyRegexEvaluation";
-import findPath from "./lib/findPath";
 import {
+    getPath,
     mapFromObject
 } from "lightdash";
 
@@ -37,28 +37,28 @@ const mapLiterals = mapFromObject({
 });
 
 /**
- * Parses Comparison String
+ * Evalutates Comparison String
  * @param {String} expression
  * @param {Object} [ctx={}]
  * @returns {Mixed}
  */
-const parseComparison = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison, parseMath);
+const evalComparison = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison, evalMath);
 
 /**
- * Parses Math String
+ * Evalutates Math String
  * @param {String} expression
  * @param {Object} [ctx={}]
  * @returns {Mixed}
  */
-const parseMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_MATH, mapMath, parseLiteral);
+const evalMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_MATH, mapMath, evalLiteral);
 
 /**
- * Parses Literal String
+ * Evalutates Literal String
  * @param {String} expression
  * @param {Object} [ctx={}]
  * @returns {Mixed}
  */
-const parseLiteral = function parseLiterals(expression, ctx = {}) {
+const evalLiteral = function evalLiterals(expression, ctx = {}) {
     if (REGEX_IS_NUMBER.test(expression)) {
         //Cast to number
         return Number(expression);
@@ -68,52 +68,41 @@ const parseLiteral = function parseLiterals(expression, ctx = {}) {
     } else if (mapLiterals.has(expression)) {
         return mapLiterals.get(expression);
     } else {
-        return parseVariable(expression, ctx);
+        return evalVariable(expression, ctx);
     }
 };
 
 /**
- * Parses Variable String
+ * Evalutates Variable String
  * @param {String} expression
  * @param {Object} [ctx={}]
- * @param {Boolean} [raw=false]
  * @returns {Mixed}
  */
-const parseVariable = function (expression, ctx = {}, raw = false) {
+const evalVariable = function (expression, ctx = {}) {
     if (REGEX_IS_FUNCTION.test(expression)) {
         const matched = expression.match(REGEX_EXPRESSION_METHOD);
-        const method = findPath(ctx, matched[1], raw);
+        const method = getPath(ctx, matched[1].split(""));
 
         if (method) {
             const argsExpressions = typeof matched[2] !== "undefined" ? matched[2].split(",") : [];
-            const args = argsExpressions.map(arg => parseComparison(arg, ctx));
+            const args = argsExpressions.map(arg => evalComparison(arg, ctx));
 
-            if (raw) {
-                method._args = args;
-
-                return method;
-            } else {
-                return method(...args);
-            }
+            return method(...args);
         } else {
             return null;
         }
     } else {
-        return findPath(ctx, expression, raw);
+        return getPath(ctx, expression.split(""));
     }
 };
 
-/**
- * Redirects input to parseComparison
- * @param {String} expression
- * @param {Object} [ctx={}]
- * @returns {Mixed}
- */
-const pseudoEval = (expression, ctx = {}) => parseComparison(expression, ctx);
 
-pseudoEval.comparison = parseComparison;
-pseudoEval.math = parseMath;
-pseudoEval.literal = parseLiteral;
-pseudoEval.variable = parseVariable;
+const evalExpression = evalComparison;
 
-export default pseudoEval;
+export {
+    evalExpression,
+    evalComparison,
+    evalMath,
+    evalLiteral,
+    evalVariable
+};

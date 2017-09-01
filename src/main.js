@@ -1,13 +1,13 @@
 "use strict";
 
 import {
+    isStringNumber,
     getPath,
     mapFromObject
 } from "lightdash";
 
 const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
-const REGEX_IS_NUMBER = /^[\d.-]+$/;
 const REGEX_IS_STRING = /^["'`].*["'`]$/;
 
 const mapComparison = mapFromObject({
@@ -62,7 +62,7 @@ const evalMath = function (a, operator, b) {
     }
 }
 const evalLiteral = function (expression, ctx) {
-    if (REGEX_IS_NUMBER.test(expression)) {
+    if (isStringNumber(expression)) {
         return Number(expression);
     } else if (REGEX_IS_STRING.test(expression)) {
         return expression.substr(1, expression.length - 2);

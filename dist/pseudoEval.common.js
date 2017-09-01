@@ -32,6 +32,13 @@ const isUndefined = (val) => isTypeOf(val, "undefined");
  */
 const isDefined = (val) => !isUndefined(val);
 /**
+ * Checks if a value is a number as a string
+ *
+ * @param {*} val
+ * @returns {boolean}
+ */
+const isStringNumber = (val) => !isNaN(Number(val));
+/**
  * Checks if a target has a certain key
  *
  * @param {any} target
@@ -77,7 +84,6 @@ const mapFromObject = (obj) => new Map(objEntries(obj));
 
 const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
-const REGEX_IS_NUMBER = /^[\d.-]+$/;
 const REGEX_IS_STRING = /^["'`].*["'`]$/;
 
 const mapComparison = mapFromObject({
@@ -132,7 +138,7 @@ const evalMath = function (a, operator, b) {
     }
 };
 const evalLiteral = function (expression, ctx) {
-    if (REGEX_IS_NUMBER.test(expression)) {
+    if (isStringNumber(expression)) {
         return Number(expression);
     } else if (REGEX_IS_STRING.test(expression)) {
         return expression.substr(1, expression.length - 2);

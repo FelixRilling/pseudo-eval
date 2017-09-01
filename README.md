@@ -6,10 +6,11 @@ A library to evaluate simple expression strings without actually calling `eval()
 
 Supports evaluating:
 
+- Expression
 - Comparison
 - Math
 - Literals
-- Prop/Method access
+- Prop access
 
 ## Introduction
 
@@ -30,11 +31,9 @@ pseudoEval("4"); //=>4
 pseudoEval("false"); //=>false
 pseudoEval("'foo'"); //=>"foo"
 pseudoEval("a",{a: 2}); //=>2
-pseudoEval("getFoo()",{getFoo: ()=>"foo"}); //=>"foo"
 
 pseudoEval("4===4"); //=>true
 pseudoEval("4<2"); //=>false
 pseudoEval("1+2<2"); //=>true
 pseudoEval("foo.length>2",{foo: [1,2,3,4]}); //=>true
-pseudoEval("getA(0)>=getB(2)",{getA: a=>a+2,getB: b=>a+1}); //=>false
 ```

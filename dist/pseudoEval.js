@@ -1,53 +1,6 @@
 var pseudoEval = function (exports) {
   'use strict';
   /**
-   * Multi Regex matcher
-   * Modified version of https://github.com/sindresorhus/execall
-   * @param {RegExp} regex
-   * @param {String} str
-   * @returns {Array}
-   */
-
-  const execall = function (regex, str) {
-    const matches = [];
-    let match;
-
-    while (match = regex.exec(str)) {
-      matches.push([match[0], match.slice(1), match.index]);
-    }
-
-    return matches;
-  };
-  /**
-   * Runs regex over string and evaluates matches from map
-   * @param {String} expression
-   * @param {Object} ctx
-   * @param {RegExp} regex
-   * @param {Map} map
-   * @param {Function} fn
-   * @returns {Mixed}
-   */
-
-
-  const applyRegexEvaluation = function (expression, ctx, regex, map, fn) {
-    const matches = execall(regex, expression);
-
-    if (matches.length) {
-      //@TODO make use of ALL matches
-      const firstMatch = matches[0];
-
-      if (map.has(firstMatch[0])) {
-        const mapFn = map.get(firstMatch[0]);
-        const splitted = expression.split(firstMatch[0]).map(part => fn(part.trim(), ctx));
-        return mapFn(splitted[0], splitted[1]);
-      } else {
-        return null;
-      }
-    } else {
-      return fn(expression, ctx);
-    }
-  };
-  /**
    * Checks if two values are the same
    *
    * @param {*} a
@@ -62,7 +15,6 @@ var pseudoEval = function (exports) {
    * @param {string} type
    * @returns {boolean}
    */
-
 
   const isTypeOf = (val, type) => typeof val === type;
   /**
@@ -137,12 +89,10 @@ var pseudoEval = function (exports) {
 
   const mapFromObject = obj => new Map(objEntries(obj));
 
+  const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
+  const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
   const REGEX_IS_NUMBER = /^[\d.-]+$/;
   const REGEX_IS_STRING = /^["'`].*["'`]$/;
-  const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
-  const REGEX_EXPRESSION_COMPARISON = /(===|!==|>=|<=|>|<|&&|\|\|)/g;
-  const REGEX_EXPRESSION_MATH = /(\+|-|\*|\*\*|\/|%)/g;
-  const REGEX_EXPRESSION_METHOD = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
   const mapComparison = mapFromObject({
     "===": (a, b) => a === b,
     "!==": (a, b) => a !== b,
@@ -165,37 +115,39 @@ var pseudoEval = function (exports) {
     "true": true,
     "null": null
   });
-  /**
-   * Evalutates Comparison String
-   * @param {String} expression
-   * @param {Object} [ctx={}]
-   * @returns {Mixed}
-   */
 
-  const evalComparison = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison, evalMath);
-  /**
-   * Evalutates Math String
-   * @param {String} expression
-   * @param {Object} [ctx={}]
-   * @returns {Mixed}
-   */
+  const evalExpression = function (expression, ctx) {
+    if (REGEX_EXPRESSION_COMPARISON.test(expression)) {
+      const match = expression.match(REGEX_EXPRESSION_COMPARISON);
+      return evalComparison(evalExpression(match[1], ctx), match[2], evalExpression(match[3], ctx));
+    } else if (REGEX_EXPRESSION_MATH.test(expression)) {
+      const match = expression.match(REGEX_EXPRESSION_MATH);
+      return evalMath(evalExpression(match[1], ctx), match[2], evalExpression(match[3], ctx));
+    } else {
+      return evalLiteral(expression, ctx);
+    }
+  };
 
+  const evalComparison = function (a, comparer, b) {
+    if (mapComparison.has(comparer)) {
+      return mapComparison.get(comparer)(a, b);
+    } else {
+      return new Error(`Invalid comparison operation '${comparer}'`);
+    }
+  };
 
-  const evalMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_MATH, mapMath, evalLiteral);
-  /**
-   * Evalutates Literal String
-   * @param {String} expression
-   * @param {Object} [ctx={}]
-   * @returns {Mixed}
-   */
+  const evalMath = function (a, operator, b) {
+    if (mapMath.has(operator)) {
+      return mapMath.get(operator)(a, b);
+    } else {
+      return new Error(`Invalid operation operation '${operator}'`);
+    }
+  };
 
-
-  const evalLiteral = function evalLiterals(expression, ctx = {}) {
+  const evalLiteral = function (expression, ctx) {
     if (REGEX_IS_NUMBER.test(expression)) {
-      //Cast to number
       return Number(expression);
     } else if (REGEX_IS_STRING.test(expression)) {
-      //Cut of quotes
       return expression.substr(1, expression.length - 2);
     } else if (mapLiterals.has(expression)) {
       return mapLiterals.get(expression);
@@ -203,32 +155,11 @@ var pseudoEval = function (exports) {
       return evalVariable(expression, ctx);
     }
   };
-  /**
-   * Evalutates Variable String
-   * @param {String} expression
-   * @param {Object} [ctx={}]
-   * @returns {Mixed}
-   */
-
 
   const evalVariable = function (expression, ctx = {}) {
-    if (REGEX_IS_FUNCTION.test(expression)) {
-      const matched = expression.match(REGEX_EXPRESSION_METHOD);
-      const method = getPath(ctx, matched[1].split("."));
-
-      if (method) {
-        const argsExpressions = isDefined(matched[2]) ? matched[2].split(",") : [];
-        const args = argsExpressions.map(arg => evalComparison(arg, ctx));
-        return method(...args);
-      } else {
-        return null;
-      }
-    } else {
-      return getPath(ctx, expression.split("."));
-    }
+    return getPath(ctx, expression.split("."));
   };
 
-  const evalExpression = evalComparison;
   exports.evalExpression = evalExpression;
   exports.evalComparison = evalComparison;
   exports.evalMath = evalMath;

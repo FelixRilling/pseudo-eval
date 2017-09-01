@@ -1,18 +1,14 @@
 "use strict";
 
-import applyRegexEvaluation from "./lib/applyRegexEvaluation";
 import {
-    isDefined,
     getPath,
     mapFromObject
 } from "lightdash";
 
+const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
+const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 const REGEX_IS_NUMBER = /^[\d.-]+$/;
 const REGEX_IS_STRING = /^["'`].*["'`]$/;
-const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
-const REGEX_EXPRESSION_COMPARISON = /(===|!==|>=|<=|>|<|&&|\|\|)/g;
-const REGEX_EXPRESSION_MATH = /(\+|-|\*|\*\*|\/|%)/g;
-const REGEX_EXPRESSION_METHOD = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
 
 const mapComparison = mapFromObject({
     "===": (a, b) => a === b,
@@ -37,34 +33,38 @@ const mapLiterals = mapFromObject({
     "null": null
 });
 
-/**
- * Evalutates Comparison String
- * @param {String} expression
- * @param {Object} [ctx={}]
- * @returns {Mixed}
- */
-const evalComparison = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison, evalMath);
+const evalExpression = function (expression, ctx) {
+    if (REGEX_EXPRESSION_COMPARISON.test(expression)) {
+        const match = expression.match(REGEX_EXPRESSION_COMPARISON);
 
-/**
- * Evalutates Math String
- * @param {String} expression
- * @param {Object} [ctx={}]
- * @returns {Mixed}
- */
-const evalMath = (expression, ctx = {}) => applyRegexEvaluation(expression, ctx, REGEX_EXPRESSION_MATH, mapMath, evalLiteral);
+        return evalComparison(evalExpression(match[1], ctx), match[2], evalExpression(match[3], ctx));
+    } else if (REGEX_EXPRESSION_MATH.test(expression)) {
+        const match = expression.match(REGEX_EXPRESSION_MATH);
 
-/**
- * Evalutates Literal String
- * @param {String} expression
- * @param {Object} [ctx={}]
- * @returns {Mixed}
- */
-const evalLiteral = function evalLiterals(expression, ctx = {}) {
+        return evalMath(evalExpression(match[1], ctx), match[2], evalExpression(match[3], ctx));
+    } else {
+        return evalLiteral(expression, ctx);
+    }
+};
+const evalComparison = function (a, comparer, b) {
+    if (mapComparison.has(comparer)) {
+        return mapComparison.get(comparer)(a, b);
+    } else {
+        return new Error(`Invalid comparison operation '${comparer}'`);
+    }
+};
+
+const evalMath = function (a, operator, b) {
+    if (mapMath.has(operator)) {
+        return mapMath.get(operator)(a, b);
+    } else {
+        return new Error(`Invalid operation operation '${operator}'`);
+    }
+}
+const evalLiteral = function (expression, ctx) {
     if (REGEX_IS_NUMBER.test(expression)) {
-        //Cast to number
         return Number(expression);
     } else if (REGEX_IS_STRING.test(expression)) {
-        //Cut of quotes
         return expression.substr(1, expression.length - 2);
     } else if (mapLiterals.has(expression)) {
         return mapLiterals.get(expression);
@@ -73,32 +73,9 @@ const evalLiteral = function evalLiterals(expression, ctx = {}) {
     }
 };
 
-/**
- * Evalutates Variable String
- * @param {String} expression
- * @param {Object} [ctx={}]
- * @returns {Mixed}
- */
 const evalVariable = function (expression, ctx = {}) {
-    if (REGEX_IS_FUNCTION.test(expression)) {
-        const matched = expression.match(REGEX_EXPRESSION_METHOD);
-        const method = getPath(ctx, matched[1].split("."));
-
-        if (method) {
-            const argsExpressions = isDefined(matched[2]) ? matched[2].split(",") : [];
-            const args = argsExpressions.map(arg => evalComparison(arg, ctx));
-
-            return method(...args);
-        } else {
-            return null;
-        }
-    } else {
-        return getPath(ctx, expression.split("."));
-    }
+    return getPath(ctx, expression.split("."));
 };
-
-
-const evalExpression = evalComparison;
 
 export {
     evalExpression,

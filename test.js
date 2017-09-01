@@ -1,12 +1,13 @@
 "use strict";
 
 const {
-    evalVariable
+    evalExpression
 } = require("./dist/pseudoEval.common");
 
-const a = evalVariable("a.c(1,2)", {
+
+const a = evalExpression("a.c===10+2", {
     a: {
-        c: (a, b) => a + b + 12
+        c: 12
     }
 });
 

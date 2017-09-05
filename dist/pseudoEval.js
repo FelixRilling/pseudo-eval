@@ -55,32 +55,6 @@ var pseudoEval = function (exports) {
 
   const hasKey = (target, key) => isDefined(target[key]);
   /**
-   * Accesses a target by a path of keys. If the path doesn't exist, null is returned
-   *
-   * @param {any} target
-   * @param {Array<string>} path
-   * @returns {boolean}
-   */
-
-
-  const getPath = (target, path) => {
-    let targetCurrent = target;
-    let index = 0;
-
-    while (isDefined(targetCurrent) && index < path.length) {
-      const keyCurrent = path[index];
-
-      if (hasKey(targetCurrent, keyCurrent)) {
-        targetCurrent = targetCurrent[keyCurrent];
-        index++;
-      } else {
-        return null;
-      }
-    }
-
-    return targetCurrent;
-  };
-  /**
    * Returns an array of the objects entries
    *
    * @param {Object} obj
@@ -120,58 +94,145 @@ var pseudoEval = function (exports) {
   });
   const mapLiterals = mapFromObject({
     "false": false,
-    "true": true,
-    "null": null
+    "true": true
   });
+  /**
+   * Accesses a target by a path of keys. If the path doesn't exist, null is returned
+   *
+   * @param {any} target
+   * @param {Array<string>} path
+   * @param {boolean} [getContaining=false]
+   * @returns {boolean}
+   */
+
+  const getPath = (target, path, getContaining = false) => {
+    let targetCurrent = target;
+    let index = 0;
+
+    while (isDefined(targetCurrent) && index < path.length) {
+      const keyCurrent = path[index];
+
+      if (hasKey(targetCurrent, keyCurrent)) {
+        targetCurrent = targetCurrent[keyCurrent];
+        index++;
+      } else {
+        return null;
+      }
+    }
+
+    return targetCurrent;
+  };
+  /**
+   * Generic routine for the ternary a,op,b regex matching
+   *
+   * @param {string} expression
+   * @param {Object} ctx
+   * @param {RegExp} regex
+   * @param {Function} fn
+   * @returns {Object}
+   */
+
+
+  const ternaryRoutine = function (expression, ctx, regex, fn) {
+    const match = expression.match(regex);
+    const a = evalExpression(match[1], ctx);
+    const b = evalExpression(match[3], ctx);
+    const result = a.sucess && b.sucess ? fn(a.val, match[2], b.val) : null;
+    return {
+      sucess: result !== null,
+      val: result
+    };
+  };
+  /**
+   * Evaluates an expression
+   *
+   * @param {string} expression
+   * @param {Object} ctx
+   * @returns {Object}
+   */
+
 
   const evalExpression = function (expression, ctx) {
     if (REGEX_EXPRESSION_COMPARISON.test(expression)) {
-      const match = expression.match(REGEX_EXPRESSION_COMPARISON);
-      return evalComparison(evalExpression(match[1], ctx), match[2], evalExpression(match[3], ctx));
+      return evalComparison(expression, ctx);
     } else if (REGEX_EXPRESSION_MATH.test(expression)) {
-      const match = expression.match(REGEX_EXPRESSION_MATH);
-      return evalMath(evalExpression(match[1], ctx), match[2], evalExpression(match[3], ctx));
+      return evalMath(expression, ctx);
     } else {
       return evalLiteral(expression, ctx);
     }
   };
+  /**
+   * Evaluates a literal
+   *
+   * @param {string} expression
+   * @param {Object} ctx
+   * @returns {Object}
+   */
 
-  const evalComparison = function (a, comparer, b) {
-    if (mapComparison.has(comparer)) {
-      return mapComparison.get(comparer)(a, b);
-    } else {
-      return new Error(`Invalid comparison operation '${comparer}'`);
-    }
-  };
-
-  const evalMath = function (a, operator, b) {
-    if (mapMath.has(operator)) {
-      return mapMath.get(operator)(a, b);
-    } else {
-      return new Error(`Invalid operation operation '${operator}'`);
-    }
-  };
 
   const evalLiteral = function (expression, ctx) {
+    let result = null;
+
     if (isStringNumber(expression)) {
-      return Number(expression);
+      result = Number(expression);
     } else if (REGEX_IS_STRING.test(expression)) {
-      return expression.substr(1, expression.length - 2);
+      result = expression.substr(1, expression.length - 2);
     } else if (mapLiterals.has(expression)) {
-      return mapLiterals.get(expression);
+      result = mapLiterals.get(expression);
     } else {
-      return evalVariable(expression, ctx);
+      result = evalVariable(expression, ctx).val;
     }
+
+    return {
+      sucess: result !== null,
+      val: result
+    };
   };
+  /**
+   * Evaluates an variable
+   *
+   * @param {string} expression
+   * @param {Object} ctx
+   * @returns {Object}
+   */
+
 
   const evalVariable = function (expression, ctx = {}) {
-    return getPath(ctx, expression.split("."));
+    const result = getPath(ctx, expression.split("."));
+    return {
+      sucess: result !== null,
+      val: result
+    };
   };
+  /**
+   * Evaluates an comparison
+   *
+   * @param {string} expression
+   * @param {Object} ctx
+   * @returns {Object}
+   */
+
+
+  const evalComparison = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_COMPARISON, (a, comparer, b) => {
+    return mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null;
+  });
+  /**
+   * Evaluates an comparison
+   *
+   * @param {string} expression
+   * @param {Object} ctx
+   * @returns {Object}
+   */
+
+
+  const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_MATH, (a, operator, b) => {
+    return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
+  });
 
   exports.evalExpression = evalExpression;
-  exports.evalComparison = evalComparison;
-  exports.evalMath = evalMath;
   exports.evalLiteral = evalLiteral;
   exports.evalVariable = evalVariable;
+  exports.evalComparison = evalComparison;
+  exports.evalMath = evalMath;
   return exports;
 }({});

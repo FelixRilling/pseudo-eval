@@ -6,17 +6,17 @@ const {
 
 describe("Literals", function () {
     it("Simple test 1", () => {
-        expect(evalExpression("1")).toBe(1);
+        expect(evalExpression("1").val).toBe(1);
     });
 
     it("Simple test 2", () => {
-        expect(evalExpression("'foo'")).toBe("foo");
+        expect(evalExpression("'foo'").val).toBe("foo");
     });
 
     it("Simple test 3", () => {
         expect(evalExpression("a", {
             a: 1
-        })).toBe(1);
+        }).val).toBe(1);
     });
 
     it("Simple test 4", () => {
@@ -24,42 +24,42 @@ describe("Literals", function () {
             a: {
                 b: 2
             }
-        })).toBe(2);
+        }).val).toBe(2);
     });
 });
 
 describe("Comparison", function () {
     it("Simple test 1", () => {
-        expect(evalExpression("1===1")).toBe(true);
+        expect(evalExpression("1===1").val).toBe(true);
     });
 
     it("Simple test 2", () => {
-        expect(evalExpression("1!==0")).toBe(true);
+        expect(evalExpression("1!==0").val).toBe(true);
     });
 
     it("Simple test 3", () => {
         expect(evalExpression("'a'==='a'", {
             a: 1
-        })).toBe(true);
+        }).val).toBe(true);
     });
 
     it("Simple test 4", () => {
-        expect(evalExpression("true&&true")).toBe(true);
+        expect(evalExpression("true&&true").val).toBe(true);
     });
 });
 
 describe("Math", function () {
     it("Simple test 1", () => {
-        expect(evalExpression("1+1")).toBe(2);
+        expect(evalExpression("1+1").val).toBe(2);
     });
 
     it("Simple test 2", () => {
-        expect(evalExpression("2-1")).toBe(1);
+        expect(evalExpression("2-1").val).toBe(1);
     });
 
     it("Simple test 3", () => {
         expect(evalExpression("a*a", {
             a: 2
-        })).toBe(4);
+        }).val).toBe(4);
     });
 });

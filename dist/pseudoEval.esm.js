@@ -107,6 +107,13 @@ const getPath = (target, path, getContaining = false) => {
     return targetCurrent;
 };
 
+const wrapResult = val => {
+    return {
+        val,
+        sucess: val !== null,
+    };
+};
+
 /**
  * Generic routine for the ternary a,op,b regex matching
  *
@@ -122,10 +129,7 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
     const b = evalExpression(match[3], ctx);
     const result = a.sucess && b.sucess ? fn(a.val, match[2], b.val) : null;
 
-    return {
-        sucess: result !== null,
-        val: result
-    };
+    return wrapResult(result);
 };
 
 /**
@@ -165,10 +169,7 @@ const evalLiteral = function (expression, ctx) {
         result = evalVariable(expression, ctx).val;
     }
 
-    return {
-        sucess: result !== null,
-        val: result
-    };
+    return wrapResult(result);
 };
 
 /**
@@ -181,10 +182,7 @@ const evalLiteral = function (expression, ctx) {
 const evalVariable = function (expression, ctx = {}) {
     const result = getPath(ctx, expression.split("."));
 
-    return {
-        sucess: result !== null,
-        val: result
-    };
+    return wrapResult(result);
 };
 
 /**

@@ -122,6 +122,13 @@ var pseudoEval = function (exports) {
 
     return targetCurrent;
   };
+
+  const wrapResult = val => {
+    return {
+      val,
+      sucess: val !== null
+    };
+  };
   /**
    * Generic routine for the ternary a,op,b regex matching
    *
@@ -138,10 +145,7 @@ var pseudoEval = function (exports) {
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);
     const result = a.sucess && b.sucess ? fn(a.val, match[2], b.val) : null;
-    return {
-      sucess: result !== null,
-      val: result
-    };
+    return wrapResult(result);
   };
   /**
    * Evaluates an expression
@@ -183,10 +187,7 @@ var pseudoEval = function (exports) {
       result = evalVariable(expression, ctx).val;
     }
 
-    return {
-      sucess: result !== null,
-      val: result
-    };
+    return wrapResult(result);
   };
   /**
    * Evaluates an variable
@@ -199,10 +200,7 @@ var pseudoEval = function (exports) {
 
   const evalVariable = function (expression, ctx = {}) {
     const result = getPath(ctx, expression.split("."));
-    return {
-      sucess: result !== null,
-      val: result
-    };
+    return wrapResult(result);
   };
   /**
    * Evaluates an comparison

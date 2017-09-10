@@ -36,6 +36,15 @@ var pseudoEval = function (exports) {
 
   const isDefined = val => !isUndefined(val);
   /**
+   * Checks if a value is either undefined or null
+   *
+   * @param {*} val
+   * @returns {boolean}
+   */
+
+
+  const isNil = val => isUndefined(val) || val === null;
+  /**
    * Checks if a value is a number as a string
    *
    * @param {*} val
@@ -109,12 +118,15 @@ var pseudoEval = function (exports) {
 
   const getPath = (target, path, getContaining = false) => {
     let targetCurrent = target;
+    let targetLast = null;
+    let keyCurrent = null;
     let index = 0;
 
-    while (isDefined(targetCurrent) && index < path.length) {
-      const keyCurrent = path[index];
+    while (!isNil(targetCurrent) && index < path.length) {
+      keyCurrent = path[index];
 
       if (hasKey(targetCurrent, keyCurrent)) {
+        targetLast = targetCurrent;
         targetCurrent = targetCurrent[keyCurrent];
         index++;
       } else {
@@ -122,7 +134,16 @@ var pseudoEval = function (exports) {
       }
     }
 
-    return targetCurrent;
+    if (getContaining) {
+      return {
+        val: targetCurrent,
+        container: targetLast,
+        key: keyCurrent,
+        index
+      };
+    } else {
+      return targetCurrent;
+    }
   };
 
   const wrapResult = val => {
@@ -210,8 +231,8 @@ var pseudoEval = function (exports) {
    */
 
 
-  const evalVariable = function (expression, ctx = {}) {
-    const result = getPath(ctx, expression.split("."));
+  const evalVariable = function (expression, ctx = {}, getContaining = false) {
+    const result = getPath(ctx, expression.split("."), getContaining);
     return wrapResult(result);
   };
   /**
@@ -239,6 +260,7 @@ var pseudoEval = function (exports) {
     return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
   });
 
+  exports.getPath = getPath;
   exports.evalExpression = evalExpression;
   exports.evalLiteral = evalLiteral;
   exports.evalVariable = evalVariable;

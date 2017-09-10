@@ -1,14 +1,19 @@
 "use strict";
 
 const {
-    evalExpression
+    getPath,
+    evalVariable
 } = require("./dist/pseudoEval.common");
 
 
-const a = evalExpression("!1", {
+/*const a = evalExpression("!1", {
     a: {
         c: 12
     }
-});
+});*/
 
-console.log(a);
+console.log(evalVariable("a.b", {
+    a: {
+        b: 1
+    }
+}));

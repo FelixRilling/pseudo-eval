@@ -28,6 +28,13 @@ const isUndefined = (val) => isTypeOf(val, "undefined");
  */
 const isDefined = (val) => !isUndefined(val);
 /**
+ * Checks if a value is either undefined or null
+ *
+ * @param {*} val
+ * @returns {boolean}
+ */
+const isNil = (val) => isUndefined(val) || val === null;
+/**
  * Checks if a value is a number as a string
  *
  * @param {*} val
@@ -94,11 +101,15 @@ const mapLiterals = mapFromObject({
  */
 const getPath = (target, path, getContaining = false) => {
     let targetCurrent = target;
+    let targetLast = null;
+    let keyCurrent = null;
     let index = 0;
 
-    while (isDefined(targetCurrent) && index < path.length) {
-        const keyCurrent = path[index];
+    while (!isNil(targetCurrent) && index < path.length) {
+        keyCurrent = path[index];
+
         if (hasKey(targetCurrent, keyCurrent)) {
+            targetLast = targetCurrent;
             targetCurrent = targetCurrent[keyCurrent];
             index++;
         } else {
@@ -106,7 +117,16 @@ const getPath = (target, path, getContaining = false) => {
         }
     }
 
-    return targetCurrent;
+    if (getContaining) {
+        return {
+            val: targetCurrent,
+            container: targetLast,
+            key: keyCurrent,
+            index
+        };
+    } else {
+        return targetCurrent;
+    }
 };
 
 const wrapResult = val => {
@@ -191,8 +211,8 @@ const evalLiteral = function (expression, ctx) {
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalVariable = function (expression, ctx = {}) {
-    const result = getPath(ctx, expression.split("."));
+const evalVariable = function (expression, ctx = {}, getContaining = false) {
+    const result = getPath(ctx, expression.split("."), getContaining);
 
     return wrapResult(result);
 };
@@ -219,4 +239,4 @@ const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPR
     return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
 });
 
-export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath };
+export { getPath, evalExpression, evalLiteral, evalVariable, evalComparison, evalMath };

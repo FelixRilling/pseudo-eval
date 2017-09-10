@@ -94,7 +94,9 @@ var pseudoEval = function (exports) {
   });
   const mapLiterals = mapFromObject({
     "false": false,
-    "true": true
+    "true": true,
+    "null": null,
+    "Infinity": Infinity
   });
   /**
    * Accesses a target by a path of keys. If the path doesn't exist, null is returned
@@ -157,13 +159,23 @@ var pseudoEval = function (exports) {
 
 
   const evalExpression = function (expression, ctx) {
-    if (REGEX_EXPRESSION_COMPARISON.test(expression)) {
-      return evalComparison(expression, ctx);
-    } else if (REGEX_EXPRESSION_MATH.test(expression)) {
-      return evalMath(expression, ctx);
+    const isInverted = expression.startsWith("!");
+    const expressionSubstr = isInverted ? expression.substr(1) : expression;
+    let result;
+
+    if (REGEX_EXPRESSION_COMPARISON.test(expressionSubstr)) {
+      result = evalComparison(expressionSubstr, ctx);
+    } else if (REGEX_EXPRESSION_MATH.test(expressionSubstr)) {
+      result = evalMath(expressionSubstr, ctx);
     } else {
-      return evalLiteral(expression, ctx);
+      result = evalLiteral(expressionSubstr, ctx);
     }
+
+    if (isInverted) {
+      result.val = !result.val;
+    }
+
+    return result;
   };
   /**
    * Evaluates a literal

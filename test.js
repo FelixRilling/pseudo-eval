@@ -5,7 +5,7 @@ const {
 } = require("./dist/pseudoEval.common");
 
 
-const a = evalExpression("10+2", {
+const a = evalExpression("!1", {
     a: {
         c: 12
     }

@@ -1,5 +1,3 @@
-"use strict";
-
 import {
     isNil,
     hasKey,
@@ -32,6 +30,7 @@ const mapLiterals = mapFromObject({
     "false": false,
     "true": true,
     "null": null,
+    "undefined": undefined,
     "Infinity": Infinity
 });
 

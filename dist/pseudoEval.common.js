@@ -67,6 +67,8 @@ const objEntries = (obj) => Object.entries(obj);
  */
 const mapFromObject = (obj) => new Map(objEntries(obj));
 
+"use strict";
+
 const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 const REGEX_IS_STRING = /^["'`].*["'`]$/;

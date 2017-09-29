@@ -3,10 +3,9 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
- * Checks if two values are the same
+ * Checks if a value is an array
  *
- * @param {*} a
- * @param {*} b
+ * @param {*} val
  * @returns {boolean}
  */
 /**
@@ -17,6 +16,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * @returns {boolean}
  */
 const isTypeOf = (val, type) => typeof val === type;
+
 /**
  * Checks if a value is undefined
  *
@@ -24,6 +24,7 @@ const isTypeOf = (val, type) => typeof val === type;
  * @returns {boolean}
  */
 const isUndefined = (val) => isTypeOf(val, "undefined");
+
 /**
  * Checks if a value is not undefined
  *
@@ -31,20 +32,7 @@ const isUndefined = (val) => isTypeOf(val, "undefined");
  * @returns {boolean}
  */
 const isDefined = (val) => !isUndefined(val);
-/**
- * Checks if a value is either undefined or null
- *
- * @param {*} val
- * @returns {boolean}
- */
-const isNil = (val) => isUndefined(val) || val === null;
-/**
- * Checks if a value is a number as a string
- *
- * @param {*} val
- * @returns {boolean}
- */
-const isStringNumber = (val) => !isNaN(Number(val));
+
 /**
  * Checks if a target has a certain key
  *
@@ -53,6 +41,15 @@ const isStringNumber = (val) => !isNaN(Number(val));
  * @returns {boolean}
  */
 const hasKey = (target, key) => isDefined(target[key]);
+
+/**
+ * Checks if a value is either undefined or null
+ *
+ * @param {*} val
+ * @returns {boolean}
+ */
+const isNil = (val) => isUndefined(val) || val === null;
+
 /**
  * Returns an array of the objects entries
  *
@@ -60,6 +57,15 @@ const hasKey = (target, key) => isDefined(target[key]);
  * @returns {Array<[string, any]>}
  */
 const objEntries = (obj) => Object.entries(obj);
+
+/**
+ * Checks if a value is a number as a string
+ *
+ * @param {*} val
+ * @returns {boolean}
+ */
+const isStringNumber = (val) => !isNaN(Number(val));
+
 /**
  * Creates a Map from an Object
  * @param {Object} obj
@@ -92,6 +98,7 @@ const mapLiterals = mapFromObject({
     "false": false,
     "true": true,
     "null": null,
+    "undefined": undefined,
     "Infinity": Infinity
 });
 

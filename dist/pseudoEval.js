@@ -1,10 +1,9 @@
 var pseudoEval = function (exports) {
   'use strict';
   /**
-   * Checks if two values are the same
+   * Checks if a value is an array
    *
-   * @param {*} a
-   * @param {*} b
+   * @param {*} val
    * @returns {boolean}
    */
 
@@ -36,24 +35,6 @@ var pseudoEval = function (exports) {
 
   const isDefined = val => !isUndefined(val);
   /**
-   * Checks if a value is either undefined or null
-   *
-   * @param {*} val
-   * @returns {boolean}
-   */
-
-
-  const isNil = val => isUndefined(val) || val === null;
-  /**
-   * Checks if a value is a number as a string
-   *
-   * @param {*} val
-   * @returns {boolean}
-   */
-
-
-  const isStringNumber = val => !isNaN(Number(val));
-  /**
    * Checks if a target has a certain key
    *
    * @param {any} target
@@ -64,6 +45,15 @@ var pseudoEval = function (exports) {
 
   const hasKey = (target, key) => isDefined(target[key]);
   /**
+   * Checks if a value is either undefined or null
+   *
+   * @param {*} val
+   * @returns {boolean}
+   */
+
+
+  const isNil = val => isUndefined(val) || val === null;
+  /**
    * Returns an array of the objects entries
    *
    * @param {Object} obj
@@ -72,6 +62,15 @@ var pseudoEval = function (exports) {
 
 
   const objEntries = obj => Object.entries(obj);
+  /**
+   * Checks if a value is a number as a string
+   *
+   * @param {*} val
+   * @returns {boolean}
+   */
+
+
+  const isStringNumber = val => !isNaN(Number(val));
   /**
    * Creates a Map from an Object
    * @param {Object} obj
@@ -105,6 +104,7 @@ var pseudoEval = function (exports) {
     "false": false,
     "true": true,
     "null": null,
+    "undefined": undefined,
     "Infinity": Infinity
   });
   /**

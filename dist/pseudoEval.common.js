@@ -34,15 +34,6 @@ const isUndefined = (val) => isTypeOf(val, "undefined");
 const isDefined = (val) => !isUndefined(val);
 
 /**
- * Checks if a target has a certain key
- *
- * @param {any} target
- * @param {string} key
- * @returns {boolean}
- */
-const hasKey = (target, key) => isDefined(target[key]);
-
-/**
  * Checks if a value is either undefined or null
  *
  * @param {*} val
@@ -54,9 +45,18 @@ const isNil = (val) => isUndefined(val) || val === null;
  * Returns an array of the objects entries
  *
  * @param {Object} obj
- * @returns {Array<[string, any]>}
+ * @returns {Entry[]}
  */
 const objEntries = (obj) => Object.entries(obj);
+
+/**
+ * Checks if a target has a certain key
+ *
+ * @param {any} target
+ * @param {string} key
+ * @returns {boolean}
+ */
+const hasKey = (target, key) => isDefined(target[key]);
 
 /**
  * Checks if a value is a number as a string

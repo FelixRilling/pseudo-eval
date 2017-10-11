@@ -69,35 +69,6 @@ const isStringNumber = (val) => !isNaN(Number(val));
  */
 const mapFromObject = (obj) => new Map(objEntries(obj));
 
-const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
-const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
-const REGEX_IS_STRING = /^["'`].*["'`]$/;
-
-const mapComparison = mapFromObject({
-    "===": (a, b) => a === b,
-    "!==": (a, b) => a !== b,
-    ">=": (a, b) => a >= b,
-    "<=": (a, b) => a <= b,
-    ">": (a, b) => a > b,
-    "<": (a, b) => a < b,
-    "&&": (a, b) => a && b,
-    "||": (a, b) => a || b,
-});
-const mapMath = mapFromObject({
-    "+": (a, b) => a + b,
-    "-": (a, b) => a - b,
-    "*": (a, b) => a * b,
-    "/": (a, b) => a / b,
-    "%": (a, b) => a % b,
-});
-const mapLiterals = mapFromObject({
-    "false": false,
-    "true": true,
-    "null": null,
-    "undefined": undefined,
-    "Infinity": Infinity
-});
-
 /**
  * Accesses a target by a path of keys. If the path doesn't exist, null is returned
  *
@@ -136,6 +107,17 @@ const getPath = (target, path, getContaining = false) => {
     }
 };
 
+const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
+
+const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
+
+/**
+ * Utility function for returns
+ *
+ * @private
+ * @param {any} val
+ * @returns {Object}
+ */
 const wrapResult = val => {
     return {
         val,
@@ -146,6 +128,7 @@ const wrapResult = val => {
 /**
  * Generic routine for the ternary a,op,b regex matching
  *
+ * @private
  * @param {string} expression
  * @param {Object} ctx
  * @param {RegExp} regex
@@ -157,6 +140,94 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);
     const result = a.success && b.success ? fn(a.val, match[2], b.val) : null;
+
+    return wrapResult(result);
+};
+
+const mapComparison = mapFromObject({
+    "===": (a, b) => a === b,
+    "!==": (a, b) => a !== b,
+    ">=": (a, b) => a >= b,
+    "<=": (a, b) => a <= b,
+    ">": (a, b) => a > b,
+    "<": (a, b) => a < b,
+    "&&": (a, b) => a && b,
+    "||": (a, b) => a || b,
+});
+
+/**
+ * Evaluates an comparison
+ *
+ * @param {string} expression
+ * @param {Object} ctx
+ * @returns {Object}
+ */
+const evalComparison = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_COMPARISON, (a, comparer, b) => {
+    return mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null;
+});
+
+const mapMath = mapFromObject({
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "*": (a, b) => a * b,
+    "/": (a, b) => a / b,
+    "%": (a, b) => a % b,
+    "**": (a, b) => a ** b,
+});
+
+/**
+ * Evaluates an comparison
+ *
+ * @param {string} expression
+ * @param {Object} ctx
+ * @returns {Object}
+ */
+const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_MATH, (a, operator, b) => {
+    return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
+});
+
+const REGEX_IS_STRING = /^["'`].*["'`]$/;
+
+/**
+ * Evaluates an variable
+ *
+ * @param {string} expression
+ * @param {Object} ctx
+ * @returns {Object}
+ */
+const evalVariable = function (expression, ctx = {}, getContaining = false) {
+    const result = getPath(ctx, expression.split("."), getContaining);
+
+    return wrapResult(result);
+};
+
+const mapLiterals = mapFromObject({
+    "false": false,
+    "true": true,
+    "null": null,
+    "undefined": undefined,
+    "Infinity": Infinity
+});
+
+/**
+ * Evaluates a literal
+ *
+ * @param {string} expression
+ * @param {Object} ctx
+ * @returns {Object}
+ */
+const evalLiteral = function (expression, ctx) {
+    let result = null;
+
+    if (isStringNumber(expression)) {
+        result = Number(expression);
+    } else if (REGEX_IS_STRING.test(expression)) {
+        result = expression.substr(1, expression.length - 2);
+    } else if (mapLiterals.has(expression)) {
+        result = mapLiterals.get(expression);
+    } else {
+        result = evalVariable(expression, ctx).val;
+    }
 
     return wrapResult(result);
 };
@@ -187,63 +258,5 @@ const evalExpression = function (expression, ctx) {
 
     return result;
 };
-
-/**
- * Evaluates a literal
- *
- * @param {string} expression
- * @param {Object} ctx
- * @returns {Object}
- */
-const evalLiteral = function (expression, ctx) {
-    let result = null;
-
-    if (isStringNumber(expression)) {
-        result = Number(expression);
-    } else if (REGEX_IS_STRING.test(expression)) {
-        result = expression.substr(1, expression.length - 2);
-    } else if (mapLiterals.has(expression)) {
-        result = mapLiterals.get(expression);
-    } else {
-        result = evalVariable(expression, ctx).val;
-    }
-
-    return wrapResult(result);
-};
-
-/**
- * Evaluates an variable
- *
- * @param {string} expression
- * @param {Object} ctx
- * @returns {Object}
- */
-const evalVariable = function (expression, ctx = {}, getContaining = false) {
-    const result = getPath(ctx, expression.split("."), getContaining);
-
-    return wrapResult(result);
-};
-
-/**
- * Evaluates an comparison
- *
- * @param {string} expression
- * @param {Object} ctx
- * @returns {Object}
- */
-const evalComparison = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_COMPARISON, (a, comparer, b) => {
-    return mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null;
-});
-
-/**
- * Evaluates an comparison
- *
- * @param {string} expression
- * @param {Object} ctx
- * @returns {Object}
- */
-const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_MATH, (a, operator, b) => {
-    return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
-});
 
 export { getPath, evalExpression, evalLiteral, evalVariable, evalComparison, evalMath };

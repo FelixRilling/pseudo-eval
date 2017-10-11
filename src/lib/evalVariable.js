@@ -9,7 +9,7 @@ import wrapResult from "./wrapResult";
  * @returns {Object}
  */
 const evalVariable = function (expression, ctx = {}, getContaining = false) {
-    const result = getPath(ctx, expression.split("."), getContaining);
+    const result = getPath(ctx, expression, getContaining);
 
     return wrapResult(result);
 };

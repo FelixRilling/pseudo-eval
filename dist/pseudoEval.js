@@ -1,6 +1,10 @@
 var pseudoEval = (function (exports) {
 'use strict';
 
+const REGEX_PATH_SPLIT = /(?:\.|\[|\])+/g;
+
+const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
+
 /**
  * Checks if a value is an array
  *
@@ -73,21 +77,30 @@ const isStringNumber = (val) => !isNaN(Number(val));
 const mapFromObject = (obj) => new Map(objEntries(obj));
 
 /**
+ * Returns a string literal as "normal" string
+ *
+ * @param {string} str
+ * @param {string}
+ */
+const getStringLiteral = str => str.substr(1, str.length - 2);
+
+/**
  * Accesses a target by a path of keys. If the path doesn't exist, null is returned
  *
  * @param {any} target
- * @param {Array<string>} path
+ * @param {string} path
  * @param {boolean} [getContaining=false]
  * @returns {boolean}
  */
 const getPath = (target, path, getContaining = false) => {
+    const pathArr = path.split(REGEX_PATH_SPLIT).map(item => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
     let targetCurrent = target;
     let targetLast = null;
     let keyCurrent = null;
     let index = 0;
 
-    while (!isNil(targetCurrent) && index < path.length) {
-        keyCurrent = path[index];
+    while (!isNil(targetCurrent) && index < pathArr.length) {
+        keyCurrent = pathArr[index];
 
         if (hasKey(targetCurrent, keyCurrent)) {
             targetLast = targetCurrent;
@@ -98,16 +111,12 @@ const getPath = (target, path, getContaining = false) => {
         }
     }
 
-    if (getContaining) {
-        return {
-            val: targetCurrent,
-            container: targetLast,
-            key: keyCurrent,
-            index
-        };
-    } else {
-        return targetCurrent;
-    }
+    return getContaining ? {
+        val: targetCurrent,
+        container: targetLast,
+        key: keyCurrent,
+        index
+    } : targetCurrent;
 };
 
 const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
@@ -189,16 +198,6 @@ const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPR
     return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
 });
 
-const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
-
-/**
- * Returns a string literal as "normal" string
- *
- * @param {string} str
- * @param {string}
- */
-const getStringLiteral = str => str.substr(1, str.length - 2);
-
 /**
  * Evaluates an variable
  *
@@ -207,7 +206,7 @@ const getStringLiteral = str => str.substr(1, str.length - 2);
  * @returns {Object}
  */
 const evalVariable = function (expression, ctx = {}, getContaining = false) {
-    const result = getPath(ctx, expression.split("."), getContaining);
+    const result = getPath(ctx, expression, getContaining);
 
     return wrapResult(result);
 };

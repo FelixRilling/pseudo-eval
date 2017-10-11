@@ -190,7 +190,15 @@ const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPR
     return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
 });
 
-const REGEX_IS_STRING = /^["'`].*["'`]$/;
+const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
+
+/**
+ * Returns a string literal as "normal" string
+ *
+ * @param {string} str
+ * @param {string}
+ */
+const getStringLiteral = str => str.substr(1, str.length - 2);
 
 /**
  * Evaluates an variable
@@ -225,8 +233,8 @@ const evalLiteral = function (expression, ctx) {
 
     if (isStringNumber(expression)) {
         result = Number(expression);
-    } else if (REGEX_IS_STRING.test(expression)) {
-        result = expression.substr(1, expression.length - 2);
+    } else if (REGEX_IS_STRING_LITERAL.test(expression)) {
+        result = getStringLiteral(expression);
     } else if (mapLiterals.has(expression)) {
         result = mapLiterals.get(expression);
     } else {

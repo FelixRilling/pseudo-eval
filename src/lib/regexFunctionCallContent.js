@@ -1,3 +1,3 @@
-const regexFunctionCallContent = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
+const REGEX_FUNCTION_CALL_CONTENT = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
 
-export default regexFunctionCallContent;
+export default REGEX_FUNCTION_CALL_CONTENT;

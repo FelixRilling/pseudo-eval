@@ -357,7 +357,7 @@ const evalExpression = function (expression, ctx) {
 
 const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
 
-const regexFunctionCallContent = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
+const REGEX_FUNCTION_CALL_CONTENT = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
 
 exports.evalExpression = evalExpression;
 exports.evalLiteral = evalLiteral;
@@ -374,7 +374,7 @@ exports.regexExpressionMath = REGEX_EXPRESSION_MATH;
 exports.regexIsStringLiteral = REGEX_IS_STRING_LITERAL;
 exports.regexPathSplit = REGEX_PATH_SPLIT;
 exports.regexIsFunction = REGEX_IS_FUNCTION;
-exports.regexFunctionCallContent = regexFunctionCallContent;
+exports.regexFunctionCallContent = REGEX_FUNCTION_CALL_CONTENT;
 
 return exports;
 

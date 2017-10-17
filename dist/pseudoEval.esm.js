@@ -352,4 +352,8 @@ const evalExpression = function (expression, ctx) {
     return result;
 };
 
-export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPath$1 as getPath, getStringLiteral, mapComparison, mapLiterals as mapLiteral, mapMath, REGEX_EXPRESSION_COMPARISON as regexExpressionComparison, REGEX_EXPRESSION_MATH as regexExpressionMath, REGEX_IS_STRING_LITERAL as regexIsStringLiteral, REGEX_PATH_SPLIT as regexPathSplit };
+const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
+
+const regexFunctionCallContent = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
+
+export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPath$1 as getPath, getStringLiteral, mapComparison, mapLiterals as mapLiteral, mapMath, REGEX_EXPRESSION_COMPARISON as regexExpressionComparison, REGEX_EXPRESSION_MATH as regexExpressionMath, REGEX_IS_STRING_LITERAL as regexIsStringLiteral, REGEX_PATH_SPLIT as regexPathSplit, REGEX_IS_FUNCTION as regexIsFunction, regexFunctionCallContent };

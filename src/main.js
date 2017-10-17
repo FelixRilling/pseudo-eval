@@ -15,6 +15,8 @@ import regexExpressionComparison from "./lib/regexExpressionComparison";
 import regexExpressionMath from "./lib/regexExpressionMath";
 import regexIsStringLiteral from "./lib/regexIsStringLiteral";
 import regexPathSplit from "./lib/regexPathSplit";
+import regexIsFunction from "./lib/regexIsFunction";
+import regexFunctionCallContent from "./lib/regexFunctionCallContent";
 
 export {
     evalExpression,
@@ -34,4 +36,6 @@ export {
     regexExpressionMath,
     regexIsStringLiteral,
     regexPathSplit,
+    regexIsFunction,
+    regexFunctionCallContent
 };

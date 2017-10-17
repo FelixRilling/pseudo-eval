@@ -1,17 +1,6 @@
 import REGEX_EXPRESSION_MATH from "./regexExpressionMath";
 import ternaryRoutine from "./ternaryRoutine";
-import {
-    mapFromObject
-} from "lightdash";
-
-const mapMath = mapFromObject({
-    "+": (a, b) => a + b,
-    "-": (a, b) => a - b,
-    "*": (a, b) => a * b,
-    "/": (a, b) => a / b,
-    "%": (a, b) => a % b,
-    "**": (a, b) => a ** b,
-});
+import mapMath from "./mapMath";
 
 /**
  * Evaluates an comparison

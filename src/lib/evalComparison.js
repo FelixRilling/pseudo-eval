@@ -1,19 +1,6 @@
 import REGEX_EXPRESSION_COMPARISON from "./regexExpressionComparison";
 import ternaryRoutine from "./ternaryRoutine";
-import {
-    mapFromObject
-} from "lightdash";
-
-const mapComparison = mapFromObject({
-    "===": (a, b) => a === b,
-    "!==": (a, b) => a !== b,
-    ">=": (a, b) => a >= b,
-    "<=": (a, b) => a <= b,
-    ">": (a, b) => a > b,
-    "<": (a, b) => a < b,
-    "&&": (a, b) => a && b,
-    "||": (a, b) => a || b,
-});
+import mapComparison from "./mapComparison";
 
 /**
  * Evaluates an comparison

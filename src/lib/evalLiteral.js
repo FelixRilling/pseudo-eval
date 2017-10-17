@@ -1,19 +1,11 @@
 import REGEX_IS_STRING_LITERAL from "./regexIsStringLiteral";
 import {
     isStringNumber,
-    mapFromObject
 } from "lightdash";
 import wrapResult from "./wrapResult";
 import getStringLiteral from "./getStringLiteral";
 import evalVariable from "./evalVariable";
-
-const mapLiterals = mapFromObject({
-    "false": false,
-    "true": true,
-    "null": null,
-    "undefined": undefined,
-    "Infinity": Infinity
-});
+import mapLiteral from "./mapLiteral";
 
 /**
  * Evaluates a literal
@@ -29,8 +21,8 @@ const evalLiteral = function (expression, ctx) {
         result = Number(expression);
     } else if (REGEX_IS_STRING_LITERAL.test(expression)) {
         result = getStringLiteral(expression);
-    } else if (mapLiterals.has(expression)) {
-        result = mapLiterals.get(expression);
+    } else if (mapLiteral.has(expression)) {
+        result = mapLiteral.get(expression);
     } else {
         result = evalVariable(expression, ctx).val;
     }

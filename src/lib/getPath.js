@@ -5,6 +5,7 @@ import {
     hasKey
 } from "lightdash";
 import getStringLiteral from "./getStringLiteral";
+
 /**
  * Accesses a target by a path of keys. If the path doesn't exist, null is returned
  *

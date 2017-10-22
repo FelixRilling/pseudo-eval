@@ -51,7 +51,7 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
  * isArray({});
  */
 /**
- * Checks if the value has a certain typestring
+ * Checks if the value has a certain type-string
  *
  * @since 1.0.0
  * @param {any} val
@@ -135,7 +135,7 @@ const isDefined = (val) => !isUndefined(val);
 const hasKey = (target, key) => isDefined(target[key]);
 
 /**
- * Checks if a value is either undefined or null
+ * Checks if a value is undefined or null
  *
  * @since 1.0.0
  * @param {any} val
@@ -165,7 +165,7 @@ const isNil = (val) => isUndefined(val) || val === null;
 const objEntries = (obj) => Object.entries(obj);
 
 /**
- * Checks if a value is a number as a string
+ * Checks if a value is a string containing a number
  *
  * @since 1.0.0
  * @param {string} val
@@ -182,7 +182,7 @@ const objEntries = (obj) => Object.entries(obj);
 const isStringNumber = (val) => !isNaN(Number(val));
 
 /**
- * Creates a Map from an Object
+ * Creates a map from an object
  *
  * @since 1.0.0
  * @param {Object} obj
@@ -211,9 +211,11 @@ const mapComparison = mapFromObject({
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalComparison = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_COMPARISON, (a, comparer, b) => {
-    return mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null;
-});
+const evalComparison = (expression, ctx) => ternaryRoutine(
+    expression,
+    ctx,
+    REGEX_EXPRESSION_COMPARISON, (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null
+);
 
 const mapMath = mapFromObject({
     "+": (a, b) => a + b,
@@ -231,9 +233,11 @@ const mapMath = mapFromObject({
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_MATH, (a, operator, b) => {
-    return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
-});
+const evalMath = (expression, ctx) => ternaryRoutine(
+    expression,
+    ctx,
+    REGEX_EXPRESSION_MATH, (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null
+);
 
 const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
 
@@ -289,11 +293,7 @@ const getPath$1 = (target, path, getContaining = false) => {
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalVariable = function (expression, ctx = {}, getContaining = false) {
-    const result = getPath$1(ctx, expression, getContaining);
-
-    return wrapResult(result);
-};
+const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath$1(ctx, expression, getContaining));
 
 const mapLiterals = mapFromObject({
     "false": false,

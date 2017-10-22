@@ -9,8 +9,10 @@ import mapMath from "./mapMath";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_MATH, (a, operator, b) => {
-    return mapMath.has(operator) ? mapMath.get(operator)(a, b) : null;
-});
+const evalMath = (expression, ctx) => ternaryRoutine(
+    expression,
+    ctx,
+    REGEX_EXPRESSION_MATH, (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null
+);
 
 export default evalMath;

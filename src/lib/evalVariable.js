@@ -8,10 +8,6 @@ import wrapResult from "./wrapResult";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalVariable = function (expression, ctx = {}, getContaining = false) {
-    const result = getPath(ctx, expression, getContaining);
-
-    return wrapResult(result);
-};
+const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath(ctx, expression, getContaining));
 
 export default evalVariable;

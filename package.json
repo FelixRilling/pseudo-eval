@@ -42,8 +42,8 @@
     },
     "homepage": "https://github.com/FelixRilling/pseudo-eval#readme",
     "devDependencies": {
-        "babel-core": "^7.0.0-beta.3",
-        "babel-plugin-external-helpers": "^7.0.0-beta.3",
+        "babel-core": "^6.26.0",
+        "babel-plugin-external-helpers": "^6.22.0",
         "babel-preset-env": "^1.6.1",
         "eslint": "^4.9.0",
         "eslint-plugin-unicorn": "^2.1.2",
@@ -53,9 +53,9 @@
         "rollup-plugin-babel": "^3.0.2",
         "rollup-plugin-node-resolve": "^3.0.0",
         "rollup-plugin-uglify-es": "0.0.1",
-        "uglify-es": "^3.1.3"
+        "uglify-es": "^3.1.5"
     },
     "dependencies": {
-        "lightdash": "^2.6.1"
+        "lightdash": "^2.7.1"
     }
 }

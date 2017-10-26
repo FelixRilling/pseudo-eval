@@ -14,7 +14,7 @@ Supports evaluating:
 
 ## Introduction
 
-pseudo-eval uses RegExp to staticaly evaluate restricted JS code string expressions. This makes it safer to use, as harmful code is harder to be executed by end-users (as long as the optional context doesnt have access to it).
+pseudo-eval uses RegExp to statically evaluate restricted JS code string expressions. This makes it safer to use, as harmful code is harder to be executed by end-users (as long as the optional context doesn't have access to it).
 Only very simple expressions are allowed.
 
 Current problems:

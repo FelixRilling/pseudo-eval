@@ -12,7 +12,8 @@ import mapComparison from "./mapComparison";
 const evalComparison = (expression, ctx) => ternaryRoutine(
     expression,
     ctx,
-    REGEX_EXPRESSION_COMPARISON, (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null
+    REGEX_EXPRESSION_COMPARISON,
+    (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null
 );
 
 export default evalComparison;

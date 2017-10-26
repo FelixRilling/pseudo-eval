@@ -37,7 +37,7 @@ bundle([{
     name: "IIFE",
 }], [
     resolve(),
-    //babel(options_babel),
+    babel(options_babel),
 ]);
 
 bundle([{
@@ -46,6 +46,6 @@ bundle([{
     name: "IIFE:min",
 }], [
     resolve(),
-    //babel(options_babel),
+    babel(options_babel),
     uglify()
 ]);

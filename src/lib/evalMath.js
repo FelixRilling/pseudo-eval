@@ -12,7 +12,8 @@ import mapMath from "./mapMath";
 const evalMath = (expression, ctx) => ternaryRoutine(
     expression,
     ctx,
-    REGEX_EXPRESSION_MATH, (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null
+    REGEX_EXPRESSION_MATH,
+    (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null
 );
 
 export default evalMath;

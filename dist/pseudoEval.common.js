@@ -42,6 +42,8 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
 /**
  * Checks if a value is an array
  *
+ * @function isArray
+ * @memberof Is
  * @since 1.0.0
  * @param {any} val
  * @returns {boolean}
@@ -57,6 +59,8 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
 /**
  * Checks if the value has a certain type-string
  *
+ * @function isTypeOf
+ * @memberof Is
  * @since 1.0.0
  * @param {any} val
  * @param {string} type
@@ -76,6 +80,8 @@ const isTypeOf = (val, type) => typeof val === type;
 /**
  * Checks if a value is undefined
  *
+ * @function isUndefined
+ * @memberof Is
  * @since 1.0.0
  * @param {any} val
  * @returns {boolean}
@@ -98,6 +104,8 @@ const isUndefined = (val) => isTypeOf(val, "undefined");
 /**
  * Checks if a value is not undefined
  *
+ * @function isDefined
+ * @memberof Is
  * @since 1.0.0
  * @param {any} val
  * @returns {boolean}
@@ -120,6 +128,8 @@ const isDefined = (val) => !isUndefined(val);
 /**
  * Checks if a target has a certain key
  *
+ * @function hasKey
+ * @memberof Has
  * @since 1.0.0
  * @param {any} target
  * @param {string} key
@@ -141,6 +151,8 @@ const hasKey = (target, key) => isDefined(target[key]);
 /**
  * Checks if a value is undefined or null
  *
+ * @function isNil
+ * @memberof Is
  * @since 1.0.0
  * @param {any} val
  * @returns {boolean}
@@ -159,6 +171,8 @@ const isNil = (val) => isUndefined(val) || val === null;
 /**
  * Returns an array of the objects entries
  *
+ * @function objEntries
+ * @memberof Object
  * @since 1.0.0
  * @param {Object} obj
  * @returns {any[]} Array<[key: any, val: any]>]
@@ -166,11 +180,13 @@ const isNil = (val) => isUndefined(val) || val === null;
  * //returns [["a",1],["b",2],["c",3]]
  * objEntries({a:1,b:2,c:3})
  */
-const objEntries = (obj) => Object.entries(obj);
+const objEntries = Object.entries;
 
 /**
  * Checks if a value is a string containing a number
  *
+ * @function isStringNumber
+ * @memberof Is
  * @since 1.0.0
  * @param {string} val
  * @returns {boolean}
@@ -188,6 +204,8 @@ const isStringNumber = (val) => !isNaN(Number(val));
 /**
  * Creates a map from an object
  *
+ * @function mapFromObject
+ * @memberof Map
  * @since 1.0.0
  * @param {Object} obj
  * @returns {Map}
@@ -218,7 +236,8 @@ const mapComparison = mapFromObject({
 const evalComparison = (expression, ctx) => ternaryRoutine(
     expression,
     ctx,
-    REGEX_EXPRESSION_COMPARISON, (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null
+    REGEX_EXPRESSION_COMPARISON,
+    (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null
 );
 
 const mapMath = mapFromObject({
@@ -240,7 +259,8 @@ const mapMath = mapFromObject({
 const evalMath = (expression, ctx) => ternaryRoutine(
     expression,
     ctx,
-    REGEX_EXPRESSION_MATH, (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null
+    REGEX_EXPRESSION_MATH,
+    (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null
 );
 
 const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;

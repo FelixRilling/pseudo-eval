@@ -4,9 +4,7 @@ import {
 
 const mapLiterals = mapFromObject({
     "false": false,
-    "true": true,
-    "null": null,
-    "Infinity": Infinity
+    "true": true
 });
 
 export default mapLiterals;

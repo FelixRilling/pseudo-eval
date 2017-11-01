@@ -9,7 +9,7 @@ import wrapResult from "./wrapResult";
  * @param {string} expression
  * @param {Object} ctx
  * @param {RegExp} regex
- * @param {Function} fn
+ * @param {function} fn
  * @returns {Object}
  */
 const ternaryRoutine = function (expression, ctx, regex, fn) {

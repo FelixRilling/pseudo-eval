@@ -27,7 +27,7 @@ const wrapResult = val => {
  * @param {string} expression
  * @param {Object} ctx
  * @param {RegExp} regex
- * @param {Function} fn
+ * @param {function} fn
  * @returns {Object}
  */
 const ternaryRoutine = function (expression, ctx, regex, fn) {
@@ -314,16 +314,15 @@ const getPath$1 = (target, path, getContaining = false) => {
  * Evaluates an variable
  *
  * @param {string} expression
- * @param {Object} ctx
+ * @param {Object} [ctx={}]
+ * @param {boolean} [getContaining=false]
  * @returns {Object}
  */
 const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath$1(ctx, expression, getContaining));
 
 const mapLiterals = mapFromObject({
     "false": false,
-    "true": true,
-    "null": null,
-    "Infinity": Infinity
+    "true": true
 });
 
 /**

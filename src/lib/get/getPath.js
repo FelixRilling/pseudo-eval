@@ -15,7 +15,9 @@ import getStringLiteral from "../get/getStringLiteral";
  * @returns {boolean}
  */
 const getPath = (target, path, getContaining = false) => {
-    const pathArr = path.split(REGEX_PATH_SPLIT).map(item => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
+    const pathArr = path
+        .split(REGEX_PATH_SPLIT)
+        .map(item => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
     let targetCurrent = target;
     let targetLast = null;
     let keyCurrent = null;

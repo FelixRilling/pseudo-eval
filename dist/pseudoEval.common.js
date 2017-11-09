@@ -288,7 +288,9 @@ const REGEX_PATH_SPLIT = /(?:\.|\[|\])+/g;
  * @returns {boolean}
  */
 const getPath$1 = (target, path, getContaining = false) => {
-    const pathArr = path.split(REGEX_PATH_SPLIT).map(item => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
+    const pathArr = path
+        .split(REGEX_PATH_SPLIT)
+        .map(item => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
     let targetCurrent = target;
     let targetLast = null;
     let keyCurrent = null;
@@ -381,7 +383,10 @@ const evalExpression = function (expression, ctx) {
 
 const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
 
-const REGEX_FUNCTION_CALL_CONTENT = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
+/**
+ * Does not work with nested function calls
+ */
+const REGEX_FUNCTION_CALL_CONTENT = /(.+)\s?\((.*)\)/;
 
 exports.evalExpression = evalExpression;
 exports.evalLiteral = evalLiteral;

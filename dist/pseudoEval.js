@@ -370,7 +370,10 @@ const evalExpression = function (expression, ctx) {
 
 const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
 
-const REGEX_FUNCTION_CALL_CONTENT = /([\w.]+)\s*\(((?:[^()]*)*)?\s*\)/;
+/**
+ * Does not work with nested function calls
+ */
+const REGEX_FUNCTION_CALL_CONTENT = /(.+)\s?\((.*)\)/;
 
 exports.evalExpression = evalExpression;
 exports.evalLiteral = evalLiteral;

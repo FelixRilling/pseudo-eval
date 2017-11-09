@@ -1,10 +1,10 @@
-import REGEX_PATH_SPLIT from "./regexPathSplit";
-import REGEX_IS_STRING_LITERAL from "./regexIsStringLiteral";
+import REGEX_PATH_SPLIT from "../regex/regexPathSplit";
+import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
 import {
     isNil,
     hasKey
 } from "lightdash";
-import getStringLiteral from "./getStringLiteral";
+import getStringLiteral from "../get/getStringLiteral";
 
 /**
  * Accesses a target by a path of keys. If the path doesn't exist, null is returned

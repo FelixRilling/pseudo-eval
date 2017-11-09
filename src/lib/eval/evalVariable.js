@@ -1,5 +1,5 @@
-import getPath from "./getPath";
-import wrapResult from "./wrapResult";
+import getPath from "../get/getPath";
+import wrapResult from "../util/wrapResult";
 
 /**
  * Evaluates an variable

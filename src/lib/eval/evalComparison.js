@@ -1,6 +1,6 @@
-import REGEX_EXPRESSION_COMPARISON from "./regexExpressionComparison";
-import ternaryRoutine from "./ternaryRoutine";
-import mapComparison from "./mapComparison";
+import REGEX_EXPRESSION_COMPARISON from "../regex/regexExpressionComparison";
+import ternaryRoutine from "../util/ternaryRoutine";
+import mapComparison from "../map/mapComparison";
 
 /**
  * Evaluates an comparison

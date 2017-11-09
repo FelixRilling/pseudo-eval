@@ -1,6 +1,6 @@
-import REGEX_EXPRESSION_MATH from "./regexExpressionMath";
-import ternaryRoutine from "./ternaryRoutine";
-import mapMath from "./mapMath";
+import REGEX_EXPRESSION_MATH from "../regex/regexExpressionMath";
+import ternaryRoutine from "../util/ternaryRoutine";
+import mapMath from "../map/mapMath";
 
 /**
  * Evaluates an comparison

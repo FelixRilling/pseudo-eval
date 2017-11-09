@@ -1,11 +1,11 @@
-import REGEX_IS_STRING_LITERAL from "./regexIsStringLiteral";
+import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
 import {
     isStringNumber,
 } from "lightdash";
-import wrapResult from "./wrapResult";
-import getStringLiteral from "./getStringLiteral";
+import wrapResult from "../util/wrapResult";
+import getStringLiteral from "../get/getStringLiteral";
 import evalVariable from "./evalVariable";
-import mapLiteral from "./mapLiteral";
+import mapLiteral from "../map/mapLiteral";
 
 /**
  * Evaluates a literal

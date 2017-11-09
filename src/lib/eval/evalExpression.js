@@ -1,5 +1,5 @@
-import REGEX_EXPRESSION_COMPARISON from "./regexExpressionComparison";
-import REGEX_EXPRESSION_MATH from "./regexExpressionMath";
+import REGEX_EXPRESSION_COMPARISON from "../regex/regexExpressionComparison";
+import REGEX_EXPRESSION_MATH from "../regex/regexExpressionMath";
 import evalComparison from "./evalComparison";
 import evalMath from "./evalMath";
 import evalLiteral from "./evalLiteral";

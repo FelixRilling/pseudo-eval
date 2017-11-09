@@ -42,6 +42,8 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
 /**
  * Checks if a value is an array
  *
+ * Array.isArray shorthand
+ *
  * @function isArray
  * @memberof Is
  * @since 1.0.0
@@ -170,6 +172,8 @@ const isNil = (val) => isUndefined(val) || val === null;
 
 /**
  * Returns an array of the objects entries
+ *
+ * Object.entries shorthand
  *
  * @function objEntries
  * @memberof Object

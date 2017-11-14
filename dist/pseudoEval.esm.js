@@ -36,25 +36,6 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
 };
 
 /**
- * Checks if a value is an array
- *
- * Array.isArray shorthand
- *
- * @function isArray
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
- * @example
- * // returns true
- * isArray([]);
- * isArray([1, 2, 3]);
- *
- * @example
- * // returns false
- * isArray({});
- */
-/**
  * Checks if the value has a certain type-string
  *
  * @function isTypeOf
@@ -100,53 +81,6 @@ const isTypeOf = (val, type) => typeof val === type;
 const isUndefined = (val) => isTypeOf(val, "undefined");
 
 /**
- * Checks if a value is not undefined
- *
- * @function isDefined
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
- * @example
- * //returns true
- * const a = {};
- *
- * isDefined(1)
- * isDefined(a)
- *
- * @example
- * //returns false
- * const a = {};
- *
- * isDefined(a.b)
- * isDefined(undefined)
- */
-const isDefined = (val) => !isUndefined(val);
-
-/**
- * Checks if a target has a certain key
- *
- * @function hasKey
- * @memberof Has
- * @since 1.0.0
- * @param {any} target
- * @param {string} key
- * @returns {boolean}
- * @example
- * //returns true
- * hasKey([1,2,3],"0")
- * hasKey({length:0},"length")
- * hasKey("foo","replace")
- *
- * @example
- * //returns false
- * hasKey({},"foo")
- * hasKey(null,"foo")
- * hasKey(1,"foo")
- */
-const hasKey = (target, key) => isDefined(target[key]);
-
-/**
  * Checks if a value is undefined or null
  *
  * @function isNil
@@ -167,9 +101,51 @@ const hasKey = (target, key) => isDefined(target[key]);
 const isNil = (val) => isUndefined(val) || val === null;
 
 /**
+ * Checks if a value is an object
+ *
+ * @function isObject
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val
+ * @returns {boolean}
+ * @example
+ * //returns true
+ * isObject({})
+ * isObject([])
+ * isObject(()=>1))
+ *
+ * @example
+ * //returns false
+ * isObject(1)
+ */
+const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
+
+/**
+ * Checks if a target has a certain key
+ *
+ * @function hasKey
+ * @memberof Has
+ * @since 1.0.0
+ * @param {any} target
+ * @param {string} key
+ * @returns {boolean}
+ * @example
+ * //returns true
+ * hasKey([1,2,3],"0")
+ * hasKey({length:0},"length")
+ *
+ * @example
+ * //returns false
+ * hasKey({},"foo")
+ * hasKey(null,"foo")
+ * hasKey("foo","replace")
+ */
+const hasKey = (target, key) => isObject(target) && key in target;
+
+/**
  * Returns an array of the objects entries
  *
- * Object.entries shorthand
+ * `Object.entries` shorthand
  *
  * @function objEntries
  * @memberof Object
@@ -181,25 +157,6 @@ const isNil = (val) => isUndefined(val) || val === null;
  * objEntries({a:1,b:2,c:3})
  */
 const objEntries = Object.entries;
-
-/**
- * Checks if a value is a string containing a number
- *
- * @function isStringNumber
- * @memberof Is
- * @since 1.0.0
- * @param {string} val
- * @returns {boolean}
- * @example
- * //returns true
- * isStringNumber("123")
- * isStringNumber("0b010")
- *
- * @example
- * //returns false
- * isStringNumber("foo")
- */
-const isStringNumber = (val) => !isNaN(Number(val));
 
 /**
  * Creates a map from an object
@@ -337,7 +294,7 @@ const mapLiterals = mapFromObject({
 const evalLiteral = function (expression, ctx) {
     let result = null;
 
-    if (isStringNumber(expression)) {
+    if (!isNaN(Number(expression))) {
         result = Number(expression);
     } else if (REGEX_IS_STRING_LITERAL.test(expression)) {
         result = getStringLiteral(expression);

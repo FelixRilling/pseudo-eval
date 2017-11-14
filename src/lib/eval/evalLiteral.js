@@ -1,7 +1,4 @@
 import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
-import {
-    isStringNumber,
-} from "lightdash";
 import wrapResult from "../util/wrapResult";
 import getStringLiteral from "../get/getStringLiteral";
 import evalVariable from "./evalVariable";
@@ -17,7 +14,7 @@ import mapLiteral from "../map/mapLiteral";
 const evalLiteral = function (expression, ctx) {
     let result = null;
 
-    if (isStringNumber(expression)) {
+    if (!isNaN(Number(expression))) {
         result = Number(expression);
     } else if (REGEX_IS_STRING_LITERAL.test(expression)) {
         result = getStringLiteral(expression);

@@ -45,14 +45,14 @@ const ternaryRoutine = function (expression, ctx, regex, fn) {
  * @param {string} type
  * @returns {boolean}
  * @example
- * //returns true
- * isTypeOf({},"object")
- * isTypeOf([],"object")
- * isTypeOf("foo","string")
+ * // returns true
+ * isTypeOf({}, "object")
+ * isTypeOf([], "object")
+ * isTypeOf("foo", "string")
  *
  * @example
- * //returns false
- * isTypeOf("foo","number")
+ * // returns false
+ * isTypeOf("foo", "number")
  */
 const isTypeOf = (val, type) => typeof val === type;
 
@@ -65,14 +65,14 @@ const isTypeOf = (val, type) => typeof val === type;
  * @param {any} val
  * @returns {boolean}
  * @example
- * //returns false
+ * // returns false
  * const a = {};
  *
  * isUndefined(a.b)
  * isUndefined(undefined)
  *
  * @example
- * //returns false
+ * // returns false
  * const a = {};
  *
  * isUndefined(1)
@@ -89,12 +89,12 @@ const isUndefined = (val) => isTypeOf(val, "undefined");
  * @param {any} val
  * @returns {boolean}
  * @example
- * //returns true
+ * // returns true
  * isNil(null)
  * isNil(undefined)
  *
  * @example
- * //returns false
+ * // returns false
  * isNil(0)
  * isNil({})
  */
@@ -109,13 +109,13 @@ const isNil = (val) => isUndefined(val) || val === null;
  * @param {any} val
  * @returns {boolean}
  * @example
- * //returns true
+ * // returns true
  * isObject({})
  * isObject([])
- * isObject(()=>1))
+ * isObject(() => 1))
  *
  * @example
- * //returns false
+ * // returns false
  * isObject(1)
  */
 const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
@@ -130,15 +130,14 @@ const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(va
  * @param {string} key
  * @returns {boolean}
  * @example
- * //returns true
- * hasKey([1,2,3],"0")
- * hasKey({length:0},"length")
+ * // returns true
+ * hasKey([1, 2, 3], "0")
+ * hasKey({foo: 0}, "foo")
  *
  * @example
- * //returns false
- * hasKey({},"foo")
- * hasKey(null,"foo")
- * hasKey("foo","replace")
+ * // returns false
+ * hasKey({}, "foo")
+ * hasKey("foo", "replace")
  */
 const hasKey = (target, key) => isObject(target) && key in target;
 
@@ -153,8 +152,8 @@ const hasKey = (target, key) => isObject(target) && key in target;
  * @param {Object} obj
  * @returns {any[]} Array<[key: any, val: any]>]
  * @example
- * //returns [["a",1],["b",2],["c",3]]
- * objEntries({a:1,b:2,c:3})
+ * // returns [["a", 1], ["b", 2], ["c", 3]]
+ * objEntries({a: 1, b: 2, c: 3})
  */
 const objEntries = Object.entries;
 
@@ -167,8 +166,8 @@ const objEntries = Object.entries;
  * @param {Object} obj
  * @returns {Map}
  * @example
- * //returns Map{a:1, b:4, c:5}
- * mapFromObject({a:1,b:4,c:5})
+ * // returns Map{a: 1, b: 4, c: 5}
+ * mapFromObject({a: 1, b: 4, c: 5})
  */
 const mapFromObject = (obj) => new Map(objEntries(obj));
 

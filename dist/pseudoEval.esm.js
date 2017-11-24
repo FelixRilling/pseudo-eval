@@ -278,7 +278,8 @@ const getPath$1 = (target, path, getContaining = false) => {
  */
 const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath$1(ctx, expression, getContaining));
 
-const mapLiterals = mapFromObject({
+// Infinity/null/undefined are omitted because you usually wont need them
+const mapLiteral = mapFromObject({
     "false": false,
     "true": true
 });
@@ -297,8 +298,8 @@ const evalLiteral = function (expression, ctx) {
         result = Number(expression);
     } else if (REGEX_IS_STRING_LITERAL.test(expression)) {
         result = getStringLiteral(expression);
-    } else if (mapLiterals.has(expression)) {
-        result = mapLiterals.get(expression);
+    } else if (mapLiteral.has(expression)) {
+        result = mapLiteral.get(expression);
     } else {
         result = evalVariable(expression, ctx).val;
     }
@@ -340,4 +341,4 @@ const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
  */
 const REGEX_FUNCTION_CALL_CONTENT = /(.+)\s?\((.*)\)/;
 
-export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPath$1 as getPath, getStringLiteral, mapComparison, mapLiterals as mapLiteral, mapMath, REGEX_EXPRESSION_COMPARISON as regexExpressionComparison, REGEX_EXPRESSION_MATH as regexExpressionMath, REGEX_IS_STRING_LITERAL as regexIsStringLiteral, REGEX_PATH_SPLIT as regexPathSplit, REGEX_IS_FUNCTION as regexIsFunction, REGEX_FUNCTION_CALL_CONTENT as regexFunctionCallContent };
+export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPath$1 as getPath, getStringLiteral, mapComparison, mapLiteral, mapMath, REGEX_IS_STRING_LITERAL, REGEX_IS_FUNCTION, REGEX_EXPRESSION_COMPARISON, REGEX_EXPRESSION_MATH, REGEX_PATH_SPLIT, REGEX_FUNCTION_CALL_CONTENT };

@@ -11,12 +11,12 @@ import mapMath from "./lib/map/mapMath";
 import getPath from "./lib/get/getPath";
 import getStringLiteral from "./lib/get/getStringLiteral";
 
-import regexExpressionComparison from "./lib/regex/regexExpressionComparison";
-import regexExpressionMath from "./lib/regex/regexExpressionMath";
-import regexIsStringLiteral from "./lib/regex/regexIsStringLiteral";
-import regexPathSplit from "./lib/regex/regexPathSplit";
-import regexIsFunction from "./lib/regex/regexIsFunction";
-import regexFunctionCallContent from "./lib/regex/regexFunctionCallContent";
+import REGEX_IS_STRING_LITERAL from "./lib/regex/regexIsStringLiteral";
+import REGEX_IS_FUNCTION from "./lib/regex/regexIsFunction";
+import REGEX_EXPRESSION_COMPARISON from "./lib/regex/regexExpressionComparison";
+import REGEX_EXPRESSION_MATH from "./lib/regex/regexExpressionMath";
+import REGEX_PATH_SPLIT from "./lib/regex/regexPathSplit";
+import REGEX_FUNCTION_CALL_CONTENT from "./lib/regex/regexFunctionCallContent";
 
 export {
     evalExpression,
@@ -32,10 +32,10 @@ export {
     mapLiteral,
     mapMath,
 
-    regexExpressionComparison,
-    regexExpressionMath,
-    regexIsStringLiteral,
-    regexPathSplit,
-    regexIsFunction,
-    regexFunctionCallContent
+    REGEX_IS_STRING_LITERAL,
+    REGEX_IS_FUNCTION,
+    REGEX_EXPRESSION_COMPARISON,
+    REGEX_EXPRESSION_MATH,
+    REGEX_PATH_SPLIT,
+    REGEX_FUNCTION_CALL_CONTENT
 };

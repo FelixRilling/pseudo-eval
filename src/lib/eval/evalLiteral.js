@@ -3,6 +3,9 @@ import wrapResult from "../util/wrapResult";
 import getStringLiteral from "../get/getStringLiteral";
 import evalVariable from "./evalVariable";
 import mapLiteral from "../map/mapLiteral";
+import {
+    isNaN
+} from "lightdash";
 
 /**
  * Evaluates a literal

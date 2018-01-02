@@ -18,7 +18,7 @@ const ternaryRoutine = (
     regex: RegExp,
     fn: (a: any, o: any, b: any) => any
 ): IWrappedResult => {
-    // @ts-ignore
+    // @ts-ignore: matches are tested beforehand
     const match: RegExpMatchArray = expression.match(regex);
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);

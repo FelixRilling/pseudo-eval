@@ -30,7 +30,7 @@ const wrapResult = (val) => {
  * @returns {Object}
  */
 const ternaryRoutine = (expression, ctx, regex, fn) => {
-    // @ts-ignore
+    // @ts-ignore: matches are tested beforehand
     const match = expression.match(regex);
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);
@@ -203,12 +203,12 @@ const mapFromObject = (obj) => new Map(objEntries(obj));
 const mapComparison = mapFromObject({
     "===": (a, b) => a === b,
     "!==": (a, b) => a !== b,
+    "&&": (a, b) => a && b,
+    "||": (a, b) => a || b,
     ">=": (a, b) => a >= b,
     "<=": (a, b) => a <= b,
     ">": (a, b) => a > b,
     "<": (a, b) => a < b,
-    "&&": (a, b) => a && b,
-    "||": (a, b) => a || b,
 });
 
 /**
@@ -300,12 +300,11 @@ const getPath$1 = (target, path, getContaining = false) => {
  */
 const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath$1(ctx, expression, getContaining));
 
-// undefined is omitted because you usually wont need it
+// undefined and NaN are omitted because you usually wont need those
 const mapLiteral = mapFromObject({
     "false": false,
     "true": true,
-    "null": null,
-    "Infinity": Infinity
+    "null": null
 });
 
 /**

@@ -2,12 +2,11 @@ import {
     mapFromObject
 } from "lightdash";
 
-// undefined is omitted because you usually wont need it
-const mapLiteral: Map<string, any> = mapFromObject({
+// undefined and NaN are omitted because you usually wont need those
+const mapLiteral: Map<string, boolean | null> = mapFromObject({
     "false": false,
     "true": true,
-    "null": null,
-    "Infinity": Infinity
+    "null": null
 });
 
 export default mapLiteral;

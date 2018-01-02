@@ -1,3 +1,4 @@
+import { IWrappedResult } from "../interfaces";
 /**
  * Evaluates an comparison
  *
@@ -5,5 +6,5 @@
  * @param {Object} ctx
  * @returns {Object}
  */
-declare const evalMath: (expression: string, ctx: object) => any;
+declare const evalMath: (expression: string, ctx: object) => IWrappedResult;
 export default evalMath;

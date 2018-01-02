@@ -1,5 +1,6 @@
 import getPath from "../get/getPath";
 import wrapResult from "../util/wrapResult";
+import { IWrappedResult } from "../interfaces";
 
 /**
  * Evaluates an variable
@@ -13,6 +14,6 @@ const evalVariable = (
     expression: string,
     ctx: object = {},
     getContaining: boolean = false
-): any => wrapResult(getPath(ctx, expression, getContaining));
+): IWrappedResult => wrapResult(getPath(ctx, expression, getContaining));
 
 export default evalVariable;

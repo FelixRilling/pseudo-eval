@@ -1,5 +1,6 @@
 import evalExpression from "../eval/evalExpression";
 import wrapResult from "./wrapResult";
+import { IWrappedResult } from "../interfaces";
 
 /**
  * Generic routine for the ternary a,op,b regex matching
@@ -16,7 +17,7 @@ const ternaryRoutine = (
     ctx: object,
     regex: RegExp,
     fn: (a: any, o: any, b: any) => any
-) => {
+): IWrappedResult => {
     // @ts-ignore
     const match: RegExpMatchArray = expression.match(regex);
     const a = evalExpression(match[1], ctx);

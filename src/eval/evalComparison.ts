@@ -1,6 +1,7 @@
 import REGEX_EXPRESSION_COMPARISON from "../regex/regexExpressionComparison";
 import ternaryRoutine from "../util/ternaryRoutine";
 import mapComparison from "../map/mapComparison";
+import { IWrappedResult } from "../interfaces";
 
 /**
  * Evaluates an comparison
@@ -9,7 +10,7 @@ import mapComparison from "../map/mapComparison";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalComparison = (expression: string, ctx: object): any => ternaryRoutine(
+const evalComparison = (expression: string, ctx: object): IWrappedResult => ternaryRoutine(
     expression,
     ctx,
     REGEX_EXPRESSION_COMPARISON,

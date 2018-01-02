@@ -1,6 +1,7 @@
 import REGEX_EXPRESSION_MATH from "../regex/regexExpressionMath";
 import ternaryRoutine from "../util/ternaryRoutine";
 import mapMath from "../map/mapMath";
+import { IWrappedResult } from "../interfaces";
 
 /**
  * Evaluates an comparison
@@ -9,7 +10,7 @@ import mapMath from "../map/mapMath";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalMath = (expression: string, ctx: object): any => ternaryRoutine(
+const evalMath = (expression: string, ctx: object): IWrappedResult => ternaryRoutine(
     expression,
     ctx,
     REGEX_EXPRESSION_MATH,

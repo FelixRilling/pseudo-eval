@@ -1,3 +1,4 @@
+import { IWrappedResult } from "../interfaces";
 /**
  * Utility function for returns
  *
@@ -5,8 +6,5 @@
  * @param {any} val
  * @returns {Object}
  */
-declare const wrapResult: (val: any) => {
-    val: any;
-    success: boolean;
-};
+declare const wrapResult: (val: any) => IWrappedResult;
 export default wrapResult;

@@ -6,6 +6,7 @@ import mapLiteral from "../map/mapLiteral";
 import {
     isNaN
 } from "lightdash";
+import { IWrappedResult } from "../interfaces";
 
 /**
  * Evaluates a literal
@@ -14,7 +15,7 @@ import {
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalLiteral = (expression: string, ctx: object): any => {
+const evalLiteral = (expression: string, ctx: object): IWrappedResult => {
     let result: any | null = null;
 
     if (!isNaN(Number(expression))) {

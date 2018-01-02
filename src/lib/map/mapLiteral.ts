@@ -3,7 +3,7 @@ import {
 } from "lightdash";
 
 // Infinity/null/undefined are omitted because you usually wont need them
-const mapLiteral = mapFromObject({
+const mapLiteral: Map<string, any> = mapFromObject({
     "false": false,
     "true": true
 });

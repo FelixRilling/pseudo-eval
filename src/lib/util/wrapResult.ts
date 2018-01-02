@@ -1,3 +1,5 @@
+import { IWrappedResult } from "../../types";
+
 /**
  * Utility function for returns
  *
@@ -5,7 +7,7 @@
  * @param {any} val
  * @returns {Object}
  */
-const wrapResult = val => {
+const wrapResult = (val: any): IWrappedResult => {
     return {
         val,
         success: val !== null,

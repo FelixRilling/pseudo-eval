@@ -358,25 +358,13 @@ const evalExpression = (expression, ctx) => {
     return result;
 };
 
-const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
-
-const REGEX_FUNCTION_CALL_CONTENT = /(.+)\s?\((.*)\)/;
-
 /**
  * String evaluation
  * @namespace Eval
  */
 /**
- * Maps used for evaluation
- * @namespace Map
- */
-/**
  * Data retrieval
  * @namespace Get
- */
-/**
- * RegExp used for evaluation
- * @namespace Constants
  */
 
 exports.evalExpression = evalExpression;
@@ -386,12 +374,3 @@ exports.evalComparison = evalComparison;
 exports.evalMath = evalMath;
 exports.getPathFull = getPathFull;
 exports.getStringLiteral = getStringLiteral;
-exports.mapComparison = mapComparison;
-exports.mapLiteral = mapLiteral;
-exports.mapMath = mapMath;
-exports.REGEX_IS_STRING_LITERAL = REGEX_IS_STRING_LITERAL;
-exports.REGEX_IS_FUNCTION = REGEX_IS_FUNCTION;
-exports.REGEX_EXPRESSION_COMPARISON = REGEX_EXPRESSION_COMPARISON;
-exports.REGEX_EXPRESSION_MATH = REGEX_EXPRESSION_MATH;
-exports.REGEX_PATH_SPLIT = REGEX_PATH_SPLIT;
-exports.REGEX_FUNCTION_CALL_CONTENT = REGEX_FUNCTION_CALL_CONTENT;

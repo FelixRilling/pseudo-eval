@@ -1,7 +1,44 @@
-var pseudoEval = (function (exports) {
-'use strict';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>pseudoEval.esm.js - Documentation</title>
 
-const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="Constants.html">Constants</a></li><li><a href="Eval.html">Eval</a></li><li><a href="Get.html">Get</a></li><li><a href="Map.html">Map</a><ul class='methods'><li data-type='method'><a href="Map.html#.mapFromObject">mapFromObject</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#evalComparison">evalComparison</a></li><li><a href="global.html#evalExpression">evalExpression</a></li><li><a href="global.html#evalLiteral">evalLiteral</a></li><li><a href="global.html#evalMath">evalMath</a></li><li><a href="global.html#evalVariable">evalVariable</a></li><li><a href="global.html#getPathFull">getPathFull</a></li><li><a href="global.html#getStringLiteral">getStringLiteral</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pseudoEval.esm.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|&lt;=|>|&lt;|&amp;&amp;|\|\|)(.+)$/;
 
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 
@@ -34,7 +71,7 @@ const ternaryRoutine = (expression, ctx, regex, fn) => {
     const match = expression.match(regex);
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);
-    const result = a.success && b.success ? fn(a.val, match[2], b.val) : null;
+    const result = a.success &amp;&amp; b.success ? fn(a.val, match[2], b.val) : null;
     return wrapResult(result);
 };
 
@@ -157,7 +194,7 @@ const isNil = (val) => isUndefined(val) || val === null;
  * @memberof Object
  * @since 1.0.0
  * @param {Object} obj
- * @returns {any[]} Array<[key: any, val: any]>]
+ * @returns {any[]} Array&lt;[key: any, val: any]>]
  * @example
  * // returns [["a", 1], ["b", 2], ["c", 3]]
  * objEntries({a: 1, b: 2, c: 3})
@@ -203,12 +240,12 @@ const mapFromObject = (obj) => new Map(objEntries(obj));
 const mapComparison = mapFromObject({
     "===": (a, b) => a === b,
     "!==": (a, b) => a !== b,
-    "&&": (a, b) => a && b,
+    "&amp;&amp;": (a, b) => a &amp;&amp; b,
     "||": (a, b) => a || b,
     ">=": (a, b) => a >= b,
-    "<=": (a, b) => a <= b,
+    "&lt;=": (a, b) => a &lt;= b,
     ">": (a, b) => a > b,
-    "<": (a, b) => a < b,
+    "&lt;": (a, b) => a &lt; b,
 });
 
 /**
@@ -270,7 +307,7 @@ const getPathFull = (target, path, getContaining = false) => {
     let targetLast = null;
     let keyCurrent = null;
     let index = 0;
-    while (!isNil(targetCurrent) && index < pathArr.length) {
+    while (!isNil(targetCurrent) &amp;&amp; index &lt; pathArr.length) {
         keyCurrent = pathArr[index];
         if (hasKey(targetCurrent, keyCurrent)) {
             targetLast = targetCurrent;
@@ -378,24 +415,23 @@ const REGEX_FUNCTION_CALL_CONTENT = /(.+)\s?\((.*)\)/;
  * @namespace Constants
  */
 
-exports.evalExpression = evalExpression;
-exports.evalLiteral = evalLiteral;
-exports.evalVariable = evalVariable;
-exports.evalComparison = evalComparison;
-exports.evalMath = evalMath;
-exports.getPathFull = getPathFull;
-exports.getStringLiteral = getStringLiteral;
-exports.mapComparison = mapComparison;
-exports.mapLiteral = mapLiteral;
-exports.mapMath = mapMath;
-exports.REGEX_IS_STRING_LITERAL = REGEX_IS_STRING_LITERAL;
-exports.REGEX_IS_FUNCTION = REGEX_IS_FUNCTION;
-exports.REGEX_EXPRESSION_COMPARISON = REGEX_EXPRESSION_COMPARISON;
-exports.REGEX_EXPRESSION_MATH = REGEX_EXPRESSION_MATH;
-exports.REGEX_PATH_SPLIT = REGEX_PATH_SPLIT;
-exports.REGEX_FUNCTION_CALL_CONTENT = REGEX_FUNCTION_CALL_CONTENT;
+export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPathFull, getStringLiteral, mapComparison, mapLiteral, mapMath, REGEX_IS_STRING_LITERAL, REGEX_IS_FUNCTION, REGEX_EXPRESSION_COMPARISON, REGEX_EXPRESSION_MATH, REGEX_PATH_SPLIT, REGEX_FUNCTION_CALL_CONTENT };
+</code></pre>
+        </article>
+    </section>
 
-return exports;
 
-}({}));
-//# sourceMappingURL=pseudoEval.js.map
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.0-dev</a> on Tue Jan 02 2018 15:33:00 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

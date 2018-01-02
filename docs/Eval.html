@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>Eval - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,61 +28,101 @@
 
 <div id="main">
     
+    <h1 class="page-title">Eval</h1>
+    
 
     
 
 
 
+
+<section>
+
+<header>
+    
+        <h2>
+        Eval
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pseudoEval.esm.js.html">pseudoEval.esm.js</a>, <a href="pseudoEval.esm.js.html#line361">line 361</a>
+    </li></ul></dd>
     
 
-
-
-
-
-
-
-
+    
 
     
 
+    
 
-    <section class="readme">
-        <article><h1>pseudo-eval</h1>
-<p><strong>This is highly experimental and WIP!</strong></p>
-<p>A library to evaluate simple expression strings without actually calling <code>eval()</code></p>
-<p>Supports evaluating:</p>
-<ul>
-<li>Expression</li>
-<li>Comparison</li>
-<li>Math</li>
-<li>Literals</li>
-<li>Prop access</li>
-</ul>
-<h2>Introduction</h2>
-<p>pseudo-eval uses RegExp to statically evaluate restricted JS code string expressions. This makes it safer to use, as harmful code is harder to be executed by end-users (as long as the optional context doesn't have access to it).
-Only very simple expressions are allowed.</p>
-<p>Current problems:</p>
-<ul>
-<li>Only very limited expressions allowed</li>
-<li>Many edge-cases are not covered</li>
-</ul>
-<h2>Examples</h2>
-<pre class="prettyprint source lang-js"><code>const pseudoEval=require(&quot;pseudo-eval&quot;);
+    
 
-//pseudoEval(&quot;string&quot;,[ctx={}])
-pseudoEval(&quot;4&quot;); //=>4
-pseudoEval(&quot;false&quot;); //=>false
-pseudoEval(&quot;'foo'&quot;); //=>&quot;foo&quot;
-pseudoEval(&quot;a&quot;,{a: 2}); //=>2
+    
 
-pseudoEval(&quot;4===4&quot;); //=>true
-pseudoEval(&quot;4&lt;2&quot;); //=>false
-pseudoEval(&quot;1+2&lt;2&quot;); //=>true
-pseudoEval(&quot;foo.length>2&quot;,{foo: [1,2,3,4]}); //=>true
-</code></pre></article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
+
+
+        
+            <div class="description">String evaluation</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

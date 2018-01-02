@@ -263,7 +263,7 @@ const REGEX_PATH_SPLIT = /(?:\.|\[|\])+/g;
  * @param {boolean} [getContaining=false]
  * @returns {boolean}
  */
-const getPath$1 = (target, path, getContaining = false) => {
+const getPathFull = (target, path, getContaining = false) => {
     const pathArr = path
         .split(REGEX_PATH_SPLIT)
         .map((item) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
@@ -299,7 +299,7 @@ const getPath$1 = (target, path, getContaining = false) => {
  * @param {boolean} [getContaining=false]
  * @returns {Object}
  */
-const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath$1(ctx, expression, getContaining));
+const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPathFull(ctx, expression, getContaining));
 
 // undefined and NaN are omitted because you usually wont need those
 const mapLiteral = mapFromObject({
@@ -360,17 +360,31 @@ const evalExpression = (expression, ctx) => {
 
 const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
 
-/**
- * Does not work with nested function calls
- */
 const REGEX_FUNCTION_CALL_CONTENT = /(.+)\s?\((.*)\)/;
+
+/**
+ * String evaluation
+ * @namespace Eval
+ */
+/**
+ * Maps used for evaluation
+ * @namespace Map
+ */
+/**
+ * Data retrieval
+ * @namespace Get
+ */
+/**
+ * RegExp used for evaluation
+ * @namespace Constants
+ */
 
 exports.evalExpression = evalExpression;
 exports.evalLiteral = evalLiteral;
 exports.evalVariable = evalVariable;
 exports.evalComparison = evalComparison;
 exports.evalMath = evalMath;
-exports.getPath = getPath$1;
+exports.getPathFull = getPathFull;
 exports.getStringLiteral = getStringLiteral;
 exports.mapComparison = mapComparison;
 exports.mapLiteral = mapLiteral;

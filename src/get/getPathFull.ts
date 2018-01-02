@@ -14,7 +14,7 @@ import getStringLiteral from "../get/getStringLiteral";
  * @param {boolean} [getContaining=false]
  * @returns {boolean}
  */
-const getPath = (target: object, path: string, getContaining: boolean = false) => {
+const getPathFull = (target: object, path: string, getContaining: boolean = false) => {
     const pathArr = path
         .split(REGEX_PATH_SPLIT)
         .map((item: string) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
@@ -44,4 +44,4 @@ const getPath = (target: object, path: string, getContaining: boolean = false) =
     } : targetCurrent;
 };
 
-export default getPath;
+export default getPathFull;

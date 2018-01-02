@@ -1,22 +1,22 @@
-import evalExpression from "./lib/eval/evalExpression";
-import evalLiteral from "./lib/eval/evalLiteral";
-import evalVariable from "./lib/eval/evalVariable";
-import evalComparison from "./lib/eval/evalComparison";
-import evalMath from "./lib/eval/evalMath";
+import evalExpression from "./eval/evalExpression";
+import evalLiteral from "./eval/evalLiteral";
+import evalVariable from "./eval/evalVariable";
+import evalComparison from "./eval/evalComparison";
+import evalMath from "./eval/evalMath";
 
-import mapComparison from "./lib/map/mapComparison";
-import mapLiteral from "./lib/map/mapLiteral";
-import mapMath from "./lib/map/mapMath";
+import mapComparison from "./map/mapComparison";
+import mapLiteral from "./map/mapLiteral";
+import mapMath from "./map/mapMath";
 
-import getPath from "./lib/get/getPath";
-import getStringLiteral from "./lib/get/getStringLiteral";
+import getPath from "./get/getPath";
+import getStringLiteral from "./get/getStringLiteral";
 
-import REGEX_IS_STRING_LITERAL from "./lib/regex/regexIsStringLiteral";
-import REGEX_IS_FUNCTION from "./lib/regex/regexIsFunction";
-import REGEX_EXPRESSION_COMPARISON from "./lib/regex/regexExpressionComparison";
-import REGEX_EXPRESSION_MATH from "./lib/regex/regexExpressionMath";
-import REGEX_PATH_SPLIT from "./lib/regex/regexPathSplit";
-import REGEX_FUNCTION_CALL_CONTENT from "./lib/regex/regexFunctionCallContent";
+import REGEX_IS_STRING_LITERAL from "./regex/regexIsStringLiteral";
+import REGEX_IS_FUNCTION from "./regex/regexIsFunction";
+import REGEX_EXPRESSION_COMPARISON from "./regex/regexExpressionComparison";
+import REGEX_EXPRESSION_MATH from "./regex/regexExpressionMath";
+import REGEX_PATH_SPLIT from "./regex/regexPathSplit";
+import REGEX_FUNCTION_CALL_CONTENT from "./regex/regexFunctionCallContent";
 
 export {
     evalExpression,

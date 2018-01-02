@@ -8,5 +8,8 @@
  * @param {function} fn
  * @returns {Object}
  */
-declare const ternaryRoutine: (expression: string, ctx: object, regex: RegExp, fn: (a: any, o: any, b: any) => any) => any;
+declare const ternaryRoutine: (expression: string, ctx: object, regex: RegExp, fn: (a: any, o: any, b: any) => any) => {
+    val: any;
+    success: boolean;
+};
 export default ternaryRoutine;

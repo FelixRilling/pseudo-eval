@@ -1,3 +1,6 @@
+var pseudoEval = (function (exports) {
+'use strict';
+
 const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
@@ -363,4 +366,24 @@ const REGEX_IS_FUNCTION = /^.+\(.*\)$/;
  */
 const REGEX_FUNCTION_CALL_CONTENT = /(.+)\s?\((.*)\)/;
 
-export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPath$1 as getPath, getStringLiteral, mapComparison, mapLiteral, mapMath, REGEX_IS_STRING_LITERAL, REGEX_IS_FUNCTION, REGEX_EXPRESSION_COMPARISON, REGEX_EXPRESSION_MATH, REGEX_PATH_SPLIT, REGEX_FUNCTION_CALL_CONTENT };
+exports.evalExpression = evalExpression;
+exports.evalLiteral = evalLiteral;
+exports.evalVariable = evalVariable;
+exports.evalComparison = evalComparison;
+exports.evalMath = evalMath;
+exports.getPath = getPath$1;
+exports.getStringLiteral = getStringLiteral;
+exports.mapComparison = mapComparison;
+exports.mapLiteral = mapLiteral;
+exports.mapMath = mapMath;
+exports.REGEX_IS_STRING_LITERAL = REGEX_IS_STRING_LITERAL;
+exports.REGEX_IS_FUNCTION = REGEX_IS_FUNCTION;
+exports.REGEX_EXPRESSION_COMPARISON = REGEX_EXPRESSION_COMPARISON;
+exports.REGEX_EXPRESSION_MATH = REGEX_EXPRESSION_MATH;
+exports.REGEX_PATH_SPLIT = REGEX_PATH_SPLIT;
+exports.REGEX_FUNCTION_CALL_CONTENT = REGEX_FUNCTION_CALL_CONTENT;
+
+return exports;
+
+}({}));
+//# sourceMappingURL=pseudoEval.js.map

@@ -11,10 +11,10 @@ import evalLiteral from "./evalLiteral";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalExpression = function (expression: string, ctx: object): any {
-    const isInverted = expression.startsWith("!");
-    const expressionSubstr = isInverted ? expression.substr(1) : expression;
-    let result;
+const evalExpression = (expression: string, ctx: object): any => {
+    const isInverted: boolean = expression.startsWith("!");
+    const expressionSubstr: string = isInverted ? expression.substr(1) : expression;
+    let result: any;
 
     if (REGEX_EXPRESSION_COMPARISON.test(expressionSubstr)) {
         result = evalComparison(expressionSubstr, ctx);

@@ -6,10 +6,7 @@ const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 
-/* interface IWrappedResult {
-    val: any;
-    success: boolean;
-} */
+/* interface IWrappedResult } */
 /**
  * Utility function for returns
  *
@@ -39,7 +36,6 @@ const ternaryRoutine = (expression, ctx, regex, fn) => {
     const match = expression.match(regex);
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);
-    // @ts-ignore
     const result = a.success && b.success ? fn(a.val, match[2], b.val) : null;
     return wrapResult(result);
 };
@@ -306,10 +302,12 @@ const getPath$1 = (target, path, getContaining = false) => {
  */
 const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath$1(ctx, expression, getContaining));
 
-// Infinity/null/undefined are omitted because you usually wont need them
+// undefined is omitted because you usually wont need it
 const mapLiteral = mapFromObject({
     "false": false,
-    "true": true
+    "true": true,
+    "null": null,
+    "Infinity": Infinity
 });
 
 /**
@@ -319,7 +317,7 @@ const mapLiteral = mapFromObject({
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalLiteral = function (expression, ctx) {
+const evalLiteral = (expression, ctx) => {
     let result = null;
     if (!isNaN(Number(expression))) {
         result = Number(expression);
@@ -343,7 +341,7 @@ const evalLiteral = function (expression, ctx) {
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalExpression = function (expression, ctx) {
+const evalExpression = (expression, ctx) => {
     const isInverted = expression.startsWith("!");
     const expressionSubstr = isInverted ? expression.substr(1) : expression;
     let result;

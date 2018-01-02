@@ -19,9 +19,9 @@ const getPath = (target: object, path: string, getContaining: boolean = false) =
         .split(REGEX_PATH_SPLIT)
         .map((item: string) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
     let targetCurrent = target;
-    let targetLast = null;
-    let keyCurrent = null;
-    let index = 0;
+    let targetLast: object | null = null;
+    let keyCurrent: string | null = null;
+    let index: number = 0;
 
     while (!isNil(targetCurrent) && index < pathArr.length) {
         keyCurrent = pathArr[index];

@@ -14,7 +14,7 @@ import {
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalLiteral = function (expression, ctx) {
+const evalLiteral = function (expression: string, ctx: object): any {
     let result = null;
 
     if (!isNaN(Number(expression))) {

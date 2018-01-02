@@ -19,7 +19,7 @@
         "build:iife-min": "rollup -c ./tasks/rollup.config.iife-min.js",
         "watch": "rollup -c ./tasks/rollup.config.js --watch",
         "dist": "npm-run-all --parallel build build:iife build:iife-min",
-        "lint": "eslint src/",
+        "lint": "tslint src/",
         "test": "jasmine",
         "docs": "jsdoc -c jsdoc.json"
     },

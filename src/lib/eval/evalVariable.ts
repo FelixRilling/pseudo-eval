@@ -9,6 +9,7 @@ import wrapResult from "../util/wrapResult";
  * @param {boolean} [getContaining=false]
  * @returns {Object}
  */
-const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPath(ctx, expression, getContaining));
+const evalVariable = (expression: string, ctx: object = {}, getContaining: boolean = false): any =>
+    wrapResult(getPath(ctx, expression, getContaining));
 
 export default evalVariable;

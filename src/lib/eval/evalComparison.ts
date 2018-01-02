@@ -9,10 +9,11 @@ import mapComparison from "../map/mapComparison";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalComparison = (expression, ctx) => ternaryRoutine(
+const evalComparison = (expression: string, ctx: object): any => ternaryRoutine(
     expression,
     ctx,
     REGEX_EXPRESSION_COMPARISON,
+    // @ts-ignore
     (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null
 );
 

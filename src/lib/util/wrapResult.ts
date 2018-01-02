@@ -1,4 +1,7 @@
-import { IWrappedResult } from "../../types";
+/* interface IWrappedResult {
+    val: any;
+    success: boolean;
+} */
 
 /**
  * Utility function for returns
@@ -7,7 +10,7 @@ import { IWrappedResult } from "../../types";
  * @param {any} val
  * @returns {Object}
  */
-const wrapResult = (val: any): IWrappedResult => {
+const wrapResult = (val: any): any => {
     return {
         val,
         success: val !== null,

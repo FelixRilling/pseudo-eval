@@ -14,10 +14,10 @@ import getStringLiteral from "../get/getStringLiteral";
  * @param {boolean} [getContaining=false]
  * @returns {boolean}
  */
-const getPath = (target, path, getContaining = false) => {
+const getPath = (target: object, path: string, getContaining: boolean = false) => {
     const pathArr = path
         .split(REGEX_PATH_SPLIT)
-        .map(item => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
+        .map((item: string) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
     let targetCurrent = target;
     let targetLast = null;
     let keyCurrent = null;
@@ -28,6 +28,7 @@ const getPath = (target, path, getContaining = false) => {
 
         if (hasKey(targetCurrent, keyCurrent)) {
             targetLast = targetCurrent;
+            // @ts-ignore
             targetCurrent = targetCurrent[keyCurrent];
             index++;
         } else {

@@ -4,6 +4,5 @@
  * @param {string} str
  * @param {string}
  */
-const getStringLiteral = str => str.substr(1, str.length - 2);
-
+declare const getStringLiteral: (str: string) => string;
 export default getStringLiteral;

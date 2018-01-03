@@ -6,23 +6,25 @@ import evalLiteral from "./evalLiteral";
 import { IWrappedResult } from "../interfaces";
 
 /**
- * Evaluates an expression
+ * Evaluates an str
  *
- * @param {string} expression
+ * @function evalExpression
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalExpression = (expression: string, ctx: object): IWrappedResult => {
-    const isInverted: boolean = expression.startsWith("!");
-    const expressionSubstr: string = isInverted ? expression.substr(1) : expression;
+const evalExpression = (str: string, ctx: object): IWrappedResult => {
+    const isInverted: boolean = str.startsWith("!");
+    const strSub: string = isInverted ? str.substr(1) : str;
     let result: IWrappedResult;
 
-    if (REGEX_EXPRESSION_COMPARISON.test(expressionSubstr)) {
-        result = evalComparison(expressionSubstr, ctx);
-    } else if (REGEX_EXPRESSION_MATH.test(expressionSubstr)) {
-        result = evalMath(expressionSubstr, ctx);
+    if (REGEX_EXPRESSION_COMPARISON.test(strSub)) {
+        result = evalComparison(strSub, ctx);
+    } else if (REGEX_EXPRESSION_MATH.test(strSub)) {
+        result = evalMath(strSub, ctx);
     } else {
-        result = evalLiteral(expressionSubstr, ctx);
+        result = evalLiteral(strSub, ctx);
     }
 
     if (isInverted) {

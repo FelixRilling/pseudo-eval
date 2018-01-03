@@ -6,12 +6,14 @@ import { IWrappedResult } from "../interfaces";
 /**
  * Evaluates an comparison
  *
- * @param {string} expression
+ * @function evalComparison
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalComparison = (expression: string, ctx: object): IWrappedResult => ternaryRoutine(
-    expression,
+const evalComparison = (str: string, ctx: object): IWrappedResult => ternaryRoutine(
+    str,
     ctx,
     REGEX_EXPRESSION_COMPARISON,
     // @ts-ignore

@@ -9,24 +9,26 @@ import getStringLiteral from "../get/getStringLiteral";
 /**
  * Accesses a target by a path of keys. If the path doesn't exist, null is returned
  *
+ * @function getPathFull
+ * @memberof Get
  * @param {any} target
  * @param {string} path
  * @param {boolean} [getContaining=false]
- * @returns {boolean}
+ * @returns {any|null}
  */
-const getPathFull = (target: object, path: string, getContaining: boolean = false) => {
+const getPathFull = (target: object, path: string, getContaining: boolean = false): any | null => {
     const pathArr = path
         .split(REGEX_PATH_SPLIT)
         .map((item: string) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
     let targetCurrent = target;
     let targetLast: object | null = null;
-    let keyCurrent: string | null = null;
+    let key: string | null = null;
     let index: number = 0;
 
     while (!isNil(targetCurrent) && index < pathArr.length) {
-        keyCurrent = pathArr[index];
+        key = pathArr[index];
 
-        if (hasKey(targetCurrent, keyCurrent)) {
+        if (hasKey(targetCurrent, key)) {
             targetLast = targetCurrent;
             // @ts-ignore
             targetCurrent = targetCurrent[keyCurrent];
@@ -36,12 +38,16 @@ const getPathFull = (target: object, path: string, getContaining: boolean = fals
         }
     }
 
-    return getContaining ? {
-        val: targetCurrent,
-        container: targetLast,
-        key: keyCurrent,
-        index
-    } : targetCurrent;
+    if (getContaining) {
+        return {
+            index,
+            key,
+            val: targetCurrent,
+            container: targetLast
+        };
+    } else {
+        return targetCurrent;
+    }
 };
 
 export default getPathFull;

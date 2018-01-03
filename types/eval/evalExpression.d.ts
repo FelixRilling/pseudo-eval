@@ -1,10 +1,12 @@
 import { IWrappedResult } from "../interfaces";
 /**
- * Evaluates an expression
+ * Evaluates an str
  *
- * @param {string} expression
+ * @function evalExpression
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-declare const evalExpression: (expression: string, ctx: object) => IWrappedResult;
+declare const evalExpression: (str: string, ctx: object) => IWrappedResult;
 export default evalExpression;

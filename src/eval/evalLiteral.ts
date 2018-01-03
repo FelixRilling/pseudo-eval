@@ -11,21 +11,23 @@ import { IWrappedResult } from "../interfaces";
 /**
  * Evaluates a literal
  *
- * @param {string} expression
+ * @function evalLiteral
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalLiteral = (expression: string, ctx: object): IWrappedResult => {
+const evalLiteral = (str: string, ctx: object): IWrappedResult => {
     let result: any | null = null;
 
-    if (!isNaN(Number(expression))) {
-        result = Number(expression);
-    } else if (REGEX_IS_STRING_LITERAL.test(expression)) {
-        result = getStringLiteral(expression);
-    } else if (mapLiteral.has(expression)) {
-        result = mapLiteral.get(expression);
+    if (!isNaN(Number(str))) {
+        result = Number(str);
+    } else if (REGEX_IS_STRING_LITERAL.test(str)) {
+        result = getStringLiteral(str);
+    } else if (mapLiteral.has(str)) {
+        result = mapLiteral.get(str);
     } else {
-        result = evalVariable(expression, ctx).val;
+        result = evalVariable(str, ctx).val;
     }
 
     return wrapResult(result);

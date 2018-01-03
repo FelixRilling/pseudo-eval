@@ -2,9 +2,11 @@ import { IWrappedResult } from "../interfaces";
 /**
  * Evaluates a literal
  *
- * @param {string} expression
+ * @function evalLiteral
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-declare const evalLiteral: (expression: string, ctx: object) => IWrappedResult;
+declare const evalLiteral: (str: string, ctx: object) => IWrappedResult;
 export default evalLiteral;

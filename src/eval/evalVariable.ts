@@ -5,15 +5,17 @@ import { IWrappedResult } from "../interfaces";
 /**
  * Evaluates an variable
  *
- * @param {string} expression
+ * @function evalVariable
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} [ctx={}]
  * @param {boolean} [getContaining=false]
  * @returns {Object}
  */
 const evalVariable = (
-    expression: string,
+    str: string,
     ctx: object = {},
     getContaining: boolean = false
-): IWrappedResult => wrapResult(getPathFull(ctx, expression, getContaining));
+): IWrappedResult => wrapResult(getPathFull(ctx, str, getContaining));
 
 export default evalVariable;

@@ -2,10 +2,12 @@ import { IWrappedResult } from "../interfaces";
 /**
  * Evaluates an variable
  *
- * @param {string} expression
+ * @function evalVariable
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} [ctx={}]
  * @param {boolean} [getContaining=false]
  * @returns {Object}
  */
-declare const evalVariable: (expression: string, ctx?: object, getContaining?: boolean) => IWrappedResult;
+declare const evalVariable: (str: string, ctx?: object, getContaining?: boolean) => IWrappedResult;
 export default evalVariable;

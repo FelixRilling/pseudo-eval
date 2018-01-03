@@ -24,15 +24,15 @@ const wrapResult = (val) => {
  * Generic routine for the ternary a,op,b regex matching
  *
  * @private
- * @param {string} expression
+ * @param {string} str
  * @param {Object} ctx
  * @param {RegExp} regex
  * @param {function} fn
  * @returns {Object}
  */
-const ternaryRoutine = (expression, ctx, regex, fn) => {
+const ternaryRoutine = (str, ctx, regex, fn) => {
     // @ts-ignore: matches are tested beforehand
-    const match = expression.match(regex);
+    const match = str.match(regex);
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);
     const result = a.success && b.success ? fn(a.val, match[2], b.val) : null;
@@ -215,11 +215,13 @@ const mapComparison = mapFromObject({
 /**
  * Evaluates an comparison
  *
- * @param {string} expression
+ * @function evalComparison
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalComparison = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_COMPARISON, 
+const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_COMPARISON, 
 // @ts-ignore
 (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null);
 
@@ -235,11 +237,13 @@ const mapMath = mapFromObject({
 /**
  * Evaluates an comparison
  *
- * @param {string} expression
+ * @function evalMath
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalMath = (expression, ctx) => ternaryRoutine(expression, ctx, REGEX_EXPRESSION_MATH, 
+const evalMath = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH, 
 // @ts-ignore
 (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null);
 
@@ -248,8 +252,10 @@ const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
 /**
  * Returns a string literal as "normal" string
  *
+ * @function getStringLiteral
+ * @memberof Get
  * @param {string} str
- * @param {string}
+ * @returns {string}
  */
 const getStringLiteral = (str) => str.substr(1, str.length - 2);
 
@@ -258,10 +264,12 @@ const REGEX_PATH_SPLIT = /(?:\.|\[|\])+/g;
 /**
  * Accesses a target by a path of keys. If the path doesn't exist, null is returned
  *
+ * @function getPathFull
+ * @memberof Get
  * @param {any} target
  * @param {string} path
  * @param {boolean} [getContaining=false]
- * @returns {boolean}
+ * @returns {any|null}
  */
 const getPathFull = (target, path, getContaining = false) => {
     const pathArr = path
@@ -269,11 +277,11 @@ const getPathFull = (target, path, getContaining = false) => {
         .map((item) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
     let targetCurrent = target;
     let targetLast = null;
-    let keyCurrent = null;
+    let key = null;
     let index = 0;
     while (!isNil(targetCurrent) && index < pathArr.length) {
-        keyCurrent = pathArr[index];
-        if (hasKey(targetCurrent, keyCurrent)) {
+        key = pathArr[index];
+        if (hasKey(targetCurrent, key)) {
             targetLast = targetCurrent;
             // @ts-ignore
             targetCurrent = targetCurrent[keyCurrent];
@@ -283,23 +291,30 @@ const getPathFull = (target, path, getContaining = false) => {
             return null;
         }
     }
-    return getContaining ? {
-        val: targetCurrent,
-        container: targetLast,
-        key: keyCurrent,
-        index
-    } : targetCurrent;
+    if (getContaining) {
+        return {
+            index,
+            key,
+            val: targetCurrent,
+            container: targetLast
+        };
+    }
+    else {
+        return targetCurrent;
+    }
 };
 
 /**
  * Evaluates an variable
  *
- * @param {string} expression
+ * @function evalVariable
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} [ctx={}]
  * @param {boolean} [getContaining=false]
  * @returns {Object}
  */
-const evalVariable = (expression, ctx = {}, getContaining = false) => wrapResult(getPathFull(ctx, expression, getContaining));
+const evalVariable = (str, ctx = {}, getContaining = false) => wrapResult(getPathFull(ctx, str, getContaining));
 
 // undefined and NaN are omitted because you usually wont need those
 const mapLiteral = mapFromObject({
@@ -311,46 +326,50 @@ const mapLiteral = mapFromObject({
 /**
  * Evaluates a literal
  *
- * @param {string} expression
+ * @function evalLiteral
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalLiteral = (expression, ctx) => {
+const evalLiteral = (str, ctx) => {
     let result = null;
-    if (!isNaN(Number(expression))) {
-        result = Number(expression);
+    if (!isNaN(Number(str))) {
+        result = Number(str);
     }
-    else if (REGEX_IS_STRING_LITERAL.test(expression)) {
-        result = getStringLiteral(expression);
+    else if (REGEX_IS_STRING_LITERAL.test(str)) {
+        result = getStringLiteral(str);
     }
-    else if (mapLiteral.has(expression)) {
-        result = mapLiteral.get(expression);
+    else if (mapLiteral.has(str)) {
+        result = mapLiteral.get(str);
     }
     else {
-        result = evalVariable(expression, ctx).val;
+        result = evalVariable(str, ctx).val;
     }
     return wrapResult(result);
 };
 
 /**
- * Evaluates an expression
+ * Evaluates an str
  *
- * @param {string} expression
+ * @function evalExpression
+ * @memberof Eval
+ * @param {string} str
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalExpression = (expression, ctx) => {
-    const isInverted = expression.startsWith("!");
-    const expressionSubstr = isInverted ? expression.substr(1) : expression;
+const evalExpression = (str, ctx) => {
+    const isInverted = str.startsWith("!");
+    const strSub = isInverted ? str.substr(1) : str;
     let result;
-    if (REGEX_EXPRESSION_COMPARISON.test(expressionSubstr)) {
-        result = evalComparison(expressionSubstr, ctx);
+    if (REGEX_EXPRESSION_COMPARISON.test(strSub)) {
+        result = evalComparison(strSub, ctx);
     }
-    else if (REGEX_EXPRESSION_MATH.test(expressionSubstr)) {
-        result = evalMath(expressionSubstr, ctx);
+    else if (REGEX_EXPRESSION_MATH.test(strSub)) {
+        result = evalMath(strSub, ctx);
     }
     else {
-        result = evalLiteral(expressionSubstr, ctx);
+        result = evalLiteral(strSub, ctx);
     }
     if (isInverted) {
         result.val = !result.val;

@@ -1,8 +1,20 @@
 var pseudoEval = (function (exports) {
 'use strict';
 
+/**
+ * Regex for comparisons
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 
+/**
+ * Regex for math
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 
 /**
@@ -178,6 +190,12 @@ const objEntries = Object.entries;
  */
 const mapFromObject = (obj) => new Map(objEntries(obj));
 
+/**
+ * Map for comparison checks
+ *
+ * @private
+ * @memberof EvalMap
+ */
 const mapComparison = mapFromObject({
     "===": (a, b) => a === b,
     "!==": (a, b) => a !== b,
@@ -202,6 +220,12 @@ const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_C
 // @ts-ignore
 (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null);
 
+/**
+ * Map for math checks.
+ *
+ * @private
+ * @memberof EvalMap
+ */
 const mapMath = mapFromObject({
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
@@ -224,6 +248,12 @@ const evalMath = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH,
 // @ts-ignore
 (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null);
 
+/**
+ * Regex checking for string literals
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
 
 /**
@@ -236,6 +266,12 @@ const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
  */
 const getStringLiteral = (str) => str.substr(1, str.length - 2);
 
+/**
+ * Regex for splitting paths
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_PATH_SPLIT = /(?:\.|\[|\])+/g;
 
 /**
@@ -293,7 +329,14 @@ const getPathFull = (target, path, getContaining = false) => {
  */
 const evalVariable = (str, ctx = {}, getContaining = false) => wrapResult(getPathFull(ctx, str, getContaining));
 
-// undefined and NaN are omitted because you usually wont need those
+/**
+ * Map for literal checks.
+ *
+ * undefined and NaN are omitted because you usually wont need those
+ *
+ * @private
+ * @memberof EvalMap
+ */
 const mapLiteral = mapFromObject({
     "false": false,
     "true": true,
@@ -355,12 +398,38 @@ const evalExpression = (str, ctx) => {
 };
 
 /**
+ * Regex for function call args
+ *
+ * @private
+ * @memberof EvalRegex
+ */
+const REGEX_GET_FUNCTION_CALL_ARGS = /(.+)\s?\((.*)\)/;
+
+/**
+ * Regex checking for function calls
+ *
+ * @private
+ * @memberof EvalRegex
+ */
+const REGEX_IS_FUNCTION_CALL = /^.+\(.*\)$/;
+
+/**
  * String evaluation
  * @namespace Eval
  */
 /**
  * Data retrieval
  * @namespace Get
+ */
+/**
+ * Maps used internaly for evaluation
+ * @private
+ * @namespace EvalMap
+ */
+/**
+ * RegExp used internaly for evaluation
+ * @private
+ * @namespace EvalRegex
  */
 
 exports.evalExpression = evalExpression;
@@ -370,6 +439,15 @@ exports.evalComparison = evalComparison;
 exports.evalMath = evalMath;
 exports.getPathFull = getPathFull;
 exports.getStringLiteral = getStringLiteral;
+exports.mapComparison = mapComparison;
+exports.mapMath = mapMath;
+exports.mapLiteral = mapLiteral;
+exports.REGEX_EXPRESSION_COMPARISON = REGEX_EXPRESSION_COMPARISON;
+exports.REGEX_EXPRESSION_MATH = REGEX_EXPRESSION_MATH;
+exports.REGEX_GET_FUNCTION_CALL_ARGS = REGEX_GET_FUNCTION_CALL_ARGS;
+exports.REGEX_IS_FUNCTION_CALL = REGEX_IS_FUNCTION_CALL;
+exports.REGEX_IS_STRING_LITERAL = REGEX_IS_STRING_LITERAL;
+exports.REGEX_PATH_SPLIT = REGEX_PATH_SPLIT;
 
 return exports;
 

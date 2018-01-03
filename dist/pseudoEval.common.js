@@ -2,8 +2,20 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+/**
+ * Regex for comparisons
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 
+/**
+ * Regex for math
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 
 /**
@@ -237,6 +249,12 @@ const evalMath = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH,
 // @ts-ignore
 (a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null);
 
+/**
+ * Regex checking for string literals
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
 
 /**
@@ -249,6 +267,12 @@ const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
  */
 const getStringLiteral = (str) => str.substr(1, str.length - 2);
 
+/**
+ * Regex for splitting paths
+ *
+ * @private
+ * @memberof EvalRegex
+ */
 const REGEX_PATH_SPLIT = /(?:\.|\[|\])+/g;
 
 /**
@@ -375,6 +399,22 @@ const evalExpression = (str, ctx) => {
 };
 
 /**
+ * Regex for function call args
+ *
+ * @private
+ * @memberof EvalRegex
+ */
+const REGEX_GET_FUNCTION_CALL_ARGS = /(.+)\s?\((.*)\)/;
+
+/**
+ * Regex checking for function calls
+ *
+ * @private
+ * @memberof EvalRegex
+ */
+const REGEX_IS_FUNCTION_CALL = /^.+\(.*\)$/;
+
+/**
  * String evaluation
  * @namespace Eval
  */
@@ -385,7 +425,12 @@ const evalExpression = (str, ctx) => {
 /**
  * Maps used internaly for evaluation
  * @private
- * @namespace EvalList
+ * @namespace EvalMap
+ */
+/**
+ * RegExp used internaly for evaluation
+ * @private
+ * @namespace EvalRegex
  */
 
 exports.evalExpression = evalExpression;
@@ -398,3 +443,9 @@ exports.getStringLiteral = getStringLiteral;
 exports.mapComparison = mapComparison;
 exports.mapMath = mapMath;
 exports.mapLiteral = mapLiteral;
+exports.REGEX_EXPRESSION_COMPARISON = REGEX_EXPRESSION_COMPARISON;
+exports.REGEX_EXPRESSION_MATH = REGEX_EXPRESSION_MATH;
+exports.REGEX_GET_FUNCTION_CALL_ARGS = REGEX_GET_FUNCTION_CALL_ARGS;
+exports.REGEX_IS_FUNCTION_CALL = REGEX_IS_FUNCTION_CALL;
+exports.REGEX_IS_STRING_LITERAL = REGEX_IS_STRING_LITERAL;
+exports.REGEX_PATH_SPLIT = REGEX_PATH_SPLIT;

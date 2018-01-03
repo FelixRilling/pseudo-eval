@@ -18,11 +18,23 @@ import getStringLiteral from "./get/getStringLiteral";
 /**
  * Maps used internaly for evaluation
  * @private
- * @namespace EvalList
+ * @namespace EvalMap
  */
 import mapComparison from "./map/mapComparison";
 import mapMath from "./map/mapMath";
 import mapLiteral from "./map/mapLiteral";
+
+/**
+ * RegExp used internaly for evaluation
+ * @private
+ * @namespace EvalRegex
+ */
+import REGEX_EXPRESSION_COMPARISON from "./regex/regexExpressionComparison";
+import REGEX_EXPRESSION_MATH from "./regex/regexExpressionMath";
+import REGEX_GET_FUNCTION_CALL_ARGS from "./regex/regexGetFunctionCallArgs";
+import REGEX_IS_FUNCTION_CALL from "./regex/regexIsFunctionCall";
+import REGEX_IS_STRING_LITERAL from "./regex/regexIsStringLiteral";
+import REGEX_PATH_SPLIT from "./regex/regexPathSplit";
 
 export {
     evalExpression,
@@ -36,5 +48,12 @@ export {
 
     mapComparison,
     mapMath,
-    mapLiteral
+    mapLiteral,
+
+    REGEX_EXPRESSION_COMPARISON,
+    REGEX_EXPRESSION_MATH,
+    REGEX_GET_FUNCTION_CALL_ARGS,
+    REGEX_IS_FUNCTION_CALL,
+    REGEX_IS_STRING_LITERAL,
+    REGEX_PATH_SPLIT,
 };

@@ -16,13 +16,13 @@ const ternaryRoutine = (
     str: string,
     ctx: object,
     regex: RegExp,
-    fn: (a: any, o: any, b: any) => any
+    fn: (a: IWrappedResult, o: any, b: IWrappedResult) => any | null
 ): IWrappedResult => {
     // @ts-ignore: matches are tested beforehand
     const match: RegExpMatchArray = str.match(regex);
-    const a = evalExpression(match[1], ctx);
-    const b = evalExpression(match[3], ctx);
-    const result = a.success && b.success ? fn(a.val, match[2], b.val) : null;
+    const a: IWrappedResult = evalExpression(match[1], ctx);
+    const b: IWrappedResult = evalExpression(match[3], ctx);
+    const result: any | null = a.success && b.success ? fn(a.val, match[2], b.val) : null;
 
     return wrapResult(result);
 };

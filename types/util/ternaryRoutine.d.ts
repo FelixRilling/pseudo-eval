@@ -9,5 +9,5 @@ import { IWrappedResult } from "../interfaces";
  * @param {function} fn
  * @returns {Object}
  */
-declare const ternaryRoutine: (str: string, ctx: object, regex: RegExp, fn: (a: any, o: any, b: any) => any) => IWrappedResult;
+declare const ternaryRoutine: (str: string, ctx: object, regex: RegExp, fn: (a: IWrappedResult, o: any, b: IWrappedResult) => any) => IWrappedResult;
 export default ternaryRoutine;

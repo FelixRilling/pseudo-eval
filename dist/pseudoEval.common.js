@@ -179,6 +179,12 @@ const objEntries = Object.entries;
  */
 const mapFromObject = (obj) => new Map(objEntries(obj));
 
+/**
+ * Map for comparison checks
+ *
+ * @private
+ * @memberof EvalMap
+ */
 const mapComparison = mapFromObject({
     "===": (a, b) => a === b,
     "!==": (a, b) => a !== b,
@@ -203,6 +209,12 @@ const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_C
 // @ts-ignore
 (a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null);
 
+/**
+ * Map for math checks.
+ *
+ * @private
+ * @memberof EvalMap
+ */
 const mapMath = mapFromObject({
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
@@ -294,7 +306,14 @@ const getPathFull = (target, path, getContaining = false) => {
  */
 const evalVariable = (str, ctx = {}, getContaining = false) => wrapResult(getPathFull(ctx, str, getContaining));
 
-// undefined and NaN are omitted because you usually wont need those
+/**
+ * Map for literal checks.
+ *
+ * undefined and NaN are omitted because you usually wont need those
+ *
+ * @private
+ * @memberof EvalMap
+ */
 const mapLiteral = mapFromObject({
     "false": false,
     "true": true,
@@ -363,6 +382,11 @@ const evalExpression = (str, ctx) => {
  * Data retrieval
  * @namespace Get
  */
+/**
+ * Maps used internaly for evaluation
+ * @private
+ * @namespace EvalList
+ */
 
 exports.evalExpression = evalExpression;
 exports.evalLiteral = evalLiteral;
@@ -371,3 +395,6 @@ exports.evalComparison = evalComparison;
 exports.evalMath = evalMath;
 exports.getPathFull = getPathFull;
 exports.getStringLiteral = getStringLiteral;
+exports.mapComparison = mapComparison;
+exports.mapMath = mapMath;
+exports.mapLiteral = mapLiteral;

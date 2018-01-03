@@ -15,6 +15,15 @@ import evalMath from "./eval/evalMath";
 import getPathFull from "./get/getPathFull";
 import getStringLiteral from "./get/getStringLiteral";
 
+/**
+ * Maps used internaly for evaluation
+ * @private
+ * @namespace EvalList
+ */
+import mapComparison from "./map/mapComparison";
+import mapMath from "./map/mapMath";
+import mapLiteral from "./map/mapLiteral";
+
 export {
     evalExpression,
     evalLiteral,
@@ -23,5 +32,9 @@ export {
     evalMath,
 
     getPathFull,
-    getStringLiteral
+    getStringLiteral,
+
+    mapComparison,
+    mapMath,
+    mapLiteral
 };

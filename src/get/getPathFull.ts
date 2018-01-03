@@ -31,7 +31,7 @@ const getPathFull = (target: object, path: string, getContaining: boolean = fals
         if (hasKey(targetCurrent, key)) {
             targetLast = targetCurrent;
             // @ts-ignore
-            targetCurrent = targetCurrent[keyCurrent];
+            targetCurrent = targetCurrent[key];
             index++;
         } else {
             return null;

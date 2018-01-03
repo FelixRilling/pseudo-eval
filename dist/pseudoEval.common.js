@@ -284,7 +284,7 @@ const getPathFull = (target, path, getContaining = false) => {
         if (hasKey(targetCurrent, key)) {
             targetLast = targetCurrent;
             // @ts-ignore
-            targetCurrent = targetCurrent[keyCurrent];
+            targetCurrent = targetCurrent[key];
             index++;
         }
         else {

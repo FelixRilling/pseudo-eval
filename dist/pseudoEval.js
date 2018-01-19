@@ -71,6 +71,8 @@ const ternaryRoutine = (str, ctx, regex, fn) => {
  */
 const isTypeOf = (val, type) => typeof val === type;
 
+const _Object = Object;
+const _Map = Map;
 /**
  * Checks if a value is undefined.
  *
@@ -174,7 +176,7 @@ const isNil = (val) => isUndefined(val) || val === null;
  * // returns [["a", 1], ["b", 2], ["c", 3]]
  * objEntries({a: 1, b: 2, c: 3})
  */
-const objEntries = Object.entries;
+const objEntries = _Object.entries;
 
 /**
  * Creates a map from an object.
@@ -188,7 +190,7 @@ const objEntries = Object.entries;
  * // returns Map{a: 1, b: 4, c: 5}
  * mapFromObject({a: 1, b: 4, c: 5})
  */
-const mapFromObject = (obj) => new Map(objEntries(obj));
+const mapFromObject = (obj) => new _Map(objEntries(obj));
 
 /**
  * Map for comparison checks
@@ -204,7 +206,7 @@ const mapComparison = mapFromObject({
     ">=": (a, b) => a >= b,
     "<=": (a, b) => a <= b,
     ">": (a, b) => a > b,
-    "<": (a, b) => a < b,
+    "<": (a, b) => a < b
 });
 
 /**
@@ -232,7 +234,7 @@ const mapMath = mapFromObject({
     "*": (a, b) => a * b,
     "/": (a, b) => a / b,
     "%": (a, b) => a % b,
-    "**": (a, b) => a ** b,
+    "**": (a, b) => a ** b
 });
 
 /**
@@ -338,9 +340,9 @@ const evalVariable = (str, ctx = {}, getContaining = false) => wrapResult(getPat
  * @memberof EvalMap
  */
 const mapLiteral = mapFromObject({
-    "false": false,
-    "true": true,
-    "null": null
+    false: false,
+    true: true,
+    null: null
 });
 
 /**

@@ -4,5 +4,5 @@
  * @private
  * @memberof EvalMap
  */
-declare const mapComparison: Map<string, (a: any, b: any) => boolean>;
+declare const mapComparison: Map<PropertyKey, (a: any, b: any) => boolean>;
 export default mapComparison;

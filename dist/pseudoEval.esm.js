@@ -1,3 +1,5 @@
+import { hasKey, isNil, mapFromObject } from 'lightdash';
+
 /**
  * Regex for comparisons
  *
@@ -48,146 +50,6 @@ const ternaryRoutine = (str, ctx, regex, fn) => {
 };
 
 /**
- * Checks if the value has a certain type-string.
- *
- * @function isTypeOf
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @param {string} type
- * @returns {boolean}
- * @example
- * // returns true
- * isTypeOf({}, "object")
- * isTypeOf([], "object")
- * isTypeOf("foo", "string")
- *
- * @example
- * // returns false
- * isTypeOf("foo", "number")
- */
-const isTypeOf = (val, type) => typeof val === type;
-
-/**
- * Checks if a value is undefined.
- *
- * @function isUndefined
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
- * @example
- * // returns false
- * const a = {};
- *
- * isUndefined(a.b)
- * isUndefined(undefined)
- *
- * @example
- * // returns false
- * const a = {};
- *
- * isUndefined(1)
- * isUndefined(a)
- */
-const isUndefined = (val) => isTypeOf(val, "undefined");
-
-/**
- * Checks if a value is defined.
- *
- * @function isDefined
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
- * @example
- * // returns true
- * const a = {};
- *
- * isDefined(1)
- * isDefined(a)
- *
- * @example
- * // returns false
- * const a = {};
- *
- * isDefined(a.b)
- * isDefined(undefined)
- */
-const isDefined = (val) => !isUndefined(val);
-
-/**
- * Checks if a target has a certain key.
- *
- * @function hasKey
- * @memberof Has
- * @since 1.0.0
- * @param {any} target
- * @param {string} key
- * @returns {boolean}
- * @example
- * // returns true
- * hasKey([1, 2, 3], "0")
- * hasKey({foo: 0}, "foo")
- * hasKey("foo", "replace")
- *
- * @example
- * // returns false
- * hasKey({}, "foo")
- */
-const hasKey = (target, key) => isDefined(target[key]);
-
-/**
- * Checks if a value is undefined or null.
- *
- * @function isNil
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
- * @example
- * // returns true
- * isNil(null)
- * isNil(undefined)
- *
- * @example
- * // returns false
- * isNil(0)
- * isNil({})
- */
-const isNil = (val) => isUndefined(val) || val === null;
-
-/**
- * Returns an array of the objects entries.
- *
- * `Object.entries` shorthand.
- *
- * @function objEntries
- * @memberof Object
- * @since 1.0.0
- * @param {Object} obj
- * @returns {any[]} Array<[key: any, val: any]>]
- * @example
- * // returns [["a", 1], ["b", 2], ["c", 3]]
- * objEntries({a: 1, b: 2, c: 3})
- */
-const objEntries = Object.entries;
-
-/**
- * Creates a map from an object.
- *
- * @function mapFromObject
- * @memberof Map
- * @since 1.0.0
- * @param {Object} obj
- * @returns {Map}
- * @example
- * // returns Map{a: 1, b: 4, c: 5}
- * mapFromObject({a: 1, b: 4, c: 5})
- */
-const mapFromObject = (obj) => new Map(objEntries(obj));
-
-/**
  * Map for comparison checks
  *
  * @private
@@ -201,7 +63,7 @@ const mapComparison = mapFromObject({
     ">=": (a, b) => a >= b,
     "<=": (a, b) => a <= b,
     ">": (a, b) => a > b,
-    "<": (a, b) => a < b,
+    "<": (a, b) => a < b
 });
 
 /**
@@ -229,7 +91,7 @@ const mapMath = mapFromObject({
     "*": (a, b) => a * b,
     "/": (a, b) => a / b,
     "%": (a, b) => a % b,
-    "**": (a, b) => a ** b,
+    "**": (a, b) => a ** b
 });
 
 /**
@@ -335,9 +197,9 @@ const evalVariable = (str, ctx = {}, getContaining = false) => wrapResult(getPat
  * @memberof EvalMap
  */
 const mapLiteral = mapFromObject({
-    "false": false,
-    "true": true,
-    "null": null
+    false: false,
+    true: true,
+    null: null
 });
 
 /**

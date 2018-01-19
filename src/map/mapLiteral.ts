@@ -1,6 +1,4 @@
-import {
-    mapFromObject
-} from "lightdash";
+import { mapFromObject } from "lightdash";
 
 /**
  * Map for literal checks.
@@ -10,10 +8,10 @@ import {
  * @private
  * @memberof EvalMap
  */
-const mapLiteral: Map<string, boolean | null> = mapFromObject({
-    "false": false,
-    "true": true,
-    "null": null
+const mapLiteral: Map<PropertyKey, boolean | null> = mapFromObject({
+    false: false,
+    true: true,
+    null: null
 });
 
 export default mapLiteral;

@@ -1,9 +1,6 @@
 import REGEX_PATH_SPLIT from "../regex/regexPathSplit";
 import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
-import {
-    isNil,
-    hasKey
-} from "lightdash";
+import { isNil, hasKey } from "lightdash";
 import getStringLiteral from "../get/getStringLiteral";
 
 /**
@@ -16,21 +13,29 @@ import getStringLiteral from "../get/getStringLiteral";
  * @param {boolean} [getContaining=false]
  * @returns {any|null}
  */
-const getPathFull = (target: object, path: string, getContaining: boolean = false): any | null => {
+const getPathFull = (
+    target: object,
+    path: string,
+    getContaining: boolean = false
+): any | null => {
     const pathArr = path
         .split(REGEX_PATH_SPLIT)
-        .map((item: string) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
-    let targetCurrent = target;
+        .map(
+            (item: string) =>
+                REGEX_IS_STRING_LITERAL.test(item)
+                    ? getStringLiteral(item)
+                    : item
+        );
+    let targetCurrent = <{ [key: string]: any }>target;
     let targetLast: object | null = null;
     let key: string | null = null;
-    let index: number = 0;
+    let index = 0;
 
     while (!isNil(targetCurrent) && index < pathArr.length) {
         key = pathArr[index];
 
         if (hasKey(targetCurrent, key)) {
             targetLast = targetCurrent;
-            // @ts-ignore
             targetCurrent = targetCurrent[key];
             index++;
         } else {

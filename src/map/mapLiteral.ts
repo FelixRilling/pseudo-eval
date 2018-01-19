@@ -8,7 +8,7 @@ import { mapFromObject } from "lightdash";
  * @private
  * @memberof EvalMap
  */
-const mapLiteral: Map<PropertyKey, boolean | null> = mapFromObject({
+const mapLiteral: Map<PropertyKey, any> = mapFromObject({
     false: false,
     true: true,
     null: null

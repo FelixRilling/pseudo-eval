@@ -4,6 +4,6 @@
  * @private
  * @memberof EvalRegex
  */
-const REGEX_GET_FUNCTION_CALL_ARGS: RegExp = /(.+)\s?\((.*)\)/;
+const REGEX_GET_FUNCTION_CALL_ARGS = /(.+)\s?\((.*)\)/;
 
 export default REGEX_GET_FUNCTION_CALL_ARGS;

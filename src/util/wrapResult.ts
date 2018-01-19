@@ -10,7 +10,7 @@ import { IWrappedResult } from "../interfaces";
 const wrapResult = (val: any): IWrappedResult => {
     return {
         val,
-        success: val !== null,
+        success: val !== null
     };
 };
 

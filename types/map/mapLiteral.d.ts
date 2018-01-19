@@ -6,5 +6,5 @@
  * @private
  * @memberof EvalMap
  */
-declare const mapLiteral: Map<PropertyKey, boolean | null>;
+declare const mapLiteral: Map<PropertyKey, any>;
 export default mapLiteral;

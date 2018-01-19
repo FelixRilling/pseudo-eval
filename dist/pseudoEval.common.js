@@ -30,7 +30,7 @@ const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 const wrapResult = (val) => {
     return {
         val,
-        success: val !== null,
+        success: val !== null
     };
 };
 
@@ -44,13 +44,17 @@ const wrapResult = (val) => {
  * @param {function} fn
  * @returns {Object}
  */
-const ternaryRoutine = (str, ctx, regex, fn) => {
-    // @ts-ignore: matches are tested beforehand
+const ternaryRoutine = (str, ctx, regex, map) => {
     const match = str.match(regex);
     const a = evalExpression(match[1], ctx);
     const b = evalExpression(match[3], ctx);
-    const result = a.success && b.success ? fn(a.val, match[2], b.val) : null;
-    return wrapResult(result);
+    if (a.success && b.success && map.has(match[2])) {
+        const fn = map.get(match[2]);
+        return wrapResult(fn(a.val, b.val));
+    }
+    else {
+        return wrapResult(null);
+    }
 };
 
 /**
@@ -79,9 +83,7 @@ const mapComparison = lightdash.mapFromObject({
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_COMPARISON, 
-// @ts-ignore
-(a, comparer, b) => mapComparison.has(comparer) ? mapComparison.get(comparer)(a, b) : null);
+const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison);
 
 /**
  * Map for math checks.
@@ -107,9 +109,7 @@ const mapMath = lightdash.mapFromObject({
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalMath = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH, 
-// @ts-ignore
-(a, operator, b) => mapMath.has(operator) ? mapMath.get(operator)(a, b) : null);
+const evalMath = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH, mapMath);
 
 /**
  * Regex checking for string literals
@@ -150,7 +150,9 @@ const REGEX_PATH_SPLIT = /(?:\.|\[|\])+/g;
 const getPathFull = (target, path, getContaining = false) => {
     const pathArr = path
         .split(REGEX_PATH_SPLIT)
-        .map((item) => REGEX_IS_STRING_LITERAL.test(item) ? getStringLiteral(item) : item);
+        .map((item) => REGEX_IS_STRING_LITERAL.test(item)
+        ? getStringLiteral(item)
+        : item);
     let targetCurrent = target;
     let targetLast = null;
     let key = null;
@@ -159,7 +161,6 @@ const getPathFull = (target, path, getContaining = false) => {
         key = pathArr[index];
         if (lightdash.hasKey(targetCurrent, key)) {
             targetLast = targetCurrent;
-            // @ts-ignore
             targetCurrent = targetCurrent[key];
             index++;
         }
@@ -216,20 +217,18 @@ const mapLiteral = lightdash.mapFromObject({
  * @returns {Object}
  */
 const evalLiteral = (str, ctx) => {
-    let result = null;
     if (!isNaN(Number(str))) {
-        result = Number(str);
+        return wrapResult(Number(str));
     }
     else if (REGEX_IS_STRING_LITERAL.test(str)) {
-        result = getStringLiteral(str);
+        return wrapResult(getStringLiteral(str));
     }
     else if (mapLiteral.has(str)) {
-        result = mapLiteral.get(str);
+        return wrapResult(mapLiteral.get(str));
     }
     else {
-        result = evalVariable(str, ctx).val;
+        return wrapResult(evalVariable(str, ctx).val);
     }
-    return wrapResult(result);
 };
 
 /**

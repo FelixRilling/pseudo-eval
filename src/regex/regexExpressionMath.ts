@@ -4,6 +4,6 @@
  * @private
  * @memberof EvalRegex
  */
-const REGEX_EXPRESSION_MATH: RegExp = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
+const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 
 export default REGEX_EXPRESSION_MATH;

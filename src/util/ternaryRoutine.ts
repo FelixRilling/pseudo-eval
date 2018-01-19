@@ -16,15 +16,19 @@ const ternaryRoutine = (
     str: string,
     ctx: object,
     regex: RegExp,
-    fn: (a: IWrappedResult, o: any, b: IWrappedResult) => any | null
+    map: Map<PropertyKey, (a: any, b: any) => any>
 ): IWrappedResult => {
-    // @ts-ignore: matches are tested beforehand
-    const match: RegExpMatchArray = str.match(regex);
+    const match = <RegExpMatchArray>str.match(regex);
     const a: IWrappedResult = evalExpression(match[1], ctx);
     const b: IWrappedResult = evalExpression(match[3], ctx);
-    const result: any | null = a.success && b.success ? fn(a.val, match[2], b.val) : null;
 
-    return wrapResult(result);
+    if (a.success && b.success && map.has(match[2])) {
+        const fn = <(a: any, b: any) => any>map.get(match[2]);
+
+        return wrapResult(fn(a.val, b.val));
+    } else {
+        return wrapResult(null);
+    }
 };
 
 export default ternaryRoutine;

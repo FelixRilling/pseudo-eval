@@ -15,19 +15,15 @@ import { IWrappedResult } from "../interfaces";
  * @returns {Object}
  */
 const evalLiteral = (str: string, ctx: object): IWrappedResult => {
-    let result: any | null = null;
-
     if (!isNaN(Number(str))) {
-        result = Number(str);
+        return wrapResult(Number(str));
     } else if (REGEX_IS_STRING_LITERAL.test(str)) {
-        result = getStringLiteral(str);
+        return wrapResult(getStringLiteral(str));
     } else if (mapLiteral.has(str)) {
-        result = mapLiteral.get(str);
+        return wrapResult(mapLiteral.get(str));
     } else {
-        result = evalVariable(str, ctx).val;
+        return wrapResult(evalVariable(str, ctx).val);
     }
-
-    return wrapResult(result);
 };
 
 export default evalLiteral;

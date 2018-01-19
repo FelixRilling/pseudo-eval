@@ -4,6 +4,6 @@
  * @private
  * @memberof EvalRegex
  */
-const REGEX_IS_STRING_LITERAL: RegExp = /^["'`].*["'`]$/;
+const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
 
 export default REGEX_IS_STRING_LITERAL;

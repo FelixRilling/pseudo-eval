@@ -1,6 +1,6 @@
 {
     "name": "pseudo-eval",
-    "version": "7.1.0",
+    "version": "7.2.0",
     "description": "A library to evaluate simple expression strings without actually calling eval(), making it much safer",
     "main": "dist/pseudoEval.common.js",
     "module": "dist/pseudoEval.esm.js",

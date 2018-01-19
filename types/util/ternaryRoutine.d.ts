@@ -6,7 +6,7 @@ import { IWrappedResult } from "../interfaces";
  * @param {string} str
  * @param {Object} ctx
  * @param {RegExp} regex
- * @param {function} fn
+ * @param {Map<string,function>} map
  * @returns {Object}
  */
 declare const ternaryRoutine: (str: string, ctx: object, regex: RegExp, map: Map<PropertyKey, (a: any, b: any) => any>) => IWrappedResult;

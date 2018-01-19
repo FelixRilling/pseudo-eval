@@ -9,7 +9,7 @@ import { IWrappedResult } from "../interfaces";
  * @param {string} str
  * @param {Object} ctx
  * @param {RegExp} regex
- * @param {function} fn
+ * @param {Map<string,function>} map
  * @returns {Object}
  */
 const ternaryRoutine = (

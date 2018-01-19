@@ -38,7 +38,7 @@ const wrapResult = (val) => {
  * @param {string} str
  * @param {Object} ctx
  * @param {RegExp} regex
- * @param {function} fn
+ * @param {Map<string,function>} map
  * @returns {Object}
  */
 const ternaryRoutine = (str, ctx, regex, map) => {
@@ -423,12 +423,12 @@ const REGEX_IS_FUNCTION_CALL = /^.+\(.*\)$/;
  * @namespace Get
  */
 /**
- * Maps used internaly for evaluation
+ * Maps used internally for evaluation
  * @private
  * @namespace EvalMap
  */
 /**
- * RegExp used internaly for evaluation
+ * RegExp used internally for evaluation
  * @private
  * @namespace EvalRegex
  */

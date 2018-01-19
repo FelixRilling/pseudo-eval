@@ -16,7 +16,7 @@ import getPathFull from "./get/getPathFull";
 import getStringLiteral from "./get/getStringLiteral";
 
 /**
- * Maps used internaly for evaluation
+ * Maps used internally for evaluation
  * @private
  * @namespace EvalMap
  */
@@ -25,7 +25,7 @@ import mapMath from "./map/mapMath";
 import mapLiteral from "./map/mapLiteral";
 
 /**
- * RegExp used internaly for evaluation
+ * RegExp used internally for evaluation
  * @private
  * @namespace EvalRegex
  */
@@ -42,18 +42,15 @@ export {
     evalVariable,
     evalComparison,
     evalMath,
-
     getPathFull,
     getStringLiteral,
-
     mapComparison,
     mapMath,
     mapLiteral,
-
     REGEX_EXPRESSION_COMPARISON,
     REGEX_EXPRESSION_MATH,
     REGEX_GET_FUNCTION_CALL_ARGS,
     REGEX_IS_FUNCTION_CALL,
     REGEX_IS_STRING_LITERAL,
-    REGEX_PATH_SPLIT,
+    REGEX_PATH_SPLIT
 };

@@ -14,7 +14,7 @@ import evalMath from "./eval/evalMath";
 import getPathFull from "./get/getPathFull";
 import getStringLiteral from "./get/getStringLiteral";
 /**
- * Maps used internaly for evaluation
+ * Maps used internally for evaluation
  * @private
  * @namespace EvalMap
  */
@@ -22,7 +22,7 @@ import mapComparison from "./map/mapComparison";
 import mapMath from "./map/mapMath";
 import mapLiteral from "./map/mapLiteral";
 /**
- * RegExp used internaly for evaluation
+ * RegExp used internally for evaluation
  * @private
  * @namespace EvalRegex
  */

@@ -1,4 +1,4 @@
-import { hasKey, isNil, mapFromObject } from 'lightdash';
+import { mapFromObject, isNil, hasKey } from 'lightdash';
 
 /**
  * Regex for comparisons

@@ -1,7 +1,7 @@
+import { IWrappedResult } from "../interfaces";
+import mapMath from "../map/mapMath";
 import REGEX_EXPRESSION_MATH from "../regex/regexExpressionMath";
 import ternaryRoutine from "../util/ternaryRoutine";
-import mapMath from "../map/mapMath";
-import { IWrappedResult } from "../interfaces";
 
 /**
  * Evaluates an comparison

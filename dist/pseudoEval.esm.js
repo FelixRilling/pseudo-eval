@@ -1,4 +1,4 @@
-import { mapFromObject, isNil, hasKey } from 'lightdash';
+import { mapFromObject, hasKey, isNil } from 'lightdash';
 
 /**
  * Regex for comparisons
@@ -15,6 +15,23 @@ const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
  * @memberof EvalRegex
  */
 const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
+
+/**
+ * Map for comparison checks
+ *
+ * @private
+ * @memberof EvalMap
+ */
+const mapComparison = mapFromObject({
+    "===": (a, b) => a === b,
+    "!==": (a, b) => a !== b,
+    "&&": (a, b) => a && b,
+    "||": (a, b) => a || b,
+    ">=": (a, b) => a >= b,
+    "<=": (a, b) => a <= b,
+    ">": (a, b) => a > b,
+    "<": (a, b) => a < b
+});
 
 /**
  * Utility function for returns
@@ -54,23 +71,6 @@ const ternaryRoutine = (str, ctx, regex, map) => {
 };
 
 /**
- * Map for comparison checks
- *
- * @private
- * @memberof EvalMap
- */
-const mapComparison = mapFromObject({
-    "===": (a, b) => a === b,
-    "!==": (a, b) => a !== b,
-    "&&": (a, b) => a && b,
-    "||": (a, b) => a || b,
-    ">=": (a, b) => a >= b,
-    "<=": (a, b) => a <= b,
-    ">": (a, b) => a > b,
-    "<": (a, b) => a < b
-});
-
-/**
  * Evaluates an comparison
  *
  * @function evalComparison
@@ -82,40 +82,6 @@ const mapComparison = mapFromObject({
 const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison);
 
 /**
- * Map for math checks.
- *
- * @private
- * @memberof EvalMap
- */
-const mapMath = mapFromObject({
-    "+": (a, b) => a + b,
-    "-": (a, b) => a - b,
-    "*": (a, b) => a * b,
-    "/": (a, b) => a / b,
-    "%": (a, b) => a % b,
-    "**": (a, b) => a ** b
-});
-
-/**
- * Evaluates an comparison
- *
- * @function evalMath
- * @memberof Eval
- * @param {string} str
- * @param {Object} ctx
- * @returns {Object}
- */
-const evalMath = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH, mapMath);
-
-/**
- * Regex checking for string literals
- *
- * @private
- * @memberof EvalRegex
- */
-const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
-
-/**
  * Returns a string literal as "normal" string
  *
  * @function getStringLiteral
@@ -124,6 +90,28 @@ const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
  * @returns {string}
  */
 const getStringLiteral = (str) => str.substr(1, str.length - 2);
+
+/**
+ * Map for literal checks.
+ *
+ * undefined and NaN are omitted because you usually wont need those
+ *
+ * @private
+ * @memberof EvalMap
+ */
+const mapLiteral = mapFromObject({
+    false: false,
+    true: true,
+    null: null
+});
+
+/**
+ * Regex checking for string literals
+ *
+ * @private
+ * @memberof EvalRegex
+ */
+const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
 
 /**
  * Regex for splitting paths
@@ -190,20 +178,6 @@ const getPathFull = (target, path, getContaining = false) => {
 const evalVariable = (str, ctx = {}, getContaining = false) => wrapResult(getPathFull(ctx, str, getContaining));
 
 /**
- * Map for literal checks.
- *
- * undefined and NaN are omitted because you usually wont need those
- *
- * @private
- * @memberof EvalMap
- */
-const mapLiteral = mapFromObject({
-    false: false,
-    true: true,
-    null: null
-});
-
-/**
  * Evaluates a literal
  *
  * @function evalLiteral
@@ -226,6 +200,32 @@ const evalLiteral = (str, ctx) => {
         return wrapResult(evalVariable(str, ctx).val);
     }
 };
+
+/**
+ * Map for math checks.
+ *
+ * @private
+ * @memberof EvalMap
+ */
+const mapMath = mapFromObject({
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "*": (a, b) => a * b,
+    "/": (a, b) => a / b,
+    "%": (a, b) => a % b,
+    "**": (a, b) => a ** b
+});
+
+/**
+ * Evaluates an comparison
+ *
+ * @function evalMath
+ * @memberof Eval
+ * @param {string} str
+ * @param {Object} ctx
+ * @returns {Object}
+ */
+const evalMath = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH, mapMath);
 
 /**
  * Evaluates an str

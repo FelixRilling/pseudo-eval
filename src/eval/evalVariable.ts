@@ -1,6 +1,6 @@
 import getPathFull from "../get/getPathFull";
-import wrapResult from "../util/wrapResult";
 import { IWrappedResult } from "../interfaces";
+import wrapResult from "../util/wrapResult";
 
 /**
  * Evaluates an variable

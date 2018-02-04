@@ -1,9 +1,9 @@
+import getStringLiteral from "../get/getStringLiteral";
+import { IWrappedResult } from "../interfaces";
+import mapLiteral from "../map/mapLiteral";
 import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
 import wrapResult from "../util/wrapResult";
-import getStringLiteral from "../get/getStringLiteral";
 import evalVariable from "./evalVariable";
-import mapLiteral from "../map/mapLiteral";
-import { IWrappedResult } from "../interfaces";
 
 /**
  * Evaluates a literal

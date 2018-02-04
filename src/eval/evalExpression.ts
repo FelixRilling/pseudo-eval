@@ -1,9 +1,9 @@
+import { IWrappedResult } from "../interfaces";
 import REGEX_EXPRESSION_COMPARISON from "../regex/regexExpressionComparison";
 import REGEX_EXPRESSION_MATH from "../regex/regexExpressionMath";
 import evalComparison from "./evalComparison";
-import evalMath from "./evalMath";
 import evalLiteral from "./evalLiteral";
-import { IWrappedResult } from "../interfaces";
+import evalMath from "./evalMath";
 
 /**
  * Evaluates an str

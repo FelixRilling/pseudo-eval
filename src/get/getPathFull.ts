@@ -1,7 +1,7 @@
-import REGEX_PATH_SPLIT from "../regex/regexPathSplit";
-import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
-import { isNil, hasKey } from "lightdash";
+import { hasKey, isNil } from "lightdash";
 import getStringLiteral from "../get/getStringLiteral";
+import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
+import REGEX_PATH_SPLIT from "../regex/regexPathSplit";
 
 /**
  * Accesses a target by a path of keys. If the path doesn't exist, null is returned
@@ -26,7 +26,7 @@ const getPathFull = (
                     ? getStringLiteral(item)
                     : item
         );
-    let targetCurrent = <{ [key: string]: any }>target;
+    let targetCurrent = target as { [key: string]: any };
     let targetLast: object | null = null;
     let key: string | null = null;
     let index = 0;

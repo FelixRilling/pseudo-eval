@@ -1,6 +1,6 @@
 import evalExpression from "../eval/evalExpression";
-import wrapResult from "./wrapResult";
 import { IWrappedResult } from "../interfaces";
+import wrapResult from "./wrapResult";
 
 /**
  * Generic routine for the ternary a,op,b regex matching
@@ -18,12 +18,12 @@ const ternaryRoutine = (
     regex: RegExp,
     map: Map<PropertyKey, (a: any, b: any) => any>
 ): IWrappedResult => {
-    const match = <RegExpMatchArray>str.match(regex);
+    const match = str.match(regex) as RegExpMatchArray;
     const a: IWrappedResult = evalExpression(match[1], ctx);
     const b: IWrappedResult = evalExpression(match[3], ctx);
 
     if (a.success && b.success && map.has(match[2])) {
-        const fn = <(a: any, b: any) => any>map.get(match[2]);
+        const fn = map.get(match[2]) as (a: any, b: any) => any;
 
         return wrapResult(fn(a.val, b.val));
     } else {

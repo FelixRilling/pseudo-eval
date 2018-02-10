@@ -239,9 +239,7 @@ const ternaryRoutine = (str, ctx, regex, map) => {
         const fn = map.get(match[2]);
         return wrapResult(fn(a.val, b.val));
     }
-    else {
-        return wrapResult(null);
-    }
+    return wrapResult(null);
 };
 
 /**

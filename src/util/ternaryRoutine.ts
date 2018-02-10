@@ -18,17 +18,17 @@ const ternaryRoutine = (
     regex: RegExp,
     map: Map<PropertyKey, (a: any, b: any) => any>
 ): IWrappedResult<any> => {
-    const match = str.match(regex) as RegExpMatchArray;
+    const match = <RegExpMatchArray>str.match(regex);
     const a: IWrappedResult<any> = evalExpression(match[1], ctx);
     const b: IWrappedResult<any> = evalExpression(match[3], ctx);
 
     if (a.success && b.success && map.has(match[2])) {
-        const fn = map.get(match[2]) as (a: any, b: any) => any;
+        const fn = <(a: any, b: any) => any>map.get(match[2]);
 
         return wrapResult(fn(a.val, b.val));
-    } else {
-        return wrapResult(null);
     }
+
+    return wrapResult(null);
 };
 
 export default ternaryRoutine;

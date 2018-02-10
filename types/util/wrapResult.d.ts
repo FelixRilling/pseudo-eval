@@ -6,5 +6,5 @@ import { IWrappedResult } from "../interfaces";
  * @param {any} val
  * @returns {Object}
  */
-declare const wrapResult: (val: any) => IWrappedResult;
+declare const wrapResult: <T>(val: T) => IWrappedResult<T>;
 export default wrapResult;

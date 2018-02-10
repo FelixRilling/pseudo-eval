@@ -14,16 +14,15 @@ import evalVariable from "./evalVariable";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalLiteral = (str: string, ctx: object): IWrappedResult => {
+const evalLiteral = (str: string, ctx: object): IWrappedResult<any> => {
     if (!isNaN(Number(str))) {
         return wrapResult(Number(str));
     } else if (REGEX_IS_STRING_LITERAL.test(str)) {
         return wrapResult(getStringLiteral(str));
     } else if (mapLiteral.has(str)) {
         return wrapResult(mapLiteral.get(str));
-    } else {
-        return wrapResult(evalVariable(str, ctx).val);
     }
+    return wrapResult(evalVariable(str, ctx).val);
 };
 
 export default evalLiteral;

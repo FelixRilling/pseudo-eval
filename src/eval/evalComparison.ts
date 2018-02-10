@@ -12,7 +12,7 @@ import ternaryRoutine from "../util/ternaryRoutine";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalComparison = (str: string, ctx: object): IWrappedResult =>
+const evalComparison = (str: string, ctx: object): IWrappedResult<boolean> =>
     ternaryRoutine(str, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison);
 
 export default evalComparison;

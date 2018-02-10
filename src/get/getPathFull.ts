@@ -26,7 +26,7 @@ const getPathFull = (
                     ? getStringLiteral(item)
                     : item
         );
-    let targetCurrent = target as { [key: string]: any };
+    let targetCurrent = target;
     let targetLast: object | null = null;
     let key: string | null = null;
     let index = 0;
@@ -50,9 +50,9 @@ const getPathFull = (
             val: targetCurrent,
             container: targetLast
         };
-    } else {
-        return targetCurrent;
     }
+
+    return targetCurrent;
 };
 
 export default getPathFull;

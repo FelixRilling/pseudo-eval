@@ -12,7 +12,7 @@ import ternaryRoutine from "../util/ternaryRoutine";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalMath = (str: string, ctx: object): IWrappedResult =>
+const evalMath = (str: string, ctx: object): IWrappedResult<string | number> =>
     ternaryRoutine(str, ctx, REGEX_EXPRESSION_MATH, mapMath);
 
 export default evalMath;

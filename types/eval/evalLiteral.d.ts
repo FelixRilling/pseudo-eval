@@ -8,5 +8,5 @@ import { IWrappedResult } from "../interfaces";
  * @param {Object} ctx
  * @returns {Object}
  */
-declare const evalLiteral: (str: string, ctx: object) => IWrappedResult;
+declare const evalLiteral: (str: string, ctx: object) => IWrappedResult<any>;
 export default evalLiteral;

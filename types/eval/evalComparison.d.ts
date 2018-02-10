@@ -8,5 +8,5 @@ import { IWrappedResult } from "../interfaces";
  * @param {Object} ctx
  * @returns {Object}
  */
-declare const evalComparison: (str: string, ctx: object) => IWrappedResult;
+declare const evalComparison: (str: string, ctx: object) => IWrappedResult<boolean>;
 export default evalComparison;

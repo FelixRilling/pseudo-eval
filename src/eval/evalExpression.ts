@@ -14,10 +14,10 @@ import evalMath from "./evalMath";
  * @param {Object} ctx
  * @returns {Object}
  */
-const evalExpression = (str: string, ctx: object): IWrappedResult => {
+const evalExpression = (str: string, ctx: object): IWrappedResult<any> => {
     const isInverted: boolean = str.startsWith("!");
     const strSub: string = isInverted ? str.substr(1) : str;
-    let result: IWrappedResult;
+    let result: IWrappedResult<any>;
 
     if (REGEX_EXPRESSION_COMPARISON.test(strSub)) {
         result = evalComparison(strSub, ctx);

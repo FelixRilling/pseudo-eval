@@ -7,7 +7,7 @@ import { IWrappedResult } from "../interfaces";
  * @param {any} val
  * @returns {Object}
  */
-const wrapResult = (val: any): IWrappedResult => {
+const wrapResult = <T>(val: T): IWrappedResult<T> => {
     return {
         val,
         success: val !== null

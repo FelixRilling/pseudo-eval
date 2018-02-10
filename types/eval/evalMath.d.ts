@@ -8,5 +8,5 @@ import { IWrappedResult } from "../interfaces";
  * @param {Object} ctx
  * @returns {Object}
  */
-declare const evalMath: (str: string, ctx: object) => IWrappedResult;
+declare const evalMath: (str: string, ctx: object) => IWrappedResult<string | number>;
 export default evalMath;

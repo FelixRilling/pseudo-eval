@@ -2,11 +2,11 @@
  * String evaluation
  * @namespace Eval
  */
+import evalComparison from "./eval/evalComparison";
 import evalExpression from "./eval/evalExpression";
 import evalLiteral from "./eval/evalLiteral";
-import evalVariable from "./eval/evalVariable";
-import evalComparison from "./eval/evalComparison";
 import evalMath from "./eval/evalMath";
+import evalVariable from "./eval/evalVariable";
 
 /**
  * Data retrieval
@@ -21,8 +21,8 @@ import getStringLiteral from "./get/getStringLiteral";
  * @namespace EvalMap
  */
 import mapComparison from "./map/mapComparison";
-import mapMath from "./map/mapMath";
 import mapLiteral from "./map/mapLiteral";
+import mapMath from "./map/mapMath";
 
 /**
  * RegExp used internally for evaluation

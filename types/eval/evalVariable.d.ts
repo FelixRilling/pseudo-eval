@@ -9,5 +9,5 @@ import { IWrappedResult } from "../interfaces";
  * @param {boolean} [getContaining=false]
  * @returns {Object}
  */
-declare const evalVariable: (str: string, ctx?: object, getContaining?: boolean) => IWrappedResult;
+declare const evalVariable: (str: string, ctx?: object, getContaining?: boolean) => IWrappedResult<any>;
 export default evalVariable;

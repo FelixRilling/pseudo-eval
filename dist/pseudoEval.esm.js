@@ -1,22 +1,6 @@
 import { mapFromObject, hasKey, isNil } from 'lightdash';
 
 /**
- * Regex for comparisons
- *
- * @private
- * @memberof EvalRegex
- */
-const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
-
-/**
- * Regex for math
- *
- * @private
- * @memberof EvalRegex
- */
-const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
-
-/**
  * Map for comparison checks
  *
  * @private
@@ -34,52 +18,20 @@ const mapComparison = mapFromObject({
 });
 
 /**
- * Utility function for returns
+ * Regex for comparisons
  *
  * @private
- * @param {any} val
- * @returns {Object}
+ * @memberof EvalRegex
  */
-const wrapResult = (val) => {
-    return {
-        val,
-        success: val !== null
-    };
-};
+const REGEX_EXPRESSION_COMPARISON = /^(.+)(===|!==|>=|<=|>|<|&&|\|\|)(.+)$/;
 
 /**
- * Generic routine for the ternary a,op,b regex matching
+ * Regex for math
  *
  * @private
- * @param {string} str
- * @param {Object} ctx
- * @param {RegExp} regex
- * @param {Map<string,function>} map
- * @returns {Object}
+ * @memberof EvalRegex
  */
-const ternaryRoutine = (str, ctx, regex, map) => {
-    const match = str.match(regex);
-    const a = evalExpression(match[1], ctx);
-    const b = evalExpression(match[3], ctx);
-    if (a.success && b.success && map.has(match[2])) {
-        const fn = map.get(match[2]);
-        return wrapResult(fn(a.val, b.val));
-    }
-    else {
-        return wrapResult(null);
-    }
-};
-
-/**
- * Evaluates an comparison
- *
- * @function evalComparison
- * @memberof Eval
- * @param {string} str
- * @param {Object} ctx
- * @returns {Object}
- */
-const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison);
+const REGEX_EXPRESSION_MATH = /^(.+)(\+|-|\*|\*\*|\/|%)(.+)$/;
 
 /**
  * Returns a string literal as "normal" string
@@ -112,6 +64,20 @@ const mapLiteral = mapFromObject({
  * @memberof EvalRegex
  */
 const REGEX_IS_STRING_LITERAL = /^["'`].*["'`]$/;
+
+/**
+ * Utility function for returns
+ *
+ * @private
+ * @param {any} val
+ * @returns {Object}
+ */
+const wrapResult = (val) => {
+    return {
+        val,
+        success: val !== null
+    };
+};
 
 /**
  * Regex for splitting paths
@@ -160,9 +126,7 @@ const getPathFull = (target, path, getContaining = false) => {
             container: targetLast
         };
     }
-    else {
-        return targetCurrent;
-    }
+    return targetCurrent;
 };
 
 /**
@@ -196,9 +160,7 @@ const evalLiteral = (str, ctx) => {
     else if (mapLiteral.has(str)) {
         return wrapResult(mapLiteral.get(str));
     }
-    else {
-        return wrapResult(evalVariable(str, ctx).val);
-    }
+    return wrapResult(evalVariable(str, ctx).val);
 };
 
 /**
@@ -254,6 +216,40 @@ const evalExpression = (str, ctx) => {
     }
     return result;
 };
+
+/**
+ * Generic routine for the ternary a,op,b regex matching
+ *
+ * @private
+ * @param {string} str
+ * @param {Object} ctx
+ * @param {RegExp} regex
+ * @param {Map<string,function>} map
+ * @returns {Object}
+ */
+const ternaryRoutine = (str, ctx, regex, map) => {
+    const match = str.match(regex);
+    const a = evalExpression(match[1], ctx);
+    const b = evalExpression(match[3], ctx);
+    if (a.success && b.success && map.has(match[2])) {
+        const fn = map.get(match[2]);
+        return wrapResult(fn(a.val, b.val));
+    }
+    else {
+        return wrapResult(null);
+    }
+};
+
+/**
+ * Evaluates an comparison
+ *
+ * @function evalComparison
+ * @memberof Eval
+ * @param {string} str
+ * @param {Object} ctx
+ * @returns {Object}
+ */
+const evalComparison = (str, ctx) => ternaryRoutine(str, ctx, REGEX_EXPRESSION_COMPARISON, mapComparison);
 
 /**
  * Regex for function call args

@@ -16,6 +16,6 @@ const evalVariable = (
     str: string,
     ctx: object = {},
     getContaining: boolean = false
-): IWrappedResult => wrapResult(getPathFull(ctx, str, getContaining));
+): IWrappedResult<any> => wrapResult(getPathFull(ctx, str, getContaining));
 
 export default evalVariable;

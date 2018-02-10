@@ -1,10 +1,8 @@
 "use strict";
 
-const {
-    evalExpression
-} = require("../dist/pseudoEval.common");
+const { evalExpression } = require("../dist/pseudoEval.common");
 
-describe("Literals", function () {
+describe("Literals", function() {
     it("Simple test 1", () => {
         expect(evalExpression("1").val).toBe(1);
     });
@@ -14,21 +12,25 @@ describe("Literals", function () {
     });
 
     it("Simple test 3", () => {
-        expect(evalExpression("a", {
-            a: 1
-        }).val).toBe(1);
+        expect(
+            evalExpression("a", {
+                a: 1
+            }).val
+        ).toBe(1);
     });
 
     it("Simple test 4", () => {
-        expect(evalExpression("a.b", {
-            a: {
-                b: 2
-            }
-        }).val).toBe(2);
+        expect(
+            evalExpression("a.b", {
+                a: {
+                    b: 2
+                }
+            }).val
+        ).toBe(2);
     });
 });
 
-describe("Comparison", function () {
+describe("Comparison", function() {
     it("Simple test 1", () => {
         expect(evalExpression("1===1").val).toBe(true);
     });
@@ -38,9 +40,11 @@ describe("Comparison", function () {
     });
 
     it("Simple test 3", () => {
-        expect(evalExpression("'a'==='a'", {
-            a: 1
-        }).val).toBe(true);
+        expect(
+            evalExpression("'a'==='a'", {
+                a: 1
+            }).val
+        ).toBe(true);
     });
 
     it("Simple test 4", () => {
@@ -48,7 +52,7 @@ describe("Comparison", function () {
     });
 });
 
-describe("Math", function () {
+describe("Math", function() {
     it("Simple test 1", () => {
         expect(evalExpression("1+1").val).toBe(2);
     });
@@ -58,8 +62,10 @@ describe("Math", function () {
     });
 
     it("Simple test 3", () => {
-        expect(evalExpression("a*a", {
-            a: 2
-        }).val).toBe(4);
+        expect(
+            evalExpression("a*a", {
+                a: 2
+            }).val
+        ).toBe(4);
     });
 });

@@ -1,4 +1,5 @@
 import { mapFromObject } from "lightdash";
+import { evalFnComp, evalFnCompNumString } from "../types";
 
 /**
  * Map for comparison checks
@@ -8,7 +9,7 @@ import { mapFromObject } from "lightdash";
  */
 const mapComparison: Map<
     PropertyKey,
-    (a: any, b: any) => boolean
+    evalFnCompNumString | evalFnComp
 > = mapFromObject({
     "===": (a: any, b: any): boolean => a === b,
     "!==": (a: any, b: any): boolean => a !== b,

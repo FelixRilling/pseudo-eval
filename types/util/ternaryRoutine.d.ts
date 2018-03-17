@@ -1,4 +1,5 @@
 import { IWrappedResult } from "../interfaces";
+import { evalFnAny } from "../types";
 /**
  * Generic routine for the ternary a,op,b regex matching
  *
@@ -9,5 +10,5 @@ import { IWrappedResult } from "../interfaces";
  * @param {Map<string,function>} map
  * @returns {Object}
  */
-declare const ternaryRoutine: (str: string, ctx: object, regex: RegExp, map: Map<PropertyKey, (a: any, b: any) => any>) => IWrappedResult<any>;
+declare const ternaryRoutine: (str: string, ctx: object, regex: RegExp, map: Map<PropertyKey, evalFnAny>) => IWrappedResult<any>;
 export default ternaryRoutine;

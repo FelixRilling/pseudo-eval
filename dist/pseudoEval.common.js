@@ -113,7 +113,7 @@ const getPathFull = (target, path, getContaining = false) => {
     let index = 0;
     while (!lightdash.isNil(targetCurrent) && index < pathArr.length) {
         key = pathArr[index];
-        if (lightdash.hasKey(targetCurrent, key)) {
+        if (!lightdash.isUndefined(targetCurrent[key])) {
             targetLast = targetCurrent;
             targetCurrent = targetCurrent[key];
             index++;
@@ -274,8 +274,9 @@ const REGEX_IS_FUNCTION_CALL = /^.+\(.*\)$/;
  * @namespace Eval
  */
 /**
- * Data retrieval
- * @namespace Get
+ * RegExp used internally for evaluation
+ * @private
+ * @namespace EvalRegex
  */
 /**
  * Maps used internally for evaluation
@@ -283,9 +284,8 @@ const REGEX_IS_FUNCTION_CALL = /^.+\(.*\)$/;
  * @namespace EvalMap
  */
 /**
- * RegExp used internally for evaluation
- * @private
- * @namespace EvalRegex
+ * Data retrieval
+ * @namespace Get
  */
 
 exports.evalExpression = evalExpression;

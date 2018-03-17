@@ -1,4 +1,4 @@
-import { hasKey, isNil } from "lightdash";
+import { isNil, isUndefined } from "lightdash";
 import getStringLiteral from "../get/getStringLiteral";
 import REGEX_IS_STRING_LITERAL from "../regex/regexIsStringLiteral";
 import REGEX_PATH_SPLIT from "../regex/regexPathSplit";
@@ -34,7 +34,7 @@ const getPathFull = (
     while (!isNil(targetCurrent) && index < pathArr.length) {
         key = pathArr[index];
 
-        if (hasKey(targetCurrent, key)) {
+        if (!isUndefined(targetCurrent[key])) {
             targetLast = targetCurrent;
             targetCurrent = targetCurrent[key];
             index++;

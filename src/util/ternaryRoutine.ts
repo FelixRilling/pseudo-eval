@@ -19,8 +19,8 @@ const ternaryRoutine = (
     map: Map<PropertyKey, (a: any, b: any) => any>
 ): IWrappedResult<any> => {
     const match = <RegExpMatchArray>str.match(regex);
-    const a: IWrappedResult<any> = evalExpression(match[1], ctx);
-    const b: IWrappedResult<any> = evalExpression(match[3], ctx);
+    const a = evalExpression(match[1], ctx);
+    const b = evalExpression(match[3], ctx);
 
     if (a.success && b.success && map.has(match[2])) {
         const fn = <(a: any, b: any) => any>map.get(match[2]);

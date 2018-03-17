@@ -1,4 +1,4 @@
-import { mapFromObject, hasKey, isNil } from 'lightdash';
+import { mapFromObject, isNil, isUndefined } from 'lightdash';
 
 /**
  * Map for comparison checks
@@ -109,7 +109,7 @@ const getPathFull = (target, path, getContaining = false) => {
     let index = 0;
     while (!isNil(targetCurrent) && index < pathArr.length) {
         key = pathArr[index];
-        if (hasKey(targetCurrent, key)) {
+        if (!isUndefined(targetCurrent[key])) {
             targetLast = targetCurrent;
             targetCurrent = targetCurrent[key];
             index++;
@@ -270,8 +270,9 @@ const REGEX_IS_FUNCTION_CALL = /^.+\(.*\)$/;
  * @namespace Eval
  */
 /**
- * Data retrieval
- * @namespace Get
+ * RegExp used internally for evaluation
+ * @private
+ * @namespace EvalRegex
  */
 /**
  * Maps used internally for evaluation
@@ -279,9 +280,8 @@ const REGEX_IS_FUNCTION_CALL = /^.+\(.*\)$/;
  * @namespace EvalMap
  */
 /**
- * RegExp used internally for evaluation
- * @private
- * @namespace EvalRegex
+ * Data retrieval
+ * @namespace Get
  */
 
 export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPathFull, getStringLiteral, mapComparison, mapMath, mapLiteral, REGEX_EXPRESSION_COMPARISON, REGEX_EXPRESSION_MATH, REGEX_GET_FUNCTION_CALL_ARGS, REGEX_IS_FUNCTION_CALL, REGEX_IS_STRING_LITERAL, REGEX_PATH_SPLIT };

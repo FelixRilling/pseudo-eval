@@ -118,15 +118,14 @@ const getPathFull = (target, path, getContaining = false) => {
             return null;
         }
     }
-    if (getContaining) {
-        return {
+    return getContaining
+        ? {
             index,
             key,
             val: targetCurrent,
             container: targetLast
-        };
-    }
-    return targetCurrent;
+        }
+        : targetCurrent;
 };
 
 /**

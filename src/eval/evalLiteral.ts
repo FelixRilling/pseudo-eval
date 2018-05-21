@@ -22,6 +22,7 @@ const evalLiteral = (str: string, ctx: object): IWrappedResult<any> => {
     } else if (mapLiteral.has(str)) {
         return wrapResult(mapLiteral.get(str));
     }
+
     return wrapResult(evalVariable(str, ctx).val);
 };
 

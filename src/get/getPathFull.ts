@@ -43,16 +43,14 @@ const getPathFull = (
         }
     }
 
-    if (getContaining) {
-        return {
-            index,
-            key,
-            val: targetCurrent,
-            container: targetLast
-        };
-    }
-
-    return targetCurrent;
+    return getContaining
+        ? {
+              index,
+              key,
+              val: targetCurrent,
+              container: targetLast
+          }
+        : targetCurrent;
 };
 
 export default getPathFull;

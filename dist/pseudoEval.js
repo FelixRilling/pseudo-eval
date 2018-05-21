@@ -210,15 +210,14 @@ var pseudoEval = (function (exports) {
                 return null;
             }
         }
-        if (getContaining) {
-            return {
+        return getContaining
+            ? {
                 index,
                 key,
                 val: targetCurrent,
                 container: targetLast
-            };
-        }
-        return targetCurrent;
+            }
+            : targetCurrent;
     };
 
     /**

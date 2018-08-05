@@ -76,7 +76,7 @@ var pseudoEval = (function (exports) {
      * isNil("")
      * // => false
      */
-    const isNil = (val) => isUndefined(val) || val === null;
+    const isNil = (val) => val == null;
 
     /**
      * Creates a map from an object.

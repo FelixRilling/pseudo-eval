@@ -26,7 +26,7 @@ const getPathFull = (
                     ? getStringLiteral(item)
                     : item
         );
-    let targetCurrent = target;
+    let targetCurrent: { [key: string]: any } = target;
     let targetLast: object | null = null;
     let key: string | null = null;
     let index = 0;

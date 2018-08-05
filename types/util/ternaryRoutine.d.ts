@@ -10,5 +10,5 @@ import { evalFnAny } from "../types";
  * @param {Map<string,function>} map
  * @returns {Object}
  */
-declare const ternaryRoutine: (str: string, ctx: object, regex: RegExp, map: Map<PropertyKey, evalFnAny>) => IWrappedResult<any>;
+declare const ternaryRoutine: (str: string, ctx: object, regex: RegExp, map: Map<string | number | symbol, evalFnAny>) => IWrappedResult<any>;
 export default ternaryRoutine;

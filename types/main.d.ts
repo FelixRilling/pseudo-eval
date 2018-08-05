@@ -15,3 +15,21 @@ import REGEX_IS_FUNCTION_CALL from "./regex/regexIsFunctionCall";
 import REGEX_IS_STRING_LITERAL from "./regex/regexIsStringLiteral";
 import REGEX_PATH_SPLIT from "./regex/regexPathSplit";
 export { evalExpression, evalLiteral, evalVariable, evalComparison, evalMath, getPathFull, getStringLiteral, mapComparison, mapMath, mapLiteral, REGEX_EXPRESSION_COMPARISON, REGEX_EXPRESSION_MATH, REGEX_GET_FUNCTION_CALL_ARGS, REGEX_IS_FUNCTION_CALL, REGEX_IS_STRING_LITERAL, REGEX_PATH_SPLIT };
+/**
+ * String evaluation
+ * @namespace Eval
+ */
+/**
+ * RegExp used internally for evaluation
+ * @private
+ * @namespace EvalRegex
+ */
+/**
+ * Maps used internally for evaluation
+ * @private
+ * @namespace EvalMap
+ */
+/**
+ * Data retrieval
+ * @namespace Get
+ */
